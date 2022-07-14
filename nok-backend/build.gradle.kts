@@ -36,6 +36,8 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // 메일
+    implementation("org.springframework.boot:spring-boot-starter-mail:2.7.1")
 }
 
 tasks.withType<KotlinCompile> {
