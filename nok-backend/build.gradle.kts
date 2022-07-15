@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+    kotlin("kapt") version "1.6.0"
 }
 
 noArg {
@@ -42,6 +43,9 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 tasks.withType<KotlinCompile> {
