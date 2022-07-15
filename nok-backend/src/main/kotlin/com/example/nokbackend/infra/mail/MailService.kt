@@ -1,4 +1,4 @@
-package com.example.nokbackend.util
+package com.example.nokbackend.infra.mail
 
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class MailService(
-    private var mailSender: JavaMailSender
+    private val mailSender: JavaMailSender
 ) {
 
     fun sendMail(mailSendInfo: MailSendInfo) {
-        var email = SimpleMailMessage()
+        val email = SimpleMailMessage()
         email.setSubject(mailSendInfo.subject)
         email.setText(mailSendInfo.message)
         email.setTo(mailSendInfo.email)

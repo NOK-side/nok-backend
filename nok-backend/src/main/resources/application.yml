@@ -1,4 +1,12 @@
 spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+    hibernate:
+      ddl-auto: create
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -10,3 +18,11 @@ spring:
         smtp:
           starttls:
             enable: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+front:
+  url: http://localhost:3000
