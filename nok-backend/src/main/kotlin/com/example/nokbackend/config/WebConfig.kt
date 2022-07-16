@@ -1,6 +1,6 @@
 package com.example.nokbackend.config
 
-import com.example.nokbackend.infra.mail.FrontendUrl
+import com.example.nokbackend.infra.FrontendUrl
 import com.example.nokbackend.security.JwtInterceptor
 import com.example.nokbackend.security.JwtSessionArgumentResolver
 import com.example.nokbackend.security.JwtTokenProvider
@@ -27,7 +27,8 @@ class WebConfig(
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOriginPatterns(frontendUrl.url)
+//            .allowedOriginPatterns(frontendUrl.url)
+            .allowedOriginPatterns("*")
             .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "DELETE")
             .allowCredentials(true)
     }
