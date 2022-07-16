@@ -1,7 +1,7 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.infra.mail.MailSendInfo
-import com.example.nokbackend.infra.mail.MailService
+import com.example.nokbackend.application.MailSendInfo
+import com.example.nokbackend.application.MailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

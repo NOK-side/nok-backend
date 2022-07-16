@@ -1,5 +1,7 @@
 package com.example.nokbackend.infra.mail
 
+import com.example.nokbackend.application.MailSendInfo
+import com.example.nokbackend.application.MailService
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

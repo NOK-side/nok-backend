@@ -1,4 +1,4 @@
-package com.example.nokbackend.infra.mail
+package com.example.nokbackend.application
 
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
