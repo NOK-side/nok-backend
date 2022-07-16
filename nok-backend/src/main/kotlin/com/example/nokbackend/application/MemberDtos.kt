@@ -19,7 +19,6 @@ data class RegisterMemberRequest(
         password = password,
         name = name,
         role = role,
-        phoneNumber = phoneNumber,
-        status = Member.Status.READY
+        phoneNumber = phoneNumber
     )
 }
