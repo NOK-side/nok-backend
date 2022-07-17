@@ -3,21 +3,41 @@ package com.example.nokbackend.domain.authentication
 import com.example.nokbackend.infra.BaseEntity
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
+import java.time.LocalDateTime.now
 import javax.persistence.Entity
 
 @Entity
 class Authentication(
-    val targetId: Long,
+    val targetEmail: String,
 
-    val key: String,
+    val code: String,
 
     @CreatedDate
     val createDate: LocalDateTime,
 
     val expireDate: LocalDateTime,
 
+    var status: Status = Status.READY,
+
     id: Long = 0L
 ) : BaseEntity(id) {
+
+    fun checkExpiration() {
+        check(now() in createDate..expireDate) { "인증코드의 유효기간이 만료되었습니다" }
+    }
+
+    fun checkCode(code: String) {
+        require(this.code == code) { "인증번호가 일치하지 않습니다." }
+    }
+
+    fun confirm() {
+        status = Status.AUTHENTICATED
+    }
+
+    fun checkAuthenticated() {
+        check(status == Status.AUTHENTICATED) { "인증완료되지 않은 코드입니다" }
+    }
+
 
     enum class Status { READY, AUTHENTICATED }
 }

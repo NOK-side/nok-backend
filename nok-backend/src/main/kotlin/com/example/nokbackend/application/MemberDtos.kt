@@ -12,7 +12,8 @@ data class RegisterMemberRequest(
     val password: Password,
     val name: String,
     val role: Member.Role = Member.Role.NOTHING,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val authenticationCode: String
 ) {
     fun toEntity() = Member(
         memberId = memberId,
