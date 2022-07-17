@@ -48,9 +48,5 @@ class MemberAuthenticationService(
             checkCode(confirmAuthenticationCodeRequest.code)
             confirm()
         }
-
-        memberRepository.findByEmailCheck(confirmAuthenticationCodeRequest.email).run {
-            activate()
-        }
     }
 }
