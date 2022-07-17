@@ -44,6 +44,8 @@ class Member(
 
     fun authenticate(password: Password) = check(this.password == password) { "사용자 정보가 일치하지 않습니다." }
 
+    fun checkActivation() = check(status == Status.ACTIVE) { "활성화된 회원이 아닙니다 ($status)" }
+
     enum class Role { USER, STORE, ADMIN, NOTHING, }
 
     enum class Status { READY, ACTIVE, DELETED, }
