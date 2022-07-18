@@ -8,14 +8,15 @@ import javax.persistence.Entity
 
 @Entity
 class Authentication(
-    val targetEmail: String,
+    val target: String,
 
     val code: String,
 
-    @CreatedDate
-    val createDate: LocalDateTime,
+    val createDate: LocalDateTime = now(),
 
     val expireDate: LocalDateTime,
+
+    val type: Type,
 
     var status: Status = Status.READY,
 
@@ -38,6 +39,14 @@ class Authentication(
         check(status == Status.AUTHENTICATED) { "인증완료되지 않은 코드입니다" }
     }
 
+    fun expired(): Authentication {
+        this.status = Status.EXPIRED
+        return this
+    }
 
-    enum class Status { READY, AUTHENTICATED }
+
+    enum class Status { READY, EXPIRED, AUTHENTICATED }
+
+    enum class Type { JOIN, FIND_ID, FIND_PW }
+
 }
