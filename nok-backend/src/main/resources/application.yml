@@ -8,10 +8,10 @@ spring:
       ddl-auto: create
 
   mail:
-    host: smtp.gmail.com
+    host: smtp.mailgun.org
     port: 587
-    username: "test.gumbo@gmail"
-    password: "pjrnmlqplqgrpfez"
+    username: "postmaster@sandbox151e1c9ae5ff49288aeebb49bbda1b51.mailgun.org"
+    password: "2b627745f1451ab9761a98d15ad947c6-787e6567-d31245bd"
     protocol: smtp
     properties:
       mail:
