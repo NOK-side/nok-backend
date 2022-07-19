@@ -21,21 +21,18 @@ class Authentication(
 
     id: Long = 0L
 ) : BaseEntity(id) {
-    fun validCheck(code: String): Authentication {
+    fun validate(code: String) {
         check(status == Status.READY) {"유효하지 않은 인증코드입니다."}
         check(now().isBefore(expireDate) ) { "인증코드의 유효기간이 만료되었습니다" }
-        check(this.code === code) { "인증코드가 일치하지 않습니다."}
-        return this
+        check(this.code == code) { "인증코드가 일치하지 않습니다."}
     }
 
-    fun confirm(): Authentication {
+    fun confirm() {
         status = Status.AUTHENTICATED
-        return this
     }
 
-    fun expired(): Authentication {
+    fun expired() {
         this.status = Status.EXPIRED
-        return this
     }
 
     enum class Status { READY, EXPIRED, AUTHENTICATED }

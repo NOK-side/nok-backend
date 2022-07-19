@@ -1,5 +1,8 @@
 package com.example.nokbackend.domain.authentication
 
+import com.example.nokbackend.application.AuthenticationService
+import com.example.nokbackend.application.ConfirmAuthenticationRequest
+import com.example.nokbackend.application.createRandomString
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
@@ -19,7 +22,7 @@ class AuthenticationServiceTest @Autowired constructor(
     val authType = Authentication.Type.REGISTER
 
     @Test
-    fun `인증코드 생성 함수 테스트`(){
+    fun `인증코드 생성 함수 테스트`() {
         val randomString = createRandomString(10)
         println("randomString = $randomString")
         assertEquals(randomString.length, 10)
@@ -31,7 +34,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
         assertAll(
             { assertEquals(authentication.type, authType) },
-            { assertEquals(authentication.target, authTarget)}
+            { assertEquals(authentication.target, authTarget) }
         )
     }
 
@@ -42,7 +45,7 @@ class AuthenticationServiceTest @Autowired constructor(
         val id = authentication.id
         val code = authentication.code
 
-        authService.check(id, authTarget, code, authType)
+        authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
     }
 
     @Test
@@ -52,11 +55,11 @@ class AuthenticationServiceTest @Autowired constructor(
         val id = authentication.id
         val code = "쿠쿠루삥뽕"
 
-        try{
+        try {
             println("code = ${authentication.code}, input = $code")
-            authService.check(id, authTarget, code, authType)
+            authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
-        } catch (exception : IllegalStateException) {
+        } catch (exception: IllegalStateException) {
             //pass
         }
     }
@@ -72,11 +75,11 @@ class AuthenticationServiceTest @Autowired constructor(
         authRepo.save(authentication)
 
 
-        try{
+        try {
             println("expireDate = ${authentication.expireDate}, input = ${LocalDateTime.now()}")
-            authService.check(id, authTarget, code, authType)
+            authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
-        } catch (exception : IllegalStateException) {
+        } catch (exception: IllegalStateException) {
             //pass
         }
     }
@@ -91,11 +94,11 @@ class AuthenticationServiceTest @Autowired constructor(
         authentication.status = Authentication.Status.EXPIRED
         authRepo.save(authentication)
 
-        try{
+        try {
             println("status = ${authentication.status}")
-            authService.check(id, authTarget, code, authType)
+            authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
-        } catch (exception : IllegalStateException) {
+        } catch (exception: IllegalStateException) {
             //pass
         }
     }
@@ -104,12 +107,12 @@ class AuthenticationServiceTest @Autowired constructor(
     fun `인증코드 사용`() {
         val before = authRepo.findById(authService.create(authTarget, authType).id).get()
         val beforeStatus = before.status
-        authService.confirm(before.id, authTarget, before.code, authType)
+        authService.confirm(ConfirmAuthenticationRequest(before.id, authTarget, before.code), authType)
         val afterStatus = authRepo.findById(before.id).get().status
 
         assertAll(
             { assertEquals(beforeStatus, Authentication.Status.READY) },
-            { assertEquals(afterStatus, Authentication.Status.AUTHENTICATED)}
+            { assertEquals(afterStatus, Authentication.Status.AUTHENTICATED) }
         )
     }
 
