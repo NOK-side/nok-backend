@@ -13,7 +13,7 @@ class Authentication(
 
     val createDate: LocalDateTime = now(),
 
-    val expireDate: LocalDateTime,
+    var expireDate: LocalDateTime,
 
     val type: Type,
 
