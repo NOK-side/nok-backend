@@ -1,7 +1,6 @@
 package com.example.nokbackend.domain.authentication
 
 import com.example.nokbackend.infra.BaseEntity
-import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
 import javax.persistence.Entity
@@ -22,21 +21,16 @@ class Authentication(
 
     id: Long = 0L
 ) : BaseEntity(id) {
-
-    fun checkExpiration() {
-        check(now() in createDate..expireDate) { "인증코드의 유효기간이 만료되었습니다" }
+    fun validCheck(code: String): Authentication {
+        check(status == Status.READY) {"유효하지 않은 인증코드입니다."}
+        check(now().isBefore(expireDate) ) { "인증코드의 유효기간이 만료되었습니다" }
+        check(this.code === code) { "인증코드가 일치하지 않습니다."}
+        return this
     }
 
-    fun checkCode(code: String) {
-        require(this.code == code) { "인증번호가 일치하지 않습니다." }
-    }
-
-    fun confirm() {
+    fun confirm(): Authentication {
         status = Status.AUTHENTICATED
-    }
-
-    fun checkAuthenticated() {
-        check(status == Status.AUTHENTICATED) { "인증완료되지 않은 코드입니다" }
+        return this
     }
 
     fun expired(): Authentication {
@@ -44,9 +38,8 @@ class Authentication(
         return this
     }
 
-
     enum class Status { READY, EXPIRED, AUTHENTICATED }
 
-    enum class Type { JOIN, FIND_ID, FIND_PW }
+    enum class Type { REGISTER, FIND_ID, FIND_PW }
 
 }

@@ -1,8 +1,7 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.authentication.AuthenticationRepository
-import com.example.nokbackend.domain.authentication.findByTargetEmailAndKeyCheck
-import com.example.nokbackend.domain.authentication.findLastReadyAuthenticationByEmail
+import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.authentication.AuthenticationService
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.existByEmail
 import com.example.nokbackend.domain.member.existByMemberId
@@ -15,21 +14,23 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class MemberAuthenticationService(
     private val memberRepository: MemberRepository,
-    private val authenticationRepository: AuthenticationRepository,
+    private val authService: AuthenticationService,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
     fun generateTokenWithRegister(registerMemberRequest: RegisterMemberRequest): String {
-        authenticationRepository.findByTargetEmailAndKeyCheck(registerMemberRequest.email, registerMemberRequest.authenticationCode).run {
-            checkAuthenticated()
-        }
+        authService.confirm(
+            registerMemberRequest.authenticationId,
+            registerMemberRequest.email,
+            registerMemberRequest.authenticationCode,
+            Authentication.Type.REGISTER
+        )
 
         val member = registerMemberRequest.toEntity().apply {
             check(!memberRepository.existByMemberId(registerMemberRequest.memberId)) { "이미 등록된 아이디입니다" }
             check(!memberRepository.existByEmail(registerMemberRequest.email)) { "이미 등록된 이메일입니다" }
             memberRepository.save(this)
         }
-
         return jwtTokenProvider.createToken(member.email)
     }
 
@@ -43,10 +44,11 @@ class MemberAuthenticationService(
     }
 
     fun confirmAuthenticationCode(confirmAuthenticationCodeRequest: ConfirmAuthenticationCodeRequest) {
-        authenticationRepository.findLastReadyAuthenticationByEmail(confirmAuthenticationCodeRequest.email).run {
-            checkExpiration()
-            checkCode(confirmAuthenticationCodeRequest.code)
-            confirm()
-        }
+        authService.confirm(
+            confirmAuthenticationCodeRequest.id,
+            confirmAuthenticationCodeRequest.email,
+            confirmAuthenticationCodeRequest.code,
+            Authentication.Type.REGISTER
+        )
     }
 }
