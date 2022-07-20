@@ -27,20 +27,18 @@ class SessionService(
             Authentication.Type.REGISTER
         )
 
-        val member = registerMemberRequest.toEntity().apply {
-            check(!memberRepository.existByMemberId(registerMemberRequest.memberId)) { "이미 등록된 아이디입니다" }
-            check(!memberRepository.existByEmail(registerMemberRequest.email)) { "이미 등록된 이메일입니다" }
-            memberRepository.save(this)
-        }
+        val member = registerMemberRequest.toEntity()
+        check(!memberRepository.existByMemberId(registerMemberRequest.memberId)) { "이미 등록된 아이디입니다" }
+        check(!memberRepository.existByEmail(registerMemberRequest.email)) { "이미 등록된 이메일입니다" }
+        memberRepository.save(member)
 
         return jwtTokenProvider.createToken(member.email)
     }
 
     fun generateTokenWithLogin(loginRequest: LoginRequest): String {
-        val member = memberRepository.findByEmailCheck(loginRequest.email).apply {
-            authenticate(loginRequest.password)
-            checkActivation()
-        }
+        val member = memberRepository.findByEmailCheck(loginRequest.email)
+        member.authenticate(loginRequest.password)
+        member.checkActivation()
 
         return jwtTokenProvider.createToken(member.email)
     }
