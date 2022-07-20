@@ -26,13 +26,17 @@ class AuthenticationService(
         )
     }
 
+    fun check(confirmAuthenticationRequest: ConfirmAuthenticationRequest, type: Authentication.Type) {
+        val (id, target, code) = confirmAuthenticationRequest
+        authenticationRepository.findByIdAndTargetAndType(id, target, type).validate(code)
+    }
+
     fun confirm(confirmAuthenticationRequest: ConfirmAuthenticationRequest, type: Authentication.Type) {
         val (id, target, code) = confirmAuthenticationRequest
 
-        authenticationRepository.findByIdAndTargetAndType(id, target, type).run {
-            validate(code)
-            confirm()
-        }
+        val authentication = authenticationRepository.findByIdAndTargetAndType(id, target, type)
+        authentication.validate(code)
+        authentication.confirm()
     }
 
     companion object {
