@@ -11,18 +11,18 @@ import javax.validation.Valid
 @RequestMapping("/member")
 class MemberController(
     private val memberService: MemberService,
-    private val memberAuthenticationService: MemberAuthenticationService
+    private val sessionService: SessionService
 ) {
 
     @PostMapping("/register")
     fun register(@Valid @RequestBody registerMemberRequest: RegisterMemberRequest): ResponseEntity<Any> {
-        val token = memberAuthenticationService.generateTokenWithRegister(registerMemberRequest)
+        val token = sessionService.generateTokenWithRegister(registerMemberRequest)
         return ResponseEntity.ok().body(ApiResponse.success(token))
     }
 
     @PostMapping("/login")
     fun login(@Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
-        val token = memberAuthenticationService.generateTokenWithLogin(loginRequest)
+        val token = sessionService.generateTokenWithLogin(loginRequest)
         return ResponseEntity.ok().body(ApiResponse.success(token))
     }
 

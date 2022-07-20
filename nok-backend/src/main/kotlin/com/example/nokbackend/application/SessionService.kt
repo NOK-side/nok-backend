@@ -1,7 +1,6 @@
 package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
-import com.example.nokbackend.domain.authentication.AuthenticationService
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.existByEmail
 import com.example.nokbackend.domain.member.existByMemberId
@@ -12,17 +11,19 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class MemberAuthenticationService(
+class SessionService(
     private val memberRepository: MemberRepository,
-    private val authService: AuthenticationService,
+    private val authenticationService: AuthenticationService,
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
     fun generateTokenWithRegister(registerMemberRequest: RegisterMemberRequest): String {
-        authService.confirm(
-            registerMemberRequest.authenticationId,
-            registerMemberRequest.email,
-            registerMemberRequest.authenticationCode,
+        authenticationService.confirm(
+            ConfirmAuthenticationRequest(
+                registerMemberRequest.authenticationId,
+                registerMemberRequest.email,
+                registerMemberRequest.authenticationCode
+            ),
             Authentication.Type.REGISTER
         )
 
@@ -31,6 +32,7 @@ class MemberAuthenticationService(
             check(!memberRepository.existByEmail(registerMemberRequest.email)) { "이미 등록된 이메일입니다" }
             memberRepository.save(this)
         }
+
         return jwtTokenProvider.createToken(member.email)
     }
 
@@ -41,14 +43,5 @@ class MemberAuthenticationService(
         }
 
         return jwtTokenProvider.createToken(member.email)
-    }
-
-    fun confirmAuthenticationCode(confirmAuthenticationCodeRequest: ConfirmAuthenticationCodeRequest) {
-        authService.confirm(
-            confirmAuthenticationCodeRequest.id,
-            confirmAuthenticationCodeRequest.email,
-            confirmAuthenticationCodeRequest.code,
-            Authentication.Type.REGISTER
-        )
     }
 }
