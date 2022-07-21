@@ -33,6 +33,11 @@ data class UpdateMemberRequest(
     val phoneNumber: String
 )
 
+data class UpdatePasswordRequest(
+    val oldPassword: Password,
+    val newPassword: Password
+)
+
 data class WithdrawMemberRequest(
     @field:Email
     val email: String,

@@ -2,6 +2,7 @@ package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.Password
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -34,6 +35,12 @@ class MemberController(
     @PutMapping("/me/info")
     fun updateMyInfo(@MemberClaim member: Member, @RequestBody updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
         memberService.updateMemberInfo(member, updateMemberRequest)
+        return ResponseEntity.ok().build()
+    }
+
+    @PatchMapping("/me/password")
+    fun updateMyPassword(@MemberClaim member: Member, @RequestBody updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<Any> {
+        memberService.updatePassword(member, updatePasswordRequest)
         return ResponseEntity.ok().build()
     }
 

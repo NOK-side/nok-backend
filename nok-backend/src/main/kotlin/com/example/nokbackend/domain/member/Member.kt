@@ -1,7 +1,9 @@
 package com.example.nokbackend.domain.member
 
 import com.example.nokbackend.application.UpdateMemberRequest
+import com.example.nokbackend.application.UpdatePasswordRequest
 import com.example.nokbackend.infra.BaseEntity
+import com.example.nokbackend.util.createRandomString
 import javax.persistence.*
 
 @Entity
@@ -61,6 +63,16 @@ class Member(
 
     fun update(updateMemberRequest: UpdateMemberRequest) {
         information.update(updateMemberRequest)
+    }
+
+    fun resetPassword(): Password {
+        password = Password(createRandomString(10))
+        return password
+    }
+
+    fun updatePassword(updatePasswordRequest: UpdatePasswordRequest) {
+        require(password == updatePasswordRequest.oldPassword) { "기존 비밀번호가 일치하지 않습니다" }
+        password = updatePasswordRequest.newPassword
     }
 
     enum class Role { USER, STORE, ADMIN, NOTHING, }

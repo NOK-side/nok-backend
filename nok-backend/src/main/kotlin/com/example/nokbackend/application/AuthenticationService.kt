@@ -2,6 +2,7 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.authentication.AuthenticationRepository
+import com.example.nokbackend.util.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -46,12 +47,5 @@ class AuthenticationService(
 
 }
 
-fun createRandomString(length: Int): String {
-    val charList: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
-    return (0 until length)
-        .map { kotlin.random.Random.nextInt(0, charList.size) }
-        .map(charList::get)
-        .joinToString("")
-}
 

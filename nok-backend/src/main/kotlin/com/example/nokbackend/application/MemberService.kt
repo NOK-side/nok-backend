@@ -3,6 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.Password
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,6 +16,10 @@ class MemberService(
 
     fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest) {
         member.update(updateMemberRequest)
+    }
+
+    fun updatePassword(member: Member, updatePasswordRequest: UpdatePasswordRequest) {
+        member.updatePassword(updatePasswordRequest)
     }
 
     fun withdraw(member: Member, withdrawMemberRequest: WithdrawMemberRequest) {
