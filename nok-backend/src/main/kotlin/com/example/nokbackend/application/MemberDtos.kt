@@ -28,6 +28,18 @@ data class RegisterMemberRequest(
     )
 }
 
+data class UpdateMemberRequest(
+    val name: String,
+    val phoneNumber: String
+)
+
+data class WithdrawMemberRequest(
+    @field:Email
+    val email: String,
+    val authenticationId: Long,
+    val authenticationCode: String
+)
+
 data class LoginRequest(
     @field:Email
     val email: String,

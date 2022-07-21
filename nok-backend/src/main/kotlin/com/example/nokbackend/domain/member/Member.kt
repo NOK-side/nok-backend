@@ -1,5 +1,6 @@
 package com.example.nokbackend.domain.member
 
+import com.example.nokbackend.application.UpdateMemberRequest
 import com.example.nokbackend.infra.BaseEntity
 import javax.persistence.*
 
@@ -52,6 +53,14 @@ class Member(
 
     fun activate() {
         status = Status.ACTIVE
+    }
+
+    fun inActivate() {
+        status = Status.DELETED
+    }
+
+    fun update(updateMemberRequest: UpdateMemberRequest) {
+        information.update(updateMemberRequest)
     }
 
     enum class Role { USER, STORE, ADMIN, NOTHING, }

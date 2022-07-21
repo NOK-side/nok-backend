@@ -37,6 +37,6 @@ class Authentication(
 
     enum class Status { READY, EXPIRED, AUTHENTICATED }
 
-    enum class Type { REGISTER, FIND_ID, FIND_PW }
+    enum class Type { REGISTER, FIND_ID, FIND_PW, WITHDRAW }
 
 }

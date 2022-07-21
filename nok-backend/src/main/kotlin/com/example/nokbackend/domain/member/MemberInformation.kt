@@ -1,5 +1,6 @@
 package com.example.nokbackend.domain.member
 
+import com.example.nokbackend.application.UpdateMemberRequest
 import javax.persistence.Column
 import javax.persistence.Embeddable
 
@@ -17,4 +18,8 @@ data class MemberInformation(
     @Column
     var phoneNumber: String,
 ) {
+    fun update(updateMemberRequest: UpdateMemberRequest) {
+        name = updateMemberRequest.name
+        phoneNumber = updateMemberRequest.phoneNumber
+    }
 }

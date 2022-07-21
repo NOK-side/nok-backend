@@ -30,4 +30,16 @@ class MemberController(
     fun findMyInfo(@MemberClaim member: Member): ResponseEntity<Any> {
         return ResponseEntity.ok().body(ApiResponse.success(MemberInfoResponse(member)))
     }
+
+    @PutMapping("/me/info")
+    fun updateMyInfo(@MemberClaim member: Member, @RequestBody updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
+        memberService.updateMemberInfo(member, updateMemberRequest)
+        return ResponseEntity.ok().build()
+    }
+
+    @DeleteMapping("/me")
+    fun withdraw(@MemberClaim member: Member, @RequestBody withdrawMemberRequest: WithdrawMemberRequest): ResponseEntity<Any> {
+        memberService.withdraw(member, withdrawMemberRequest)
+        return ResponseEntity.ok().build()
+    }
 }
