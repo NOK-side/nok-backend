@@ -62,7 +62,12 @@ class Member(
     }
 
     fun update(updateMemberRequest: UpdateMemberRequest) {
-        information.update(updateMemberRequest)
+        information = MemberInformation(
+            memberId = memberId,
+            email = email,
+            name = updateMemberRequest.name,
+            phoneNumber = updateMemberRequest.phoneNumber
+        )
     }
 
     fun resetPassword(): Password {
