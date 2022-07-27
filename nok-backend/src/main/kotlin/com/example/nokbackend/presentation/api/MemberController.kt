@@ -49,4 +49,24 @@ class MemberController(
         memberService.withdraw(member, withdrawMemberRequest)
         return ResponseEntity.ok().build()
     }
+
+    @GetMapping("/find/email")
+    fun findMemberEmail(findMemberEmailRequest: FindMemberEmailRequest): ResponseEntity<Any> {
+        return ApiResponse.ok(memberService.findMemberEmail(findMemberEmailRequest))
+    }
+
+    @PostMapping("/find/password")
+    fun findMemberPassword(findMemberPassword: FindMemberPasswordRequest): ResponseEntity<Any> {
+        return ApiResponse.ok(memberService.findMemberPassword(findMemberPassword))
+    }
+
+    @PostMapping("/find/password/check")
+    fun initMemberPasswordCheck(initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
+        return ApiResponse.ok(memberService.initMemberPasswordCheck(initMemberPasswordRequest))
+    }
+
+    @PostMapping("/find/password/init")
+    fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
+        return ApiResponse.ok(memberService.initMemberPassword(initMemberPasswordRequest))
+    }
 }
