@@ -72,7 +72,7 @@ class Member(
 
     fun resetPassword(): String {
         val password = createRandomString(10)
-        Password(password)
+        this.password = Password(password)
         return password
     }
 
