@@ -70,9 +70,8 @@ class Member(
         )
     }
 
-    fun resetPassword(): String {
-        val password = createRandomString(10)
-        this.password = Password(password)
+    fun resetPassword(randomPassword: Password): Password {
+        password = randomPassword
         return password
     }
 

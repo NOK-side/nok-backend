@@ -13,7 +13,7 @@ import javax.annotation.PostConstruct
 class FirebaseConfig {
 
     @Value("\${app.firebase-configuration-file}")
-    private var firebaseConfigPath: String = ""
+    private val firebaseConfigPath: String = ""
 
     @PostConstruct
     fun initialize() {

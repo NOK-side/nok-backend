@@ -2,7 +2,7 @@ package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.MailSendInfo
 import com.example.nokbackend.application.MailService
-import com.example.nokbackend.infra.firebase.ImageService
+import com.example.nokbackend.application.ImageService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

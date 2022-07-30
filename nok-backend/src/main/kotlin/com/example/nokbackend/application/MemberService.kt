@@ -1,10 +1,8 @@
 package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
-import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.member.findByEmailCheck
-import com.example.nokbackend.domain.member.findByNameAndPhoneNumber
+import com.example.nokbackend.domain.member.*
+import com.example.nokbackend.util.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -64,8 +62,8 @@ class MemberService(
         val (authId, email, code) = initMemberPasswordRequest
         authenticationService.confirm(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
         val password = memberRepository.findByEmailCheck(email)
-            .resetPassword()
-        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", message = password))
+            .resetPassword(Password(createRandomString(10)))
+        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", message = password.value))
     }
 
 }

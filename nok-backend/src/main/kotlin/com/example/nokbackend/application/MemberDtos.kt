@@ -46,8 +46,7 @@ data class WithdrawMemberRequest(
 )
 
 data class LoginRequest(
-    @field:Email
-    val email: String,
+    val memberId: String,
     val password: Password
 )
 

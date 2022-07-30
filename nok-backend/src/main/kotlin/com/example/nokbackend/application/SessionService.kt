@@ -1,10 +1,7 @@
 package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
-import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.member.existByEmail
-import com.example.nokbackend.domain.member.existByMemberId
-import com.example.nokbackend.domain.member.findByEmailCheck
+import com.example.nokbackend.domain.member.*
 import com.example.nokbackend.security.JwtTokenProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -36,7 +33,7 @@ class SessionService(
     }
 
     fun generateTokenWithLogin(loginRequest: LoginRequest): String {
-        val member = memberRepository.findByEmailCheck(loginRequest.email)
+        val member = memberRepository.findByMemberIdCheck(loginRequest.memberId)
         member.authenticate(loginRequest.password)
         member.checkActivation()
 

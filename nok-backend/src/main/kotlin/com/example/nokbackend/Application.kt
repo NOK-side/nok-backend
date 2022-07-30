@@ -46,6 +46,17 @@ class InitService(
                     status = Member.Status.ACTIVE
                 )
                 em.persist(member)
+
+                val member2 = Member(
+                    memberId = "rkdals2134",
+                    email = "rkdals2134@naver.com",
+                    password = Password("1q2w3e4r"),
+                    name = "tester",
+                    role = Member.Role.STORE,
+                    phoneNumber = "01000000000",
+                    status = Member.Status.ACTIVE
+                )
+                em.persist(member2)
             }
         }
     }
