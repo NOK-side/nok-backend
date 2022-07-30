@@ -1,0 +1,3 @@
+[submodule "nok-backend/src/main/resources/config"]
+	path = nok-backend/src/main/resources/config
+	url = https://github.com/NOK-side/environment.git

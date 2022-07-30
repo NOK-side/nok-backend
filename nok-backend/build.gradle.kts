@@ -49,6 +49,13 @@ dependencies {
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
+
+    // 파이어베이스
+    implementation("com.google.firebase:firebase-admin:9.0.0")
+    implementation("com.google.cloud:google-cloud-storage:2.10.0")
+
+
+
 }
 
 tasks.withType<KotlinCompile> {

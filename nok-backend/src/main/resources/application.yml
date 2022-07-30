@@ -26,3 +26,7 @@ logging:
 
 front:
   url: http://localhost:3000
+
+app:
+  firebase-configuration-file: config/nok-storage-firebase-key.json
+  firebase-bucket: nok-storage.appspot.com
