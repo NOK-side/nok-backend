@@ -13,13 +13,8 @@ data class MemberInformation(
     val email: String,
 
     @Column
-    var name: String,
+    val name: String,
 
     @Column
-    var phoneNumber: String,
-) {
-    fun update(updateMemberRequest: UpdateMemberRequest) {
-        name = updateMemberRequest.name
-        phoneNumber = updateMemberRequest.phoneNumber
-    }
-}
+    val phoneNumber: String,
+)
