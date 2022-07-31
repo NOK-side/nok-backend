@@ -18,7 +18,7 @@ class MemberController(
     @PostMapping("/register")
     fun register(@Valid @RequestBody registerMemberRequest: RegisterMemberRequest): ResponseEntity<Any> {
         val token = sessionService.generateTokenWithRegister(registerMemberRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(token))
+        return ResponseEntity.accepted().body(ApiResponse.success(token))
     }
 
     @PostMapping("/login")

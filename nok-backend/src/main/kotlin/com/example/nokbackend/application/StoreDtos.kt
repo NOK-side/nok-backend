@@ -17,3 +17,29 @@ data class RegisterStoreRequest(
         )
     }
 }
+
+data class FindStoreCondition(
+    val name: String
+)
+
+data class StoreResponse(
+    val name: String,
+    val category: Store.Category
+) {
+    constructor(store: Store) : this(
+        name = store.name,
+        category = store.category
+    )
+}
+
+data class StoreDetailResponse(
+    val name: String,
+    val address: Address,
+    val category: Store.Category
+) {
+    constructor(store: Store) : this(
+        name = store.name,
+        address = store.address,
+        category = store.category
+    )
+}
