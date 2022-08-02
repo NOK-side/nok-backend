@@ -35,15 +35,19 @@ class Member(
     val phoneNumber: String
         get() = information.phoneNumber
 
+    val profileImg: String
+        get() = information.profileImage
+
     constructor(
         memberId: String,
         email: String,
         name: String,
         phoneNumber: String,
+        profileImg: String,
         password: Password,
         role: Role = Role.NOTHING,
         status: Status = Status.READY
-    ) : this(MemberInformation(memberId, email, name, phoneNumber), password, role, status)
+    ) : this(MemberInformation(memberId, email, name, phoneNumber, profileImg), password, role, status)
 
     fun authenticate(password: Password) {
         check(this.password == password) { "사용자 정보가 일치하지 않습니다." }
@@ -66,7 +70,8 @@ class Member(
             memberId = memberId,
             email = email,
             name = updateMemberRequest.name,
-            phoneNumber = updateMemberRequest.phoneNumber
+            phoneNumber = updateMemberRequest.phoneNumber,
+            profileImage = updateMemberRequest.profileImage,
         )
     }
 
@@ -86,7 +91,7 @@ class Member(
 
     companion object {
         val DUMMY: Member
-            get() = Member("", "", "", "", Password(""))
+            get() = Member("", "", "", "", "", Password(""))
     }
 }
 

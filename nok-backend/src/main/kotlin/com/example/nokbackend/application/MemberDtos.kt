@@ -11,17 +11,19 @@ data class RegisterMemberRequest(
     val email: String,
     val name: String,
     val phoneNumber: String,
+    val profileImage: String,
     val password: Password,
     val role: Member.Role = Member.Role.NOTHING,
     val status: Member.Status = Member.Status.ACTIVE,
-    val authenticationId: Long,
-    val authenticationCode: String
+//    val authenticationId: Long,
+//    val authenticationCode: String
 ) {
     fun toEntity() = Member(
         memberId = memberId,
         email = email,
         name = name,
         phoneNumber = phoneNumber,
+        profileImg = profileImage,
         password = password,
         role = role,
         status = status
@@ -30,7 +32,8 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val profileImage: String
 )
 
 data class UpdatePasswordRequest(
@@ -62,20 +65,16 @@ data class MemberInfoResponse(
     )
 }
 
-//TODO: ID 찾기가 필요할까요? 생각해보니깐 저희 이메일로 가입함 ㅠㅠ 그래서 이메일을 모르면 인증코드도 확인할 수 없음.. ㅠㅠ -> 그래도 아이디는 까먹어도 이메일은 자주사용해서 기억하는 경우는 많으니...
-data class FindMemberEmailRequest(
+data class FindMemberIdRequest(
     val name: String,
     val phoneNumber: String
 )
 
-data class FindMemberEmailResponse(
+data class FindMemberIdResponse(
     val email: String,
+    //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
+    val memberId: String,
 )
-
-/*
-    TODO: 비밀번호는 초기화하는게 좋을 거 같아요
-    제가 생각한 로직 : 이메일 주소, 이름체크 해서 인증코드 보내기 -> 인증코드 확인 -> 메일로 초기화된 비밀번호 보내기 -> 동의합니당
- */
 
 data class FindMemberPasswordRequest(
     @field:Email
@@ -85,6 +84,8 @@ data class FindMemberPasswordRequest(
 
 data class FindMemberPasswordResponse(
     val authId: Long,
+    //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
+    val code: String,
 )
 
 data class InitMemberPasswordRequest(

@@ -2,7 +2,6 @@ package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.member.Password
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -50,23 +49,24 @@ class MemberController(
         return ResponseEntity.ok().build()
     }
 
-    @GetMapping("/find/email")
-    fun findMemberEmail(findMemberEmailRequest: FindMemberEmailRequest): ResponseEntity<Any> {
-        return ApiResponse.ok(memberService.findMemberEmail(findMemberEmailRequest))
+    @GetMapping("/find/id")
+    fun findMemberEmail(@RequestBody findMemberIdRequest: FindMemberIdRequest): ResponseEntity<Any> {
+        return ResponseEntity.ok(ApiResponse.success(memberService.findMemberEmail(findMemberIdRequest)));
     }
 
     @PostMapping("/find/password")
-    fun findMemberPassword(findMemberPassword: FindMemberPasswordRequest): ResponseEntity<Any> {
-        return ApiResponse.ok(memberService.findMemberPassword(findMemberPassword))
+    fun findMemberPassword(@RequestBody findMemberPassword: FindMemberPasswordRequest): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(ApiResponse.success(memberService.findMemberPassword(findMemberPassword)))
     }
 
     @PostMapping("/find/password/check")
-    fun initMemberPasswordCheck(initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
-        return ApiResponse.ok(memberService.initMemberPasswordCheck(initMemberPasswordRequest))
+    fun initMemberPasswordCheck(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
+        memberService.initMemberPasswordCheck(initMemberPasswordRequest)
+        return ResponseEntity.ok().build()
     }
 
     @PostMapping("/find/password/init")
-    fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
-        return ApiResponse.ok(memberService.initMemberPassword(initMemberPasswordRequest))
+    fun initMemberPassword(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
+        return ResponseEntity.ok(ApiResponse.success(memberService.initMemberPassword(initMemberPasswordRequest)))
     }
 }

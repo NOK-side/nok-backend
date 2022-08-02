@@ -43,6 +43,7 @@ class InitService(
                     name = "tester",
                     role = Member.Role.USER,
                     phoneNumber = "01000000000",
+                    profileImg = "testImg",
                     status = Member.Status.ACTIVE
                 )
                 em.persist(member)
@@ -54,6 +55,7 @@ class InitService(
                     name = "tester",
                     role = Member.Role.STORE,
                     phoneNumber = "01000000000",
+                    profileImg = "testImg",
                     status = Member.Status.ACTIVE
                 )
                 em.persist(member2)

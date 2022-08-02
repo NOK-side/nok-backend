@@ -34,14 +34,14 @@ class MemberService(
         member.inActivate()
     }
 
-    //TODO: 로직 추가 고민 필요
-    fun findMemberEmail(findMemberEmailRequest: FindMemberEmailRequest): FindMemberEmailResponse {
+    fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): FindMemberIdResponse {
         val member = memberRepository.findByNameAndPhoneNumber(
-            findMemberEmailRequest.name,
-            findMemberEmailRequest.phoneNumber
+            findMemberIdRequest.name,
+            findMemberIdRequest.phoneNumber
         )
-
-        return FindMemberEmailResponse(email = member.email)
+        //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
+//        mailService.sendMail(MailSendInfo(member.email, "회원 아이디 찾기", message = member.memberId))
+        return FindMemberIdResponse(email = member.email, memberId = member.memberId)
     }
 
     fun findMemberPassword(findMemberPasswordRequest: FindMemberPasswordRequest): FindMemberPasswordResponse {
@@ -49,8 +49,9 @@ class MemberService(
         val member = memberRepository.findByEmailCheck(email)
         check(member.name == name) { "이름이 일치하지 않습니다" }
         val authentication = authenticationService.create(email, Authentication.Type.FIND_PW)
-        mailService.sendMail(MailSendInfo(email, "비밀번호 찾기 인증코드", message = authentication.code))
-        return FindMemberPasswordResponse(authentication.id)
+        //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
+//        mailService.sendMail(MailSendInfo(email, "비밀번호 찾기 인증코드", message = authentication.code))
+        return FindMemberPasswordResponse(authentication.id, authentication.code)
     }
 
     fun initMemberPasswordCheck(initMemberPasswordRequest: InitMemberPasswordRequest) {
@@ -58,12 +59,17 @@ class MemberService(
         authenticationService.check(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
     }
 
-    fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest) {
+    fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest): String {
         val (authId, email, code) = initMemberPasswordRequest
-        authenticationService.confirm(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
-        val password = memberRepository.findByEmailCheck(email)
-            .resetPassword(Password(createRandomString(10)))
-        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", message = password.value))
+        authenticationService.confirm(
+            ConfirmAuthenticationRequest(id = authId, email, code),
+            Authentication.Type.FIND_PW
+        )
+        val initPassword =  createRandomString(10)
+        memberRepository.findByEmailCheck(email).resetPassword(Password(initPassword))
+        //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
+//        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", initPassword))
+        return initPassword
     }
 
 }
