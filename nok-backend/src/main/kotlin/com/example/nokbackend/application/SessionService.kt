@@ -15,14 +15,15 @@ class SessionService(
 ) {
 
     fun generateTokenWithRegister(registerMemberRequest: RegisterMemberRequest): String {
-        authenticationService.confirm(
-            ConfirmAuthenticationRequest(
-                registerMemberRequest.authenticationId,
-                registerMemberRequest.email,
-                registerMemberRequest.authenticationCode
-            ),
-            Authentication.Type.REGISTER
-        )
+//TODO: 인증 코드 생성하는 부분 필요할 것 같습니다.
+//        authenticationService.confirm(
+//            ConfirmAuthenticationRequest(
+//                registerMemberRequest.authenticationId,
+//                registerMemberRequest.email,
+//                registerMemberRequest.authenticationCode
+//            ),
+//            Authentication.Type.REGISTER
+//        )
 
         val member = registerMemberRequest.toEntity()
         check(!memberRepository.existByMemberId(registerMemberRequest.memberId)) { "이미 등록된 아이디입니다" }

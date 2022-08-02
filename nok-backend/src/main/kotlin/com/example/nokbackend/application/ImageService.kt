@@ -12,11 +12,11 @@ class ImageService {
     @Value("\${app.firebase-bucket}")
     private val firebaseBucket: String = ""
 
+    //TODO: 일단 파일 이름을 임시로 UUID로 해놓겠습니다.
     fun uploadFile(multipartFile: MultipartFile, fileName: String): String {
         val bucket = StorageClient.getInstance().bucket(firebaseBucket)
         val inputStream = ByteArrayInputStream(multipartFile.bytes)
         bucket.create(fileName, inputStream, multipartFile.contentType)
-
         return PREFIX + fileName + SUFFIX
     }
 

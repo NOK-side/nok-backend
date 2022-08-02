@@ -17,4 +17,7 @@ data class MemberInformation(
 
     @Column
     val phoneNumber: String,
+
+    @Column
+    val profileImage: String,
 )
