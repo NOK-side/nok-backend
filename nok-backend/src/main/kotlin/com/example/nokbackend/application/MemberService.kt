@@ -23,7 +23,7 @@ class MemberService(
     }
 
     fun withdraw(member: Member, withdrawMemberRequest: WithdrawMemberRequest) {
-        authenticationService.confirm(
+        authenticationService.confirmAuthentication(
             ConfirmAuthenticationRequest(
                 withdrawMemberRequest.authenticationId,
                 withdrawMemberRequest.email,
@@ -48,7 +48,7 @@ class MemberService(
         val (email, name) = findMemberPasswordRequest
         val member = memberRepository.findByEmailCheck(email)
         check(member.name == name) { "이름이 일치하지 않습니다" }
-        val authentication = authenticationService.create(email, Authentication.Type.FIND_PW)
+        val authentication = authenticationService.registerAuthentication(email, Authentication.Type.FIND_PW)
         //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
 //        mailService.sendMail(MailSendInfo(email, "비밀번호 찾기 인증코드", message = authentication.code))
         return FindMemberPasswordResponse(authentication.id, authentication.code)
@@ -61,12 +61,13 @@ class MemberService(
 
     fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest): String {
         val (authId, email, code) = initMemberPasswordRequest
-        authenticationService.confirm(
+        authenticationService.confirmAuthentication(
             ConfirmAuthenticationRequest(id = authId, email, code),
             Authentication.Type.FIND_PW
         )
-        val initPassword =  createRandomString(10)
-        memberRepository.findByEmailCheck(email).resetPassword(Password(initPassword))
+        val initPassword = createRandomString(10)
+        memberRepository.findByEmailCheck(email)
+            .resetPassword(Password(initPassword))
         //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
 //        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", initPassword))
         return initPassword

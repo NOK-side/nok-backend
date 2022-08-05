@@ -29,7 +29,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
     @Test
     fun `인증코드 생성`() {
-        val authentication = authRepo.findById(authService.create(authTarget, authType).id).get()
+        val authentication = authRepo.findById(authService.registerAuthentication(authTarget, authType).id).get()
 
         assertAll(
             { assertEquals(authentication.type, authType) },
@@ -39,24 +39,24 @@ class AuthenticationServiceTest @Autowired constructor(
 
     @Test
     fun `인증코드 확인 - 정상 입력`() {
-        val authentication = authRepo.findById(authService.create(authTarget, authType).id).get()
+        val authentication = authRepo.findById(authService.registerAuthentication(authTarget, authType).id).get()
 
         val id = authentication.id
         val code = authentication.code
 
-        authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
+        authService.confirmAuthentication(ConfirmAuthenticationRequest(id, authTarget, code), authType)
     }
 
     @Test
     fun `인증코드 확인 - 인증코드 잘못 입력`() {
-        val authentication = authRepo.findById(authService.create(authTarget, authType).id).get()
+        val authentication = authRepo.findById(authService.registerAuthentication(authTarget, authType).id).get()
 
         val id = authentication.id
         val code = "쿠쿠루삥뽕"
 
         try {
             println("code = ${authentication.code}, input = $code")
-            authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
+            authService.confirmAuthentication(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
         } catch (exception: IllegalStateException) {
             //pass
@@ -65,7 +65,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
     @Test
     fun `인증코드 확인 - 인증코드 기한 초과`() {
-        val authentication = authRepo.findById(authService.create(authTarget, authType).id).get()
+        val authentication = authRepo.findById(authService.registerAuthentication(authTarget, authType).id).get()
 
         val id = authentication.id
         val code = authentication.code
@@ -76,7 +76,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
         try {
             println("expireDate = ${authentication.expireDate}, input = ${LocalDateTime.now()}")
-            authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
+            authService.confirmAuthentication(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
         } catch (exception: IllegalStateException) {
             //pass
@@ -85,7 +85,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
     @Test
     fun `인증코드 확인 - 만료된 인증 코드`() {
-        val authentication = authRepo.findById(authService.create(authTarget, authType).id).get()
+        val authentication = authRepo.findById(authService.registerAuthentication(authTarget, authType).id).get()
 
         val id = authentication.id
         val code = authentication.code
@@ -95,7 +95,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
         try {
             println("status = ${authentication.status}")
-            authService.confirm(ConfirmAuthenticationRequest(id, authTarget, code), authType)
+            authService.confirmAuthentication(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
         } catch (exception: IllegalStateException) {
             //pass
@@ -104,9 +104,9 @@ class AuthenticationServiceTest @Autowired constructor(
 
     @Test
     fun `인증코드 사용`() {
-        val before = authRepo.findById(authService.create(authTarget, authType).id).get()
+        val before = authRepo.findById(authService.registerAuthentication(authTarget, authType).id).get()
         val beforeStatus = before.status
-        authService.confirm(ConfirmAuthenticationRequest(before.id, authTarget, before.code), authType)
+        authService.confirmAuthentication(ConfirmAuthenticationRequest(before.id, authTarget, before.code), authType)
         val afterStatus = authRepo.findById(before.id).get().status
 
         assertAll(

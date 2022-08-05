@@ -51,7 +51,7 @@ class MemberController(
 
     @GetMapping("/find/id")
     fun findMemberEmail(@RequestBody findMemberIdRequest: FindMemberIdRequest): ResponseEntity<Any> {
-        return ResponseEntity.ok(ApiResponse.success(memberService.findMemberEmail(findMemberIdRequest)));
+        return ResponseEntity.ok(ApiResponse.success(memberService.findMemberEmail(findMemberIdRequest)))
     }
 
     @PostMapping("/find/password")
@@ -60,13 +60,13 @@ class MemberController(
     }
 
     @PostMapping("/find/password/check")
-    fun initMemberPasswordCheck(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
+    fun initMemberPasswordCheck(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any> {
         memberService.initMemberPasswordCheck(initMemberPasswordRequest)
         return ResponseEntity.ok().build()
     }
 
     @PostMapping("/find/password/init")
-    fun initMemberPassword(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any>{
+    fun initMemberPassword(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(ApiResponse.success(memberService.initMemberPassword(initMemberPasswordRequest)))
     }
 }

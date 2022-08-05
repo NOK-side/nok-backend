@@ -3,7 +3,6 @@ package com.example.nokbackend.domain.member
 import com.example.nokbackend.application.UpdateMemberRequest
 import com.example.nokbackend.application.UpdatePasswordRequest
 import com.example.nokbackend.infra.BaseEntity
-import com.example.nokbackend.util.createRandomString
 import javax.persistence.*
 
 @Entity
@@ -66,6 +65,8 @@ class Member(
     }
 
     fun update(updateMemberRequest: UpdateMemberRequest) {
+        require(password == updateMemberRequest.verificationPassword) { "비밀번호가 일치하지 않습니다" }
+
         information = MemberInformation(
             memberId = memberId,
             email = email,
@@ -75,9 +76,8 @@ class Member(
         )
     }
 
-    fun resetPassword(randomPassword: Password): Password {
+    fun resetPassword(randomPassword: Password) {
         password = randomPassword
-        return password
     }
 
     fun updatePassword(updatePasswordRequest: UpdatePasswordRequest) {
