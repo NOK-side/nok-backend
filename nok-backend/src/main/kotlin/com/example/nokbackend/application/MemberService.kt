@@ -55,7 +55,7 @@ class MemberService(
 
     fun initMemberPasswordCheck(initMemberPasswordRequest: InitMemberPasswordRequest) {
         val (authId, email, code) = initMemberPasswordRequest
-        authenticationService.check(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
+        authenticationService.checkAuthentication(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
     }
 
     fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest): String {

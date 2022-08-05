@@ -22,13 +22,17 @@ class Authentication(
     id: Long = 0L
 ) : BaseEntity(id) {
     fun validate(code: String) {
-        check(status == Status.READY) {"유효하지 않은 인증코드입니다."}
-        check(now().isBefore(expireDate) ) { "인증코드의 유효기간이 만료되었습니다" }
-        check(this.code == code) { "인증코드가 일치하지 않습니다."}
+        check(status == Status.READY) { "유효하지 않은 인증코드입니다." }
+        check(now().isBefore(expireDate)) { "인증코드의 유효기간이 만료되었습니다" }
+        verifyCode(code)
     }
 
     fun confirm() {
         status = Status.AUTHENTICATED
+    }
+
+    fun verifyCode(code: String) {
+        check(this.code == code) { "인증코드가 일치하지 않습니다." }
     }
 
     fun expired() {

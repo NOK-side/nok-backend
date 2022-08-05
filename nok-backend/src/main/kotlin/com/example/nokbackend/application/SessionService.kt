@@ -16,7 +16,7 @@ class SessionService(
 
     fun generateTokenWithRegister(registerMemberRequest: RegisterMemberRequest): String {
 //TODO: 인증 코드 생성하는 부분 필요할 것 같습니다.
-//        authenticationService.confirm(
+//        authenticationService.check(
 //            ConfirmAuthenticationRequest(
 //                registerMemberRequest.authenticationId,
 //                registerMemberRequest.email,
