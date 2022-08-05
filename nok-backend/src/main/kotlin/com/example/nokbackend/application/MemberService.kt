@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class MemberService(
     private val memberRepository: MemberRepository,
-    private val authenticationService: AuthenticationService,
-    private val mailService: MailService,
+    private val authenticationService: AuthenticationService
 ) {
 
     fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest) {
