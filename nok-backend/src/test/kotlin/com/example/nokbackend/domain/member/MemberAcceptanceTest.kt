@@ -21,6 +21,7 @@ class MemberAcceptanceTes @Autowired constructor(
     private val entityManager: EntityManager
 ) : AcceptanceTest() {
 
+    // todo : 이메일 전송부분 mocking 필요
     @Test
     @DisplayName("회원 가입 프로세스 테스트")
     fun memberProcessTest() {
@@ -44,6 +45,7 @@ class MemberAcceptanceTes @Autowired constructor(
 
         //when
         val registerMemberRequest = MemberFixture.memberRequest
+            .copy(authenticationCode = authentication.code)
 
         //then
         val registerMemberResponse = 회원_생성을_요청(registerMemberRequest)

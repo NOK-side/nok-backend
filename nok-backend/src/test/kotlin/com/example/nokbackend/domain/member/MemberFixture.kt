@@ -13,7 +13,9 @@ class MemberFixture {
                 phoneNumber = "000-0000-0000",
                 profileImage = "",
                 password = Password("1q2w3e4r"),
-                role = Member.Role.USER
+                role = Member.Role.USER,
+                authenticationId = 1L,
+                authenticationCode = ""
             )
 
     }
