@@ -54,8 +54,8 @@ dependencies {
     implementation("com.google.firebase:firebase-admin:9.0.0")
     implementation("com.google.cloud:google-cloud-storage:2.10.0")
 
-
-
+    // rest-assured
+    implementation("io.rest-assured:rest-assured:4.4.0")
 }
 
 tasks.withType<KotlinCompile> {

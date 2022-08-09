@@ -3,6 +3,7 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -17,7 +18,7 @@ class MemberController(
     @PostMapping("/register")
     fun register(@Valid @RequestBody registerMemberRequest: RegisterMemberRequest): ResponseEntity<Any> {
         val token = sessionService.generateTokenWithRegister(registerMemberRequest)
-        return ResponseEntity.accepted().body(ApiResponse.success(token))
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(token))
     }
 
     @PostMapping("/login")
