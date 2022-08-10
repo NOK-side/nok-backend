@@ -5,13 +5,9 @@ import com.example.nokbackend.application.RegisterStoreRequest
 import com.example.nokbackend.application.StoreService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/store")
@@ -20,9 +16,9 @@ class StoreController(
 ) {
 
     @PostMapping("/register")
-    fun registerStore(@MemberClaim member: Member, @RequestBody registerStoreRequest: RegisterStoreRequest) : ResponseEntity<Any> {
+    fun registerStore(@MemberClaim member: Member, @RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<Any> {
         val storeId = storeService.registerStore(member, registerStoreRequest)
-        return ResponseEntity.accepted().body(storeId)
+        return ResponseEntity.status(HttpStatus.CREATED).body(storeId)
     }
 
     @GetMapping

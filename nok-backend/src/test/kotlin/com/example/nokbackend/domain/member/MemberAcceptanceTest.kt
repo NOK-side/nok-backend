@@ -17,13 +17,12 @@ import org.springframework.http.MediaType
 import javax.persistence.EntityManager
 
 
-class MemberAcceptanceTes @Autowired constructor(
-    private val entityManager: EntityManager
+class MemberAcceptanceTest @Autowired constructor(
+    private val entityManager: EntityManager,
 ) : AcceptanceTest() {
 
-    // todo : 이메일 전송부분 mocking 필요
     @Test
-    @DisplayName("회원 가입 프로세스 테스트")
+    @DisplayName("회원 관리 테스트")
     fun memberProcessTest() {
         //when
         val verifyEmailRequest = AuthenticationFixture.verifyEmailRequest
@@ -34,7 +33,7 @@ class MemberAcceptanceTes @Autowired constructor(
 
 
         //when
-        val authentication = entityManager.find(Authentication::class.java, 1L)
+        val authentication = 등록된_인증코드를_디비에서_가져옴(verifyEmailResponse)
         val confirmAuthenticationRequest = AuthenticationFixture.confirmAuthenticationRequest
             .copy(code = authentication.code)
 
@@ -50,6 +49,7 @@ class MemberAcceptanceTes @Autowired constructor(
         //then
         val registerMemberResponse = 회원_생성을_요청(registerMemberRequest)
         회원_생성됨(registerMemberResponse)
+
     }
 
     fun 이메일_검증코드_전송_요청(verifyEmailRequest: VerifyEmailRequest): ExtractableResponse<Response> {
@@ -63,6 +63,17 @@ class MemberAcceptanceTes @Autowired constructor(
             .extract()
     }
 
+    fun 이메일_검증코드_전송_요청됨(response: ExtractableResponse<Response>) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
+    }
+
+    fun 등록된_인증코드를_디비에서_가져옴(verifyEmailResponse: ExtractableResponse<Response>): Authentication {
+        return entityManager.find(
+            Authentication::class.java,
+            1L
+        )
+    }
+
     fun 이메일_검증_요청(confirmAuthenticationRequest: ConfirmAuthenticationRequest): ExtractableResponse<Response> {
         return RestAssured.given().log().all()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -72,6 +83,10 @@ class MemberAcceptanceTes @Autowired constructor(
             .then()
             .log().all()
             .extract()
+    }
+
+    fun 이메일_검증됨(response: ExtractableResponse<Response>) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
     }
 
     fun 회원_생성을_요청(registerMemberRequest: RegisterMemberRequest): ExtractableResponse<Response> {
@@ -87,13 +102,5 @@ class MemberAcceptanceTes @Autowired constructor(
 
     fun 회원_생성됨(response: ExtractableResponse<Response>) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value())
-    }
-
-    fun 이메일_검증코드_전송_요청됨(response: ExtractableResponse<Response>) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
-    }
-
-    fun 이메일_검증됨(response: ExtractableResponse<Response>) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
     }
 }
