@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.Password
@@ -43,8 +44,6 @@ data class UpdatePasswordRequest(
 )
 
 data class WithdrawMemberRequest(
-    @field:Email
-    val email: String,
     val authenticationId: Long,
     val authenticationCode: String
 )
@@ -97,5 +96,6 @@ data class InitMemberPasswordRequest(
 
 data class VerifyEmailRequest(
     @field:Email
-    val email: String
+    val email: String,
+    val type: Authentication.Type
 )

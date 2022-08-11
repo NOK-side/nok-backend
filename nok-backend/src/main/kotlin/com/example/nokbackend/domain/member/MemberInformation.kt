@@ -1,15 +1,14 @@
 package com.example.nokbackend.domain.member
 
-import com.example.nokbackend.application.UpdateMemberRequest
 import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
 data class MemberInformation(
-    @Column
+    @Column(unique = true)
     val memberId: String,
 
-    @Column
+    @Column(unique = true)
     val email: String,
 
     @Column

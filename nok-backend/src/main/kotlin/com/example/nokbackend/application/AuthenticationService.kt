@@ -2,6 +2,7 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.authentication.AuthenticationRepository
+import com.example.nokbackend.domain.authentication.findByIdAndTargetAndTypeCheck
 import com.example.nokbackend.util.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -37,14 +38,14 @@ class AuthenticationService(
 
     fun checkAuthentication(confirmAuthenticationRequest: ConfirmAuthenticationRequest, type: Authentication.Type) {
         val (id, target, code) = confirmAuthenticationRequest
-        val authentication = authenticationRepository.findByIdAndTargetAndType(id, target, type)
+        val authentication = authenticationRepository.findByIdAndTargetAndTypeCheck(id, target, type)
         authentication.verifyCode(code)
     }
 
     fun confirmAuthentication(confirmAuthenticationRequest: ConfirmAuthenticationRequest, type: Authentication.Type) {
         val (id, target, code) = confirmAuthenticationRequest
 
-        val authentication = authenticationRepository.findByIdAndTargetAndType(id, target, type)
+        val authentication = authenticationRepository.findByIdAndTargetAndTypeCheck(id, target, type)
         authentication.validate(code)
         authentication.confirm()
     }

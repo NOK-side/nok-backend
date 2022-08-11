@@ -25,7 +25,7 @@ class MemberService(
         authenticationService.confirmAuthentication(
             ConfirmAuthenticationRequest(
                 withdrawMemberRequest.authenticationId,
-                withdrawMemberRequest.email,
+                member.email,
                 withdrawMemberRequest.authenticationCode
             ),
             Authentication.Type.WITHDRAW

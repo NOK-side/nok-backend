@@ -4,6 +4,8 @@ import com.example.nokbackend.infra.BaseEntity
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 @Entity
 class Authentication(
@@ -15,8 +17,10 @@ class Authentication(
 
     var expireDate: LocalDateTime,
 
+    @Enumerated(value = EnumType.STRING)
     val type: Type,
 
+    @Enumerated(value = EnumType.STRING)
     var status: Status = Status.READY,
 
     id: Long = 0L

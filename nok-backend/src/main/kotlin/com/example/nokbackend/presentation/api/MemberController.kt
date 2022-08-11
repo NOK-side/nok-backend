@@ -1,6 +1,7 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
+import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
@@ -12,7 +13,8 @@ import javax.validation.Valid
 @RequestMapping("/member")
 class MemberController(
     private val memberService: MemberService,
-    private val sessionService: SessionService
+    private val sessionService: SessionService,
+    private val authenticationService: AuthenticationService
 ) {
 
     @PostMapping("/register")
@@ -69,5 +71,17 @@ class MemberController(
     @PostMapping("/find/password/init")
     fun initMemberPassword(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any> {
         return ResponseEntity.ok(ApiResponse.success(memberService.initMemberPassword(initMemberPasswordRequest)))
+    }
+
+    @PostMapping("/send/authentication/email")
+    fun sendAuthenticationToEmail(@Valid @RequestBody verifyEmailRequest: VerifyEmailRequest): ResponseEntity<Any> {
+        val authenticationResponse = authenticationService.sendAuthenticationToEmail(verifyEmailRequest.email, verifyEmailRequest.type)
+        return ResponseEntity.ok().body(ApiResponse.success(authenticationResponse))
+    }
+
+    @PostMapping("/verify/email")
+    fun verifyAuthenticationCodeForEmail(@RequestBody confirmAuthenticationRequest: ConfirmAuthenticationRequest): ResponseEntity<Any> {
+        authenticationService.confirmAuthentication(confirmAuthenticationRequest, Authentication.Type.REGISTER)
+        return ResponseEntity.ok().build()
     }
 }
