@@ -6,8 +6,13 @@ import javax.persistence.Embeddable
 @Embeddable
 class BusinessHour(
     @Column
-    var fromHour: Int,
+    val fromHour: Int,
 
     @Column
-    var toHour: Int
-)
+    val toHour: Int
+) {
+    init {
+        require(fromHour in 0..24) { "영업 시작 시간으로 설정할 수 없는 범위입니다" }
+        require(toHour in 0..24) { "영업 종료 시간으로 설정할 수 없는 범위입니다" }
+    }
+}

@@ -48,6 +48,10 @@ class Store(
     val holidays: String
         get() = storeInformation.holidays
 
+    fun activate() {
+        status = Status.ACTIVE
+    }
+
 
     enum class Status { READY, ACTIVE, INACTIVE, }
 }
