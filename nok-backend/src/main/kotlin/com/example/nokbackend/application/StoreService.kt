@@ -3,10 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.store.MenuRepository
-import com.example.nokbackend.domain.store.Store
-import com.example.nokbackend.domain.store.StoreRepository
-import com.example.nokbackend.domain.store.findByIdCheck
+import com.example.nokbackend.domain.store.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -14,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class StoreService(
     private val storeRepository: StoreRepository,
+    private val storeQueryRepository: StoreQueryRepository,
     private val memberRepository: MemberRepository,
     private val menuRepository: MenuRepository,
     private val authenticationService: AuthenticationService
@@ -36,17 +34,14 @@ class StoreService(
         val store = registerStoreRequest.toEntity(owner.id)
         storeRepository.save(store)
 
-        registerStoreRequest.menus.saveMenuOfStore(store)
+        registerStoreRequest.menus.saveAll(store)
 
         return store.id
     }
 
     fun findByCondition(findStoreCondition: FindStoreCondition): List<StoreResponse> {
-        // todo : 동적쿼리 사용 필요??
-        return storeRepository.findAll()
-            .filter { it.name.contains(findStoreCondition.name.trim()) }
+        return storeQueryRepository.findByCondition(findStoreCondition)
             .map { StoreResponse(it) }
-            .reversed()
     }
 
     fun findStoreInfo(storeId: Long): StoreDetailResponse {
@@ -54,7 +49,7 @@ class StoreService(
         return StoreDetailResponse(store)
     }
 
-    private fun List<RegisterMenuRequest>.saveMenuOfStore(store: Store) =
+    private fun List<RegisterMenuRequest>.saveAll(store: Store) =
         forEach {
             val menu = it.toEntity(store)
             menuRepository.save(menu)

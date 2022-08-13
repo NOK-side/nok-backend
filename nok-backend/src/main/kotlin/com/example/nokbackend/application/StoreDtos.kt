@@ -34,7 +34,8 @@ data class RegisterMenuRequest(
 
 
 data class FindStoreCondition(
-    val name: String
+    val name: String?,
+    val category: StoreInformation.Category?
 )
 
 data class StoreResponse(

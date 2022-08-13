@@ -41,5 +41,5 @@ class StoreInformation(
     var holidays: String
 ) {
 
-    enum class Category { DEFAULT, CAFE, RESTAURANT, }
+    enum class Category { DEFAULT, CAFE, RESTAURANT }
 }
