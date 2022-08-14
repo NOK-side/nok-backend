@@ -1,6 +1,5 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.FindGifticonCondition
 import com.example.nokbackend.application.GifticonService
 import com.example.nokbackend.application.RegisterGifticonRequest
 import com.example.nokbackend.domain.member.Member
@@ -21,15 +20,15 @@ class GifticonController(
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    @GetMapping
-    fun findGifticon(@RequestBody findGifticonCondition: FindGifticonCondition): ResponseEntity<Any> {
-        val gifticons = gifticonService.findByCondition(findGifticonCondition)
-        return ResponseEntity.ok().body(gifticons)
+    @GetMapping("/store/{storeId}")
+    fun findStoreGifticon(@PathVariable storeId: Long): ResponseEntity<Any> {
+        val gifticons = gifticonService.findStoreGifticon(storeId)
+        return ResponseEntity.ok().body(ApiResponse.success(gifticons))
     }
 
     @GetMapping("/info/{gifticonId}")
     fun findGifticonInfo(@PathVariable gifticonId: Long): ResponseEntity<Any> {
         val gifticon = gifticonService.findGifticonInfo(gifticonId)
-        return ResponseEntity.ok().body(gifticon)
+        return ResponseEntity.ok().body(ApiResponse.success(gifticon))
     }
 }

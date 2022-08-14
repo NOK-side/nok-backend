@@ -34,7 +34,7 @@ class StoreService(
         val store = registerStoreRequest.toEntity(owner.id)
         storeRepository.save(store)
 
-        registerStoreRequest.menus.saveAll(store)
+        registerStoreRequest.menus.saveAllAsEntity(store)
 
         return store.id
     }
@@ -46,10 +46,13 @@ class StoreService(
 
     fun findStoreInfo(storeId: Long): StoreDetailResponse {
         val store = storeRepository.findByIdCheck(storeId)
+
+        check(store.status == Store.Status.ACTIVE) { "삭제되거나 등록대기 상태인 점포입니다" }
+
         return StoreDetailResponse(store)
     }
 
-    private fun List<RegisterMenuRequest>.saveAll(store: Store) =
+    private fun List<RegisterMenuRequest>.saveAllAsEntity(store: Store) =
         forEach {
             val menu = it.toEntity(store)
             menuRepository.save(menu)

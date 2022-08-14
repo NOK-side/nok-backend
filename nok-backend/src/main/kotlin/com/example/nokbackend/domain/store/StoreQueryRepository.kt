@@ -22,7 +22,8 @@ class StoreQueryRepository(
             where(
                 and(
                     name?.run { column(StoreInformation::name).like(this.trim()) },
-                    category?.run { column(StoreInformation::category).equal(this) }
+                    category?.run { column(StoreInformation::category).equal(this) },
+                    column(Store::status).equal(Store.Status.ACTIVE)
                 )
             )
             orderBy(column(Store::id).desc())

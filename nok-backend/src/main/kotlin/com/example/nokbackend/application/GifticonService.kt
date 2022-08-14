@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
@@ -22,11 +23,9 @@ class GifticonService(
         gifticonRepository.save(gifticon)
     }
 
-    fun findByCondition(findGifticonCondition: FindGifticonCondition): List<GifticonResponse> {
-        return gifticonRepository.findAll()
-            .filter { it.productName.contains(findGifticonCondition.name) }
+    fun findStoreGifticon(storeId: Long): List<GifticonResponse> {
+        return gifticonRepository.findByStoreIdAndStatus(storeId, Gifticon.Status.ACTIVE)
             .map { GifticonResponse(it) }
-            .reversed()
     }
 
     fun findGifticonInfo(id: Long): GifticonDetailResponse {
