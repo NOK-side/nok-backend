@@ -1,13 +1,18 @@
 package com.example.nokbackend
 
+import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
+import java.time.LocalDate
 
-@SpringBootTest
+
 class ApplicationTests {
 
     @Test
     fun contextLoads() {
+
+        val memberGifticon1 = MemberGifticon(1, 1, LocalDate.now(), MemberGifticon.Status.ACTIVE, LocalDate.now(), LocalDate.now())
+
+        memberGifticon1
     }
 
 }

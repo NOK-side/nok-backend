@@ -25,5 +25,16 @@ class MemberGifticon(
     id: Long = 0L
 ) : BaseEntity(id) {
 
+    fun transferGifticonTo(targetId: Long, targetDueDate: LocalDate): MemberGifticon {
+        status = Status.TRANSFERRED
+
+        return MemberGifticon(
+            ownerId = targetId,
+            dueDate = targetDueDate,
+            gifticonId = gifticonId,
+            status = Status.ACTIVE
+        )
+    }
+
     enum class Status { ACTIVE, USED, TRANSFERRED }
 }

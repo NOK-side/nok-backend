@@ -4,8 +4,11 @@ import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
+import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -14,7 +17,8 @@ import java.time.LocalDate
 @Transactional
 class MemberGifticonService(
     private val memberGifticonRepository: MemberGifticonRepository,
-    private val gifticonRepository: GifticonRepository
+    private val gifticonRepository: GifticonRepository,
+    private val memberRepository: MemberRepository
 ) {
 
     fun findMyGifticon(member: Member): List<MemberGifticonResponse> {
@@ -43,11 +47,23 @@ class MemberGifticonService(
             MemberGifticon(
                 ownerId = member.id,
                 gifticonId = gifticon.id,
-                dueDate = LocalDate.now().plusDays(gifticon.period.toLong())
+                dueDate = LocalDate.now().plusDays(gifticon.period)
             )
         }
 
         memberGifticonRepository.saveAll(memberGifticons)
+    }
+
+    fun sendGifticon(member: Member, sendGifticonRequest: SendGifticonRequest) {
+        check(member.memberId != sendGifticonRequest.targetMemberId) { "본인에게 선물할 수 없습니다" }
+
+        val memberGifticon = memberGifticonRepository.findByIdCheck(sendGifticonRequest.memberGifticonId)
+        val gifticon = gifticonRepository.findByIdCheck(memberGifticon.gifticonId)
+        val target = memberRepository.findByMemberIdCheck(sendGifticonRequest.targetMemberId)
+
+        val transferredGifticon = memberGifticon.transferGifticonTo(target.id, LocalDate.now().plusDays(gifticon.period))
+
+        memberGifticonRepository.save(transferredGifticon)
     }
 }
 

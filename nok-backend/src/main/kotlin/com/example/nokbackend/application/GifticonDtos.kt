@@ -9,7 +9,7 @@ data class FindGifticonCondition(
 
 data class RegisterGifticonRequest(
     val productName: String,
-    val period: Int,
+    val period: Long,
     val description: String,
     val price: BigDecimal,
     val category: Gifticon.Category = Gifticon.Category.NOTHING,
@@ -34,7 +34,7 @@ data class GifticonResponse(
 
 data class GifticonDetailResponse(
     val productName: String,
-    val period: Int,
+    val period: Long,
     val description: String,
     val price: BigDecimal,
     val category: Gifticon.Category

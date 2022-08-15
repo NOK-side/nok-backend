@@ -13,7 +13,7 @@ class Gifticon(
 
     val productName: String,
 
-    val period: Int,
+    val period: Long,
 
     @Lob
     val description: String,

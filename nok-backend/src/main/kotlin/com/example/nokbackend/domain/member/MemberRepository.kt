@@ -22,4 +22,5 @@ interface MemberRepository : JpaRepository<Member, Long> {
     fun existsByInformationEmail(memberId: String): Boolean
 
     fun findByInformationNameAndInformationPhoneNumber(name: String, phoneNumber: String): Member?
+
 }

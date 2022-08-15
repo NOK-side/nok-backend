@@ -33,3 +33,8 @@ data class MemberGifticonResponse(
         memberGifticon.modifiedDate
     )
 }
+
+data class SendGifticonRequest(
+    val targetMemberId: String,
+    val memberGifticonId: Long
+)
