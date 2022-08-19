@@ -32,9 +32,8 @@ data class RegisterMemberRequest(
 }
 
 data class UpdateMemberRequest(
-    val name: String,
-    val phoneNumber: String,
-    val profileImage: String,
+    val name: String?,
+    val profileImage: String?,
     val verificationPassword: Password
 )
 
@@ -98,4 +97,8 @@ data class VerifyEmailRequest(
     @field:Email
     val email: String,
     val type: Authentication.Type
+)
+
+data class CheckMemberIdDuplicationRequest(
+    val memberId: String
 )

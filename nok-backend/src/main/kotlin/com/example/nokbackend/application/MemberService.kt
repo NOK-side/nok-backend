@@ -72,4 +72,12 @@ class MemberService(
         return initPassword
     }
 
+    fun checkEmailDuplication(email: String) {
+        check(!memberRepository.existByEmail(email)) { "이미 등록된 이메일입니다" }
+    }
+
+    fun checkMemberIdDuplication(memberId: String) {
+        check(!memberRepository.existByMemberId(memberId)) { "이미 등록된 아이디입니다" }
+    }
+
 }

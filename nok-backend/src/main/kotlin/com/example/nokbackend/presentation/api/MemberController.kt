@@ -75,6 +75,7 @@ class MemberController(
 
     @PostMapping("/send/authentication/email")
     fun sendAuthenticationToEmail(@Valid @RequestBody verifyEmailRequest: VerifyEmailRequest): ResponseEntity<Any> {
+        memberService.checkEmailDuplication(verifyEmailRequest.email)
         val authenticationResponse = authenticationService.sendAuthenticationToEmail(verifyEmailRequest.email, verifyEmailRequest.type)
         return ResponseEntity.ok().body(ApiResponse.success(authenticationResponse))
     }
@@ -82,6 +83,12 @@ class MemberController(
     @PostMapping("/verify/email")
     fun verifyAuthenticationCodeForEmail(@RequestBody confirmAuthenticationRequest: ConfirmAuthenticationRequest): ResponseEntity<Any> {
         authenticationService.confirmAuthentication(confirmAuthenticationRequest, Authentication.Type.REGISTER)
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/check/memberId/duplication")
+    fun checkMemberIdDuplication(@RequestBody checkMemberIdDuplicationRequest: CheckMemberIdDuplicationRequest): ResponseEntity<Any> {
+        memberService.checkMemberIdDuplication(checkMemberIdDuplicationRequest.memberId)
         return ResponseEntity.ok().build()
     }
 }
