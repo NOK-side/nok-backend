@@ -19,20 +19,15 @@ class FirebaseConfig {
 
     @PostConstruct
     fun initialize() {
-        val classPathResource = ClassPathResource(firebaseConfigPath)
-        log.error(classPathResource.uri.toString())
-        log.error(classPathResource.url.toString())
-        log.error(classPathResource.path)
+        val options = FirebaseOptions.builder().setCredentials(
+            GoogleCredentials.fromStream(
+                ClassPathResource(firebaseConfigPath).inputStream
+            )
+        ).build()
 
-//        val options = FirebaseOptions.builder().setCredentials(
-//            GoogleCredentials.fromStream(
-//                ClassPathResource(firebaseConfigPath).inputStream
-//            )
-//        ).build()
-//
-//        FirebaseApp.initializeApp(options, createRandomString(10))
-//
-//        check(FirebaseApp.getApps().isNotEmpty()) { "파이어베이스 초기화 실패" }
+        FirebaseApp.initializeApp(options, createRandomString(10))
+
+        check(FirebaseApp.getApps().isNotEmpty()) { "파이어베이스 초기화 실패" }
     }
 
     companion object {
