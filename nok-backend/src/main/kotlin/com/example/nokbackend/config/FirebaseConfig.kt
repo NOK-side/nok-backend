@@ -15,7 +15,7 @@ class FirebaseConfig {
     @Value("\${app.firebase-configuration-file}")
     private val firebaseConfigPath: String = ""
 
-    @PostConstruct
+//    @PostConstruct
     fun initialize() {
         val options = FirebaseOptions.builder().setCredentials(
             GoogleCredentials.fromStream(
