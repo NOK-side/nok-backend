@@ -1,6 +1,5 @@
 package com.example.nokbackend.config
 
-import com.example.nokbackend.util.createRandomString
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
@@ -18,15 +17,13 @@ class FirebaseConfig {
 
     @PostConstruct
     fun initialize() {
-        println(firebaseConfigPath)
-
         val options = FirebaseOptions.builder().setCredentials(
             GoogleCredentials.fromStream(
                 ClassPathResource(firebaseConfigPath).inputStream
             )
         ).build()
 
-        FirebaseApp.initializeApp(options, createRandomString(6))
+        FirebaseApp.initializeApp(options)
 
         check(FirebaseApp.getApps().isNotEmpty()) { "파이어베이스 초기화 실패" }
     }
