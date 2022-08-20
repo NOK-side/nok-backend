@@ -7,19 +7,18 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AcceptanceTest {
+class AcceptanceTest @Autowired constructor(
+    private val databaseCleanup: DatabaseCleanup
+) {
     @LocalServerPort
     var port = 0
-
-    @Autowired
-    private val databaseCleanup: DatabaseCleanup? = null
 
     @BeforeEach
     fun setUp() {
         if (RestAssured.port == RestAssured.UNDEFINED_PORT) {
             RestAssured.port = port
-            databaseCleanup!!.afterPropertiesSet()
+            databaseCleanup.afterPropertiesSet()
         }
-        databaseCleanup!!.execute()
+        databaseCleanup.execute()
     }
 }

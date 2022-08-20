@@ -1,6 +1,7 @@
 package com.example.nokbackend.domain.member
 
 import com.example.nokbackend.AcceptanceTest
+import com.example.nokbackend.DatabaseCleanup
 import com.example.nokbackend.application.ConfirmAuthenticationRequest
 import com.example.nokbackend.application.RegisterMemberRequest
 import com.example.nokbackend.application.VerifyEmailRequest
@@ -19,7 +20,8 @@ import javax.persistence.EntityManager
 
 class MemberAcceptanceTest @Autowired constructor(
     private val entityManager: EntityManager,
-) : AcceptanceTest() {
+    databaseCleanup: DatabaseCleanup
+) : AcceptanceTest(databaseCleanup) {
 
     @Test
     @DisplayName("회원 관리 테스트")
