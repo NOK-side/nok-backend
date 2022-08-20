@@ -2,6 +2,7 @@ package com.example.nokbackend
 
 import com.google.common.base.CaseFormat
 import org.springframework.beans.factory.InitializingBean
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
@@ -12,9 +13,10 @@ import javax.persistence.PersistenceContext
 
 @Service
 @ActiveProfiles("test")
-class DatabaseCleanup : InitializingBean {
+class DatabaseCleanup(
     @PersistenceContext
-    private val entityManager: EntityManager? = null
+    private val entityManager: EntityManager
+) : InitializingBean {
     private var tableNames: List<String>? = null
 
     override fun afterPropertiesSet() {
