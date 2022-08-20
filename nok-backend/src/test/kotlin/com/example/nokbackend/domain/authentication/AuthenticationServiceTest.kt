@@ -12,10 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import java.time.LocalDateTime
 
 @SpringBootTest
-class AuthenticationServiceTest @Autowired constructor(
-    val authService: AuthenticationService,
-    val authRepo: AuthenticationRepository
-) {
+class AuthenticationServiceTest {
+
+    @Autowired
+    lateinit var authService: AuthenticationService
+
+    @Autowired
+    lateinit var  authRepo: AuthenticationRepository
 
     val authTarget = "dae4805@naver.com"
     val authType = Authentication.Type.REGISTER
