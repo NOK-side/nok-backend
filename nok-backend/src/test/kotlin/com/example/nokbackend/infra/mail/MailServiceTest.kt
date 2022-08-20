@@ -11,7 +11,7 @@ class MailServiceTest @Autowired constructor(
     private val mailService: MailService
 ) {
 
-    @Test
+//    @Test
     fun `메일이 진짜로 발송되나 함 볼까`() {
         mailService.sendMail(MailSendInfo("dae4805@naver.com", "subject", "message"));
     }
