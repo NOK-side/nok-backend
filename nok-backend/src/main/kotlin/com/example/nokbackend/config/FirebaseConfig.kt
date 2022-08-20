@@ -18,6 +18,8 @@ class FirebaseConfig {
 
     @PostConstruct
     fun initialize() {
+        println(firebaseConfigPath)
+
         val options = FirebaseOptions.builder().setCredentials(
             GoogleCredentials.fromStream(
                 ClassPathResource(firebaseConfigPath).inputStream
