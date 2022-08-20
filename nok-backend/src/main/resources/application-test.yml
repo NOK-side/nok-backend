@@ -3,12 +3,6 @@ spring:
     activate:
       on-profile: test
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/nok-project?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 1234
-
   jpa:
     properties:
       hibernate:
