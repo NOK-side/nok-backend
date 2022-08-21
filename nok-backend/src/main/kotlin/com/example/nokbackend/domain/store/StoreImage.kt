@@ -1,25 +1,20 @@
 package com.example.nokbackend.domain.store
 
 import com.example.nokbackend.infra.BaseEntity
-import java.math.BigDecimal
-import javax.persistence.*
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.ManyToOne
 
 @Entity
-class Menu(
-    var name: String,
-
-    var price: BigDecimal,
-
-    @Lob
-    var description: String,
+class StoreImage(
+    @ManyToOne
+    var store: Store,
 
     var imageUrl: String,
 
     @Enumerated(value = EnumType.STRING)
-    var status: Status = Status.ACTIVE,
-
-    @ManyToOne
-    var store: Store,
+    var status: Status,
 
     id: Long = 0L
 ) : BaseEntity(id) {

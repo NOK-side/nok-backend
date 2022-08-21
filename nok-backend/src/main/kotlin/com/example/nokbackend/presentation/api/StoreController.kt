@@ -3,11 +3,10 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.FindStoreCondition
 import com.example.nokbackend.application.RegisterStoreRequest
 import com.example.nokbackend.application.StoreService
-import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/store")
@@ -16,8 +15,8 @@ class StoreController(
 ) {
 
     @PostMapping("/register")
-    fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<Any> {
-        val storeId = storeService.registerStore(registerStoreRequest)
+    fun registerStore(@RequestPart registerStoreRequest: RegisterStoreRequest, @RequestPart storeImages: List<MultipartFile>, @RequestPart menuImages: List<MultipartFile?>): ResponseEntity<Any> {
+        val storeId = storeService.registerStore(registerStoreRequest, storeImages, menuImages)
         return ResponseEntity.status(HttpStatus.CREATED).body(storeId)
     }
 

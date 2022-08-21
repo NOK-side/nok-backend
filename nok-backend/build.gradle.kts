@@ -62,6 +62,7 @@ dependencies {
     implementation("io.rest-assured:rest-assured:4.4.0")
 
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.0.4.RELEASE")
+    testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
 }
 
 tasks.withType<KotlinCompile> {
