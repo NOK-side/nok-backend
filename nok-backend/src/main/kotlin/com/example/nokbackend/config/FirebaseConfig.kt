@@ -17,13 +17,18 @@ class FirebaseConfig {
 
     @PostConstruct
     fun initialize() {
-        val options = FirebaseOptions.builder().setCredentials(
-            GoogleCredentials.fromStream(
-                ClassPathResource(firebaseConfigPath).inputStream
-            )
-        ).build()
+        val firebaseApps = FirebaseApp.getApps()
+        val defaultFirebaseApp = firebaseApps.find { it.name == FirebaseApp.DEFAULT_APP_NAME }
 
-        FirebaseApp.initializeApp(options)
+        if (defaultFirebaseApp == null) {
+            val options = FirebaseOptions.builder().setCredentials(
+                GoogleCredentials.fromStream(
+                    ClassPathResource(firebaseConfigPath).inputStream
+                )
+            ).build()
+
+            FirebaseApp.initializeApp(options)
+        }
 
         check(FirebaseApp.getApps().isNotEmpty()) { "파이어베이스 초기화 실패" }
     }
