@@ -33,7 +33,6 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String?,
-    val profileImage: String?,
     val verificationPassword: Password
 )
 
@@ -87,7 +86,7 @@ data class FindMemberPasswordResponse(
     val code: String,
 )
 
-data class InitMemberPasswordRequest(
+data class ResetMemberPasswordRequest(
     val authId: Long,
     val email: String,
     val code: String,

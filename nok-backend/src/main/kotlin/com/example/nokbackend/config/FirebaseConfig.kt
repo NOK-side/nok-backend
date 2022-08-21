@@ -1,10 +1,8 @@
 package com.example.nokbackend.config
 
-import com.example.nokbackend.util.createRandomString
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
@@ -25,12 +23,8 @@ class FirebaseConfig {
             )
         ).build()
 
-        FirebaseApp.initializeApp(options, createRandomString(10))
+        FirebaseApp.initializeApp(options)
 
         check(FirebaseApp.getApps().isNotEmpty()) { "파이어베이스 초기화 실패" }
-    }
-
-    companion object {
-        val log = LoggerFactory.getLogger(this::class.java)
     }
 }

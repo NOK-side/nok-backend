@@ -7,6 +7,8 @@ import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -35,8 +37,8 @@ class MemberController(
     }
 
     @PutMapping("/me/info")
-    fun updateMyInfo(@MemberClaim member: Member, @RequestBody updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
-        memberService.updateMemberInfo(member, updateMemberRequest)
+    fun updateMyInfo(@MemberClaim member: Member, @RequestPart updateMemberRequest: UpdateMemberRequest, @RequestPart profileImage: MultipartFile?): ResponseEntity<Any> {
+        memberService.updateMemberInfo(member, updateMemberRequest, profileImage)
         return ResponseEntity.ok().build()
     }
 
@@ -54,23 +56,26 @@ class MemberController(
 
     @GetMapping("/find/id")
     fun findMemberEmail(@RequestBody findMemberIdRequest: FindMemberIdRequest): ResponseEntity<Any> {
-        return ResponseEntity.ok(ApiResponse.success(memberService.findMemberEmail(findMemberIdRequest)))
+        val findMemberIdResponse = memberService.findMemberEmail(findMemberIdRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(findMemberIdResponse))
     }
 
     @PostMapping("/find/password")
     fun findMemberPassword(@RequestBody findMemberPassword: FindMemberPasswordRequest): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(ApiResponse.success(memberService.findMemberPassword(findMemberPassword)))
+        val findMemberPasswordResponse = memberService.findMemberPassword(findMemberPassword)
+        return ResponseEntity.ok().body(ApiResponse.success(findMemberPasswordResponse))
     }
 
     @PostMapping("/find/password/check")
-    fun initMemberPasswordCheck(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any> {
-        memberService.initMemberPasswordCheck(initMemberPasswordRequest)
+    fun initMemberPasswordCheck(@RequestBody resetMemberPasswordRequest: ResetMemberPasswordRequest): ResponseEntity<Any> {
+        memberService.initMemberPasswordCheck(resetMemberPasswordRequest)
         return ResponseEntity.ok().build()
     }
 
-    @PostMapping("/find/password/init")
-    fun initMemberPassword(@RequestBody initMemberPasswordRequest: InitMemberPasswordRequest): ResponseEntity<Any> {
-        return ResponseEntity.ok(ApiResponse.success(memberService.initMemberPassword(initMemberPasswordRequest)))
+    @PostMapping("/find/password/reset")
+    fun resetMemberPassword(@RequestBody resetMemberPasswordRequest: ResetMemberPasswordRequest): ResponseEntity<Any> {
+        val resetMemberPassword = memberService.resetMemberPassword(resetMemberPasswordRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(resetMemberPassword))
     }
 
     @PostMapping("/send/authentication/email")

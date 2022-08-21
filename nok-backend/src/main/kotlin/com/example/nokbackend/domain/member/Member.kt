@@ -64,7 +64,7 @@ class Member(
         status = Status.DELETED
     }
 
-    fun update(updateMemberRequest: UpdateMemberRequest) {
+    fun update(updateMemberRequest: UpdateMemberRequest, profileImageUrl: String?) {
         require(password == updateMemberRequest.verificationPassword) { "비밀번호가 일치하지 않습니다" }
 
         information = MemberInformation(
@@ -72,12 +72,12 @@ class Member(
             email = email,
             name = updateMemberRequest.name ?: information.name,
             phoneNumber = information.phoneNumber,
-            profileImage = updateMemberRequest.profileImage ?: information.profileImage
+            profileImage = profileImageUrl ?: information.profileImage
         )
     }
 
-    fun resetPassword(randomPassword: Password) {
-        password = randomPassword
+    fun updatePassword(newPassword: Password) {
+        password = newPassword
     }
 
     fun updatePassword(updatePasswordRequest: UpdatePasswordRequest) {

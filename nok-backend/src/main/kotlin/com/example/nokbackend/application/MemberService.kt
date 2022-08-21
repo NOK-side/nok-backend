@@ -5,16 +5,24 @@ import com.example.nokbackend.domain.member.*
 import com.example.nokbackend.util.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
+import java.util.*
 
 @Service
 @Transactional
 class MemberService(
     private val memberRepository: MemberRepository,
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
+    private val imageService: ImageService
 ) {
 
-    fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest) {
-        member.update(updateMemberRequest)
+    fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest, profileImage: MultipartFile?) {
+        val profileImageUrl = profileImage?.let {
+            val uuid = UUID.randomUUID().toString()
+            imageService.uploadFile(profileImage, uuid)
+        }
+
+        member.update(updateMemberRequest, profileImageUrl)
     }
 
     fun updatePassword(member: Member, updatePasswordRequest: UpdatePasswordRequest) {
@@ -53,23 +61,23 @@ class MemberService(
         return FindMemberPasswordResponse(authentication.id, authentication.code)
     }
 
-    fun initMemberPasswordCheck(initMemberPasswordRequest: InitMemberPasswordRequest) {
-        val (authId, email, code) = initMemberPasswordRequest
+    fun initMemberPasswordCheck(resetMemberPasswordRequest: ResetMemberPasswordRequest) {
+        val (authId, email, code) = resetMemberPasswordRequest
         authenticationService.checkAuthentication(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
     }
 
-    fun initMemberPassword(initMemberPasswordRequest: InitMemberPasswordRequest): String {
-        val (authId, email, code) = initMemberPasswordRequest
+    fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): Password {
+        val (authId, email, code) = resetMemberPasswordRequest
         authenticationService.confirmAuthentication(
             ConfirmAuthenticationRequest(id = authId, email, code),
             Authentication.Type.FIND_PW
         )
-        val initPassword = createRandomString(10)
+        val randomPassword = Password(createRandomString(10))
         memberRepository.findByEmailCheck(email)
-            .resetPassword(Password(initPassword))
+            .updatePassword(randomPassword)
         //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
 //        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", initPassword))
-        return initPassword
+        return randomPassword
     }
 
     fun checkEmailDuplication(email: String) {
