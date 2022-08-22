@@ -6,10 +6,11 @@ import com.example.nokbackend.application.ConfirmAuthenticationRequest
 import com.example.nokbackend.application.RegisterMemberRequest
 import com.example.nokbackend.application.VerifyEmailRequest
 import com.example.nokbackend.domain.authentication.Authentication
-import io.restassured.RestAssured
-import io.restassured.response.ExtractableResponse
+import io.restassured.module.kotlin.extensions.Extract
+import io.restassured.module.kotlin.extensions.Given
+import io.restassured.module.kotlin.extensions.Then
+import io.restassured.module.kotlin.extensions.When
 import io.restassured.response.Response
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,78 +31,74 @@ class MemberAcceptanceTest @Autowired constructor(
         val verifyEmailRequest = AuthenticationFixture.verifyEmailRequest
 
         //then
-        val verifyEmailResponse = 이메일_검증코드_전송_요청(verifyEmailRequest)
-        이메일_검증코드_전송_요청됨(verifyEmailResponse)
-
+        이메일_검증코드_전송_요청_성공(verifyEmailRequest)
 
         //when
-        val authentication = 등록된_인증코드를_디비에서_가져옴(verifyEmailResponse)
+        val authentication = 등록된_인증코드를_디비에서_가져옴()
         val confirmAuthenticationRequest = AuthenticationFixture.confirmAuthenticationRequest
             .copy(code = authentication.code)
 
         //then
-        val confirmAuthenticationResponse = 이메일_검증_요청(confirmAuthenticationRequest)
-        이메일_검증됨(confirmAuthenticationResponse)
-
+        이메일_검증_요청_성공(confirmAuthenticationRequest)
 
         //when
         val registerMemberRequest = MemberFixture.memberRequest
             .copy(authenticationCode = authentication.code)
 
         //then
-        val registerMemberResponse = 회원_생성을_요청(registerMemberRequest)
-        회원_생성됨(registerMemberResponse)
+        회원_생성을_요청_성공(registerMemberRequest)
     }
 
-    fun 이메일_검증코드_전송_요청(verifyEmailRequest: VerifyEmailRequest): ExtractableResponse<Response> {
-        return RestAssured.given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(verifyEmailRequest)
-            .`when`()
-            .post("/member/send/authentication/email")
-            .then()
-            .log().all()
-            .extract()
+    fun 이메일_검증코드_전송_요청_성공(verifyEmailRequest: VerifyEmailRequest): Response {
+        return Given {
+            body(verifyEmailRequest)
+            contentType(MediaType.APPLICATION_JSON_VALUE)
+            log().all()
+        } When {
+            post("/member/send/authentication/email")
+        } Then {
+            statusCode(HttpStatus.OK.value())
+            log().all()
+        } Extract {
+            response()
+        }
     }
 
-    fun 이메일_검증코드_전송_요청됨(response: ExtractableResponse<Response>) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
-    }
-
-    fun 등록된_인증코드를_디비에서_가져옴(verifyEmailResponse: ExtractableResponse<Response>): Authentication {
+    fun 등록된_인증코드를_디비에서_가져옴(): Authentication {
         return entityManager.find(
             Authentication::class.java,
             1L
         )
     }
 
-    fun 이메일_검증_요청(confirmAuthenticationRequest: ConfirmAuthenticationRequest): ExtractableResponse<Response> {
-        return RestAssured.given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(confirmAuthenticationRequest)
-            .`when`()
-            .post("/member/verify/email")
-            .then()
-            .log().all()
-            .extract()
+    fun 이메일_검증_요청_성공(confirmAuthenticationRequest: ConfirmAuthenticationRequest): Response {
+        return Given {
+            body(confirmAuthenticationRequest)
+            contentType(MediaType.APPLICATION_JSON_VALUE)
+            log().all()
+        } When {
+            post("/member/verify/email")
+        } Then {
+            statusCode(HttpStatus.OK.value())
+            log().all()
+        } Extract {
+            response()
+        }
     }
 
-    fun 이메일_검증됨(response: ExtractableResponse<Response>) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value())
+    fun 회원_생성을_요청_성공(registerMemberRequest: RegisterMemberRequest): Response {
+        return Given {
+            body(registerMemberRequest)
+            contentType(MediaType.APPLICATION_JSON_VALUE)
+            log().all()
+        } When {
+            post("/member/register")
+        } Then {
+            statusCode(HttpStatus.CREATED.value())
+            log().all()
+        } Extract {
+            response()
+        }
     }
 
-    fun 회원_생성을_요청(registerMemberRequest: RegisterMemberRequest): ExtractableResponse<Response> {
-        return RestAssured.given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(registerMemberRequest)
-            .`when`()
-            .post("/member/register")
-            .then()
-            .log().all()
-            .extract()
-    }
-
-    fun 회원_생성됨(response: ExtractableResponse<Response>) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value())
-    }
 }
