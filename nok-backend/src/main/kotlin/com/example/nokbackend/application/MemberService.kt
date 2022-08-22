@@ -2,7 +2,6 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.*
-import com.example.nokbackend.util.Utils.Companion.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -13,12 +12,13 @@ import java.util.*
 class MemberService(
     private val memberRepository: MemberRepository,
     private val authenticationService: AuthenticationService,
-    private val imageService: ImageService
+    private val imageService: ImageService,
+    private val uuidGenerator: UUIDGenerator
 ) {
 
     fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest, profileImage: MultipartFile?) {
         val profileImageUrl = profileImage?.let {
-            val uuid = UUID.randomUUID().toString()
+            val uuid = uuidGenerator.generate(16)
             imageService.uploadFile(profileImage, uuid)
         }
 
@@ -72,7 +72,7 @@ class MemberService(
             ConfirmAuthenticationRequest(id = authId, email, code),
             Authentication.Type.FIND_PW
         )
-        val randomPassword = Password(createRandomString(10))
+        val randomPassword = Password(uuidGenerator.generate(10))
         memberRepository.findByEmailCheck(email)
             .updatePassword(randomPassword)
         //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ

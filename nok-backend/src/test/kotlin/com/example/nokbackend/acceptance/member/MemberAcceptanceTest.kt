@@ -1,4 +1,4 @@
-package com.example.nokbackend.domain.member
+package com.example.nokbackend.acceptance.member
 
 import com.example.nokbackend.AcceptanceTest
 import com.example.nokbackend.DatabaseCleanup
@@ -6,6 +6,8 @@ import com.example.nokbackend.application.ConfirmAuthenticationRequest
 import com.example.nokbackend.application.RegisterMemberRequest
 import com.example.nokbackend.application.VerifyEmailRequest
 import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.fixture.*
 import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
@@ -28,22 +30,30 @@ class MemberAcceptanceTest @Autowired constructor(
     @DisplayName("회원 관리 테스트")
     fun memberProcessTest() {
         //when
-        val verifyEmailRequest = AuthenticationFixture.verifyEmailRequest
+        val verifyEmailRequest =  VerifyEmailRequest(email, Authentication.Type.REGISTER)
 
         //then
         이메일_검증코드_전송_요청_성공(verifyEmailRequest)
 
         //when
         val authentication = 등록된_인증코드를_디비에서_가져옴()
-        val confirmAuthenticationRequest = AuthenticationFixture.confirmAuthenticationRequest
-            .copy(code = authentication.code)
+        val confirmAuthenticationRequest = ConfirmAuthenticationRequest(1L, email, authentication.code)
 
         //then
         이메일_검증_요청_성공(confirmAuthenticationRequest)
 
         //when
-        val registerMemberRequest = MemberFixture.memberRequest
-            .copy(authenticationCode = authentication.code)
+        val registerMemberRequest = RegisterMemberRequest(
+            memberId = memberId,
+            email = email,
+            name = name,
+            phoneNumber = phoneNumber,
+            profileImage = "",
+            password = password,
+            role = Member.Role.USER,
+            authenticationId = 1L,
+            authenticationCode = authentication.code
+        )
 
         //then
         회원_생성을_요청_성공(registerMemberRequest)

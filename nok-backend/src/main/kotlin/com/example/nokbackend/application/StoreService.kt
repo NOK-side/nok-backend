@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
@@ -24,14 +25,14 @@ class StoreService(
         check(registerStoreRequest.owner.role == Member.Role.STORE) { "상점 주인으로만 등록할 수 있습니다" }
         check(registerStoreRequest.menus.size == menuImages.size) { "메뉴 이미지 갯수가 정확하지 않습니다" }
 
-//        authenticationService.confirmAuthentication(
-//            ConfirmAuthenticationRequest(
-//                registerStoreRequest.owner.authenticationId,
-//                registerStoreRequest.owner.email,
-//                registerStoreRequest.owner.authenticationCode
-//            ),
-//            Authentication.Type.REGISTER
-//        )
+        authenticationService.confirmAuthentication(
+            ConfirmAuthenticationRequest(
+                registerStoreRequest.owner.authenticationId,
+                registerStoreRequest.owner.email,
+                registerStoreRequest.owner.authenticationCode
+            ),
+            Authentication.Type.REGISTER
+        )
 
         val owner = saveOwner(registerStoreRequest.owner)
 

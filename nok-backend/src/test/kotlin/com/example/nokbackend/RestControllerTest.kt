@@ -1,6 +1,8 @@
 package com.example.nokbackend
 
-import com.example.nokbackend.domain.member.MemberFixture
+import com.example.nokbackend.application.RegisterMemberRequest
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.fixture.*
 import com.example.nokbackend.security.JwtSessionArgumentResolver
 import com.example.nokbackend.security.MemberClaim
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -69,7 +71,17 @@ abstract class RestControllerTest {
                     if (hasToken != true) {
                         throw RuntimeException()
                     }
-                    MemberFixture.memberRequest.toEntity()
+                    RegisterMemberRequest(
+                        memberId = memberId,
+                        email = email,
+                        name = name,
+                        phoneNumber = phoneNumber,
+                        profileImage = "",
+                        password = password,
+                        role = Member.Role.USER,
+                        authenticationId = 1L,
+                        authenticationCode = ""
+                    ).toEntity()
                 }
             }
         }

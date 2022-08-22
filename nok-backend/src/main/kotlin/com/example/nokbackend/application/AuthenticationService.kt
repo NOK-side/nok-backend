@@ -3,7 +3,6 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.authentication.AuthenticationRepository
 import com.example.nokbackend.domain.authentication.findByIdAndTargetAndTypeCheck
-import com.example.nokbackend.util.Utils.Companion.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -11,7 +10,8 @@ import java.time.LocalDateTime
 @Service
 @Transactional
 class AuthenticationService(
-    private val authenticationRepository: AuthenticationRepository
+    private val authenticationRepository: AuthenticationRepository,
+    private val uuidGenerator: UUIDGenerator
 ) {
 
 
@@ -31,7 +31,7 @@ class AuthenticationService(
                 target = target,
                 type = type,
                 expireDate = LocalDateTime.now().plusMinutes(DURATION),
-                code = createRandomString(CODE_LENGTH)
+                code = uuidGenerator.generate(CODE_LENGTH)
             )
         )
     }

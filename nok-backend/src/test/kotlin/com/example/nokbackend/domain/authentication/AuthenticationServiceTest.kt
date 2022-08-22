@@ -2,7 +2,7 @@ package com.example.nokbackend.domain.authentication
 
 import com.example.nokbackend.application.AuthenticationService
 import com.example.nokbackend.application.ConfirmAuthenticationRequest
-import com.example.nokbackend.util.Utils.Companion.createRandomString
+import com.example.nokbackend.application.UUIDGenerator
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
@@ -16,7 +16,8 @@ import java.time.LocalDateTime
 @ActiveProfiles("test")
 class AuthenticationServiceTest @Autowired constructor(
     val authService: AuthenticationService,
-    val authRepo: AuthenticationRepository
+    val authRepo: AuthenticationRepository,
+    val uuidGenerator: UUIDGenerator
 ) {
 
     val authTarget = "dae4805@naver.com"
@@ -24,7 +25,7 @@ class AuthenticationServiceTest @Autowired constructor(
 
     @Test
     fun `인증코드 생성 함수 테스트`() {
-        val randomString = createRandomString(10)
+        val randomString = uuidGenerator.generate(10)
         println("randomString = $randomString")
         assertEquals(randomString.length, 10)
     }

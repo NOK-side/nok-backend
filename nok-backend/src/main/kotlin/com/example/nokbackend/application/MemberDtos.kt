@@ -36,7 +36,7 @@ data class RegisterMemberRequest(
 data class UpdateMemberRequest(
     val name: String?,
     val verificationPassword: Password
-) : Serializable
+)
 
 data class UpdatePasswordRequest(
     val oldPassword: Password,
