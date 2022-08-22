@@ -30,3 +30,10 @@ fun aStoreInformation() = StoreInformation(
     businessHour = businessHour,
     holidays = holidays
 )
+
+fun aStoreImage(): StoreImage = StoreImage(
+    store = aStore(),
+    imageUrl = "",
+    status = StoreImage.Status.ACTIVE,
+    id = 1L
+)

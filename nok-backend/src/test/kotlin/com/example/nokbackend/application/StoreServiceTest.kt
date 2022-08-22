@@ -54,9 +54,9 @@ class StoreServiceTest {
         every { memberRepository.save(any()) } returns aMember().apply { role = Member.Role.STORE }
         every { storeRepository.save(any()) } returns aStore()
         every { menuRepository.save(any()) } returns aMenu()
+        every { storeImageRepository.save(any()) } returns aStoreImage()
 
         val registerStoreRequest = createRegisterStoreRequest()
-
         val storeId = storeService.registerStore(registerStoreRequest, listOf(), listOf(null))
 
         assertThat(storeId).isEqualTo(aStore().id)
