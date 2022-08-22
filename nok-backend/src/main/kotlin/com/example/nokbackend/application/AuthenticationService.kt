@@ -3,7 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.authentication.AuthenticationRepository
 import com.example.nokbackend.domain.authentication.findByIdAndTargetAndTypeCheck
-import com.example.nokbackend.util.createRandomString
+import com.example.nokbackend.util.Utils.Companion.createRandomString
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime

@@ -35,7 +35,6 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String?,
-    val image: MultipartFile?,
     val verificationPassword: Password
 ) : Serializable
 

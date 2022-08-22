@@ -10,10 +10,12 @@ data class ConfirmAuthenticationRequest(
 
 data class AuthenticationResponse(
     val id: Long,
-    val target: String
+    val target: String,
+    val code: String
 ) {
     constructor(authentication: Authentication) : this(
         authentication.id,
-        authentication.target
+        authentication.target,
+        authentication.code
     )
 }
