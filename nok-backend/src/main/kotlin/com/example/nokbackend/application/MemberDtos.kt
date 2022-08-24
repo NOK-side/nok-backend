@@ -103,3 +103,9 @@ data class VerifyEmailRequest(
 data class CheckMemberIdDuplicationRequest(
     val memberId: String
 )
+
+data class LoginResponse(
+    val token: String,
+    val memberId: String,
+    val email: String
+)

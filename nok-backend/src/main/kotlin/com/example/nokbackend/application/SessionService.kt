@@ -17,8 +17,7 @@ class SessionService(
     private val jwtTokenProvider: JwtTokenProvider
 ) {
 
-    fun generateTokenWithRegister(registerMemberRequest: RegisterMemberRequest): String {
-//TODO: 인증 코드 생성하는 부분 필요할 것 같습니다.
+    fun generateTokenWithRegister(registerMemberRequest: RegisterMemberRequest): LoginResponse {
         authenticationService.checkAuthentication(
             ConfirmAuthenticationRequest(
                 registerMemberRequest.authenticationId,
@@ -28,19 +27,23 @@ class SessionService(
             Authentication.Type.REGISTER
         )
 
-        val member = registerMemberRequest.toEntity()
         check(!memberRepository.existByMemberId(registerMemberRequest.memberId)) { "이미 등록된 아이디입니다" }
         check(!memberRepository.existByEmail(registerMemberRequest.email)) { "이미 등록된 이메일입니다" }
-        memberRepository.save(member)
 
-        return jwtTokenProvider.createToken(member.email)
+        val member = registerMemberRequest.toEntity()
+        memberRepository.save(member)
+        val token = jwtTokenProvider.createToken(member.email)
+
+        return LoginResponse(token, member.memberId, member.email)
     }
 
-    fun generateTokenWithLogin(loginRequest: LoginRequest): String {
+    fun generateTokenWithLogin(loginRequest: LoginRequest): LoginResponse {
         val member = memberRepository.findByMemberIdCheck(loginRequest.memberId)
         member.authenticate(loginRequest.password)
         member.checkActivation()
 
-        return jwtTokenProvider.createToken(member.email)
+        val token = jwtTokenProvider.createToken(member.email)
+
+        return LoginResponse(token, member.memberId, member.email)
     }
 }
