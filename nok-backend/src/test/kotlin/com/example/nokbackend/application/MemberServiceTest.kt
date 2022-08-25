@@ -61,7 +61,7 @@ class MemberServiceTest {
     }
 
     @Test
-    fun 비밀번호를_초기화한다() {
+    fun 비밀번호를_랜덤값으로_초기화한다() {
         every { uuidGenerator.generate(any()) } returns uuid
         every { authenticationService.confirmAuthentication(any(), any()) } just Runs
         every { memberRepository.findByInformationEmail(any()) } returns aMember()
