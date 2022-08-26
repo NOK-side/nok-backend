@@ -58,6 +58,8 @@ class MemberGifticonService(
         check(member.memberId != sendGifticonRequest.targetMemberId) { "본인에게 선물할 수 없습니다" }
 
         val memberGifticon = memberGifticonRepository.findByIdCheck(sendGifticonRequest.memberGifticonId)
+        memberGifticon.checkOwner(member)
+
         val gifticon = gifticonRepository.findByIdCheck(memberGifticon.gifticonId)
         val target = memberRepository.findByMemberIdCheck(sendGifticonRequest.targetMemberId)
 

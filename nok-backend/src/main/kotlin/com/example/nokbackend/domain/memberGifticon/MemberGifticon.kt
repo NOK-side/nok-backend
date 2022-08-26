@@ -1,5 +1,6 @@
 package com.example.nokbackend.domain.memberGifticon
 
+import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.infra.BaseEntity
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -34,6 +35,10 @@ class MemberGifticon(
             gifticonId = gifticonId,
             status = Status.ACTIVE
         )
+    }
+
+    fun checkOwner(member: Member) {
+        require(ownerId == member.id)
     }
 
     enum class Status { ACTIVE, USED, TRANSFERRED }

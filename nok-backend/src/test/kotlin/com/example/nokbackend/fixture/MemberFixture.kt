@@ -10,10 +10,16 @@ const val name: String = "tester"
 const val phoneNumber: String = "010-0000-0000"
 val password: Password = Password("password")
 
-fun aMember(): Member = Member(
-    information = MemberInformation(memberId, email, name, phoneNumber, ""),
+fun aMember(
+    information: MemberInformation = MemberInformation(memberId, email, name, phoneNumber, ""),
+    password: Password = Password("password"),
+    role: Member.Role = Member.Role.USER,
+    status: Member.Status = Member.Status.ACTIVE,
+    id: Long = 1L
+): Member = Member(
+    information = information,
     password = password,
-    role = Member.Role.USER,
-    status = Member.Status.ACTIVE,
-    id = 1L
+    role = role,
+    status = status,
+    id = id
 )
