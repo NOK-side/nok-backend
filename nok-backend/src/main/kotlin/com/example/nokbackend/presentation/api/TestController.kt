@@ -21,7 +21,7 @@ class TestController {
     @GetMapping("/sendMail")
     fun sendMail(): ResponseEntity<String> {
         println("mailService")
-        mailService.sendMail(MailSendInfo("dae4805@naver.com", "subject", "message"));
+        mailService.sendMail(MailSendInfo("rkdals213@naver.com", "subject", "message"));
         return ResponseEntity.ok("good");
     }
 

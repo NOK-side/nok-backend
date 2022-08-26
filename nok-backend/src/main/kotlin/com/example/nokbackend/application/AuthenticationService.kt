@@ -11,14 +11,15 @@ import java.time.LocalDateTime
 @Transactional
 class AuthenticationService(
     private val authenticationRepository: AuthenticationRepository,
-    private val uuidGenerator: UUIDGenerator
+    private val uuidGenerator: UUIDGenerator,
+    private val mailService: MailService
 ) {
 
 
     fun sendAuthenticationToEmail(email: String, type: Authentication.Type): AuthenticationResponse {
         val authentication = registerAuthentication(email, type)
 
-//        mailService.sendMail(MailSendInfo(authentication.target, "이메일 검증", authentication.code))
+        mailService.sendMail(MailSendInfo(authentication.target, "이메일 검증", authentication.code))
         return AuthenticationResponse(authentication)
     }
 

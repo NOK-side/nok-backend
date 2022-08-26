@@ -5,7 +5,6 @@ import com.example.nokbackend.domain.member.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
-import java.util.*
 
 @Service
 @Transactional
@@ -13,7 +12,8 @@ class MemberService(
     private val memberRepository: MemberRepository,
     private val authenticationService: AuthenticationService,
     private val imageService: ImageService,
-    private val uuidGenerator: UUIDGenerator
+    private val uuidGenerator: UUIDGenerator,
+    private val mailService: MailService
 ) {
 
     fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest, profileImage: MultipartFile?) {
@@ -46,8 +46,8 @@ class MemberService(
             findMemberIdRequest.name,
             findMemberIdRequest.phoneNumber
         )
-        //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
-//        mailService.sendMail(MailSendInfo(member.email, "회원 아이디 찾기", message = member.memberId))
+
+        mailService.sendMail(MailSendInfo(member.email, "회원 아이디 찾기", message = member.memberId))
         return FindMemberIdResponse(email = member.email, memberId = member.memberId)
     }
 
@@ -56,8 +56,7 @@ class MemberService(
         val member = memberRepository.findByEmailCheck(email)
         check(member.name == name) { "이름이 일치하지 않습니다" }
         val authentication = authenticationService.registerAuthentication(email, Authentication.Type.FIND_PW)
-        //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
-//        mailService.sendMail(MailSendInfo(email, "비밀번호 찾기 인증코드", message = authentication.code))
+        mailService.sendMail(MailSendInfo(email, "비밀번호 찾기 인증코드", message = authentication.code))
         return FindMemberPasswordResponse(authentication.id, authentication.code)
     }
 
@@ -75,8 +74,7 @@ class MemberService(
         val randomPassword = Password(uuidGenerator.generate(10))
         memberRepository.findByEmailCheck(email)
             .updatePassword(randomPassword)
-        //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
-//        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", initPassword))
+        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", uuidGenerator.generate(8)))
         return randomPassword
     }
 

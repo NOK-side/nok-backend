@@ -13,6 +13,6 @@ class MailServiceTest @Autowired constructor(
 
 //    @Test
     fun `메일이 진짜로 발송되나 함 볼까`() {
-        mailService.sendMail(MailSendInfo("dae4805@naver.com", "subject", "message"));
+        mailService.sendMail(MailSendInfo("rkdals213@naver.com", "subject", "message"));
     }
 }
