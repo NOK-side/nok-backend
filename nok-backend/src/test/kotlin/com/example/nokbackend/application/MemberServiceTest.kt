@@ -32,11 +32,15 @@ class MemberServiceTest {
     @MockK
     private lateinit var memberService: MemberService
 
+    @MockK
+    private lateinit var mailService: MailService
+
     private val uuid = "qawsedrf"
 
     @BeforeEach
     internal fun setUp() {
-        memberService = MemberService(memberRepository, authenticationService, imageService, uuidGenerator)
+        memberService = MemberService(memberRepository, authenticationService, imageService, uuidGenerator, mailService)
+        every { mailService.sendMail(any()) } just Runs
     }
 
     @Test
