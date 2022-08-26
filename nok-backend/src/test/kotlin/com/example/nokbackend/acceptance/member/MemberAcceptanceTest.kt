@@ -26,7 +26,7 @@ class MemberAcceptanceTest @Autowired constructor(
     databaseCleanup: DatabaseCleanup
 ) : AcceptanceTest(databaseCleanup) {
 
-    @Test
+//    @Test
     @DisplayName("회원 관리 테스트")
     fun memberProcessTest() {
         //when
