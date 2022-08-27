@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
@@ -20,6 +21,7 @@ import javax.persistence.EntityManager
 @SpringBootApplication
 @ConfigurationPropertiesScan
 @EnableJpaAuditing
+@EnableAsync
 class Application
 
 fun main(args: Array<String>) {
@@ -42,17 +44,17 @@ class InitService(
         @Transactional
         class Init(private val em: EntityManager) {
             fun init() {
-                val member = Member(
-                    memberId = "rkdals213",
-                    email = "rkdals213@naver.com",
-                    password = Password("1q2w3e4r"),
-                    name = "tester",
-                    role = Member.Role.USER,
-                    phoneNumber = "01000000000",
-                    profileImg = "testImg",
-                    status = Member.Status.ACTIVE
-                )
-                em.persist(member)
+//                val member = Member(
+//                    memberId = "rkdals213",
+//                    email = "rkdals213@naver.com",
+//                    password = Password("1q2w3e4r"),
+//                    name = "tester",
+//                    role = Member.Role.USER,
+//                    phoneNumber = "01000000000",
+//                    profileImg = "testImg",
+//                    status = Member.Status.ACTIVE
+//                )
+//                em.persist(member)
 
                 val member2 = Member(
                     memberId = "rkdals2134",

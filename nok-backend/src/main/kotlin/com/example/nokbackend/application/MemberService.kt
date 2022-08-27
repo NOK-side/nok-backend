@@ -2,6 +2,7 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.*
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -13,7 +14,7 @@ class MemberService(
     private val authenticationService: AuthenticationService,
     private val imageService: ImageService,
     private val uuidGenerator: UUIDGenerator,
-    private val mailService: MailService
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
     fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest, profileImage: MultipartFile?) {
@@ -47,16 +48,21 @@ class MemberService(
             findMemberIdRequest.phoneNumber
         )
 
-        mailService.sendMail(MailSendInfo(member.email, "회원 아이디 찾기", message = member.memberId))
+        applicationEventPublisher.publishEvent(MailEvent(member.email, "회원 아이디 찾기", member.memberId))
+
         return FindMemberIdResponse(email = member.email, memberId = member.memberId)
     }
 
     fun findMemberPassword(findMemberPasswordRequest: FindMemberPasswordRequest): FindMemberPasswordResponse {
         val (email, name) = findMemberPasswordRequest
+
         val member = memberRepository.findByEmailCheck(email)
+
         check(member.name == name) { "이름이 일치하지 않습니다" }
+
         val authentication = authenticationService.registerAuthentication(email, Authentication.Type.FIND_PW)
-        mailService.sendMail(MailSendInfo(email, "비밀번호 찾기 인증코드", message = authentication.code))
+        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 찾기 인증코드", message = authentication.code))
+
         return FindMemberPasswordResponse(authentication.id, authentication.code)
     }
 
@@ -67,14 +73,18 @@ class MemberService(
 
     fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): Password {
         val (authId, email, code) = resetMemberPasswordRequest
+
         authenticationService.confirmAuthentication(
             ConfirmAuthenticationRequest(id = authId, email, code),
             Authentication.Type.FIND_PW
         )
+
         val randomPassword = Password(uuidGenerator.generate(10))
         memberRepository.findByEmailCheck(email)
             .updatePassword(randomPassword)
-        mailService.sendMail(MailSendInfo(email, "비밀번호 초기화", uuidGenerator.generate(8)))
+
+        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", uuidGenerator.generate(8)))
+
         return randomPassword
     }
 

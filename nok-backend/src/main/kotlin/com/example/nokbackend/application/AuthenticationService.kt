@@ -3,6 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.authentication.AuthenticationRepository
 import com.example.nokbackend.domain.authentication.findByIdAndTargetAndTypeCheck
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -12,14 +13,14 @@ import java.time.LocalDateTime
 class AuthenticationService(
     private val authenticationRepository: AuthenticationRepository,
     private val uuidGenerator: UUIDGenerator,
-    private val mailService: MailService
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
 
     fun sendAuthenticationToEmail(email: String, type: Authentication.Type): AuthenticationResponse {
         val authentication = registerAuthentication(email, type)
 
-        mailService.sendMail(MailSendInfo(authentication.target, "이메일 검증", authentication.code))
+        applicationEventPublisher.publishEvent(MailEvent(authentication.target, "이메일 검증", authentication.code))
         return AuthenticationResponse(authentication)
     }
 

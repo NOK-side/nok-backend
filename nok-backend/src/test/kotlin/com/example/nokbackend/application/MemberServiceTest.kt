@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.context.ApplicationEventPublisher
 
 @ExtendWith(MockKExtension::class)
 class MemberServiceTest {
@@ -33,14 +34,14 @@ class MemberServiceTest {
     private lateinit var memberService: MemberService
 
     @MockK
-    private lateinit var mailService: MailService
+    private lateinit var applicationEventPublisher: ApplicationEventPublisher
 
     private val uuid = "qawsedrf"
 
     @BeforeEach
     internal fun setUp() {
-        memberService = MemberService(memberRepository, authenticationService, imageService, uuidGenerator, mailService)
-        every { mailService.sendMail(any()) } just Runs
+        memberService = MemberService(memberRepository, authenticationService, imageService, uuidGenerator, applicationEventPublisher)
+        every { applicationEventPublisher.publishEvent(any<MailEvent>()) } just Runs
     }
 
     @Test
@@ -69,6 +70,7 @@ class MemberServiceTest {
         every { uuidGenerator.generate(any()) } returns uuid
         every { authenticationService.confirmAuthentication(any(), any()) } just Runs
         every { memberRepository.findByInformationEmail(any()) } returns aMember()
+        every { memberRepository.save(any()) } returns aMember()
 
         val resetMemberPasswordRequest = ResetMemberPasswordRequest(1L, email, uuid)
         val resetMemberPassword = memberService.resetMemberPassword(resetMemberPasswordRequest)

@@ -1,9 +1,10 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.MailSendInfo
-import com.example.nokbackend.application.MailService
 import com.example.nokbackend.application.ImageService
+import com.example.nokbackend.application.MailEvent
+import com.example.nokbackend.application.MailEventHandler
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -13,15 +14,18 @@ import org.springframework.web.multipart.MultipartFile
 class TestController {
 
     @Autowired
-    lateinit var mailService: MailService
+    lateinit var mailEventHandler: MailEventHandler
 
     @Autowired
     lateinit var imageService: ImageService
 
+    @Autowired
+    lateinit var applicationEventPublisher: ApplicationEventPublisher
+
+
     @GetMapping("/sendMail")
     fun sendMail(): ResponseEntity<String> {
-        println("mailService")
-        mailService.sendMail(MailSendInfo("rkdals213@naver.com", "subject", "message"));
+        applicationEventPublisher.publishEvent(MailEvent("rkdals213@naver.com", "이메일 검증", "message"))
         return ResponseEntity.ok("good");
     }
 
