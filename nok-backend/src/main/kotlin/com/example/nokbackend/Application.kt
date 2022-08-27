@@ -44,17 +44,17 @@ class InitService(
         @Transactional
         class Init(private val em: EntityManager) {
             fun init() {
-//                val member = Member(
-//                    memberId = "rkdals213",
-//                    email = "rkdals213@naver.com",
-//                    password = Password("1q2w3e4r"),
-//                    name = "tester",
-//                    role = Member.Role.USER,
-//                    phoneNumber = "01000000000",
-//                    profileImg = "testImg",
-//                    status = Member.Status.ACTIVE
-//                )
-//                em.persist(member)
+                val member = Member(
+                    memberId = "rkdals213",
+                    email = "rkdals213@naver.com",
+                    password = Password("1q2w3e4r"),
+                    name = "tester",
+                    role = Member.Role.USER,
+                    phoneNumber = "01000000000",
+                    profileImg = "testImg",
+                    status = Member.Status.ACTIVE
+                )
+                em.persist(member)
 
                 val member2 = Member(
                     memberId = "rkdals2134",

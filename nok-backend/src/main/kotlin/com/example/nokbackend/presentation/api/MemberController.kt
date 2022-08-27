@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import java.util.*
 import javax.validation.Valid
 
 @RestController
@@ -80,7 +79,10 @@ class MemberController(
 
     @PostMapping("/send/authentication/email")
     fun sendAuthenticationToEmail(@Valid @RequestBody verifyEmailRequest: VerifyEmailRequest): ResponseEntity<Any> {
-        memberService.checkEmailDuplication(verifyEmailRequest.email)
+        if (verifyEmailRequest.type == Authentication.Type.REGISTER) {
+            memberService.checkEmailDuplication(verifyEmailRequest.email)
+        }
+
         val authenticationResponse = authenticationService.sendAuthenticationToEmail(verifyEmailRequest.email, verifyEmailRequest.type)
         return ResponseEntity.ok().body(ApiResponse.success(authenticationResponse))
     }
