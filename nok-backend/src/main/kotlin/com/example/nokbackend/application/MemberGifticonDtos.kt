@@ -38,3 +38,7 @@ data class SendGifticonRequest(
     val targetMemberId: String,
     val memberGifticonId: Long
 )
+
+data class UseGifticonRequest(
+    val memberGifticonId: Long
+)

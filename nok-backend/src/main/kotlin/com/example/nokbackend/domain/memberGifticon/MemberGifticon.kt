@@ -37,6 +37,10 @@ class MemberGifticon(
         )
     }
 
+    fun use() {
+        status = Status.USED
+    }
+
     fun checkOwner(member: Member) {
         require(ownerId == member.id)
     }

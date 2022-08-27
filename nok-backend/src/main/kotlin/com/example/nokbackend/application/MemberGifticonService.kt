@@ -67,5 +67,14 @@ class MemberGifticonService(
 
         memberGifticonRepository.save(transferredGifticon)
     }
+
+    fun useGifticon(member: Member, useGifticonRequest: UseGifticonRequest) {
+        val memberGifticon = memberGifticonRepository.findByIdCheck(useGifticonRequest.memberGifticonId)
+        check(memberGifticon.ownerId == member.id) { "본인이 소유한 기프티콘이 아닙니다" }
+        check(memberGifticon.status == MemberGifticon.Status.ACTIVE) { "${memberGifticon.status}한 기프티콘입니다" }
+        check(memberGifticon.dueDate >= LocalDate.now()) { "사용기간이 만료되었습니다" }
+
+        memberGifticon.use()
+    }
 }
 

@@ -14,9 +14,11 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.slot
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
 import java.lang.IllegalStateException
+import java.time.LocalDate
 
 @ExtendWith(MockKExtension::class)
 class MemberGifticonServiceTest {
@@ -92,7 +94,7 @@ class MemberGifticonServiceTest {
 
         @Test
         @DisplayName("본인 기프티콘이 아니면 실패한다")
-        fun sendGifticonFail() {
+        fun sendGifticonFail1() {
             member = aMember()
             sendGifticonRequest = SendGifticonRequest(targetMemberId, 1L)
 
@@ -116,6 +118,60 @@ class MemberGifticonServiceTest {
             every { gifticonRepository.findByIdCheck(any()) } returns aGifticon()
             every { memberRepository.findByMemberIdCheck(any()) } returns aMember()
             every { memberGifticonRepository.save(any()) } returns aMemberGifticon()
+
+            assertThrows<IllegalStateException> {
+                subject()
+            }
+        }
+    }
+
+    @DisplayName("기프티콘 사용은")
+    @Nested
+    inner class UseGifticon {
+        private lateinit var member: Member
+        private lateinit var useGifticonRequest: UseGifticonRequest
+        private lateinit var memberGifticon: MemberGifticon
+
+        private fun subject() {
+            memberGifticonService.useGifticon(member, useGifticonRequest)
+        }
+
+        @Test
+        @DisplayName("적절한 기프티콘이라면 성공한다")
+        fun useGifticonSuccess() {
+            member = aMember()
+            useGifticonRequest = UseGifticonRequest(1L)
+            memberGifticon = aMemberGifticon()
+
+            every { memberGifticonRepository.findByIdCheck(any()) } returns memberGifticon
+
+            subject()
+
+            assertThat(memberGifticon.status).isEqualTo(MemberGifticon.Status.USED)
+        }
+
+        @Test
+        @DisplayName("기간이 만료하면 실패한다")
+        fun useGifticonFail1() {
+            member = aMember()
+            useGifticonRequest = UseGifticonRequest(1L)
+            memberGifticon = aMemberGifticon(dueDate = LocalDate.now().minusDays(1))
+
+            every { memberGifticonRepository.findByIdCheck(any()) } returns memberGifticon
+
+            assertThrows<IllegalStateException> {
+                subject()
+            }
+        }
+
+        @Test
+        @DisplayName("사용가능 상태가 아닌 기프티콘이면 실패한다")
+        fun useGifticonFail2() {
+            member = aMember()
+            useGifticonRequest = UseGifticonRequest(1L)
+            memberGifticon = aMemberGifticon(status = MemberGifticon.Status.USED)
+
+            every { memberGifticonRepository.findByIdCheck(any()) } returns memberGifticon
 
             assertThrows<IllegalStateException> {
                 subject()

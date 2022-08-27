@@ -3,6 +3,7 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.BuyGifticonRequest
 import com.example.nokbackend.application.MemberGifticonService
 import com.example.nokbackend.application.SendGifticonRequest
+import com.example.nokbackend.application.UseGifticonRequest
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
@@ -40,4 +41,10 @@ class MemberGifticonController(
         return ResponseEntity.ok().build()
     }
 
+    @Authenticated
+    @PostMapping("/use")
+    fun useGifticon(@MemberClaim member: Member, @RequestBody useGifticonRequest: UseGifticonRequest): ResponseEntity<Any> {
+        memberGifticonService.useGifticon(member, useGifticonRequest)
+        return ResponseEntity.ok().build()
+    }
 }
