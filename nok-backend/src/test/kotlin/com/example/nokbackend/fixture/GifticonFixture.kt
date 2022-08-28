@@ -10,7 +10,7 @@ val gifticonPrice = BigDecimal(1000)
 
 fun aGifticon(): Gifticon = Gifticon(
     storeId = aStore().id,
-    productName = "test gifticon",
+    productName = gifticonName,
     period = period,
     description = gifticonDescription,
     price = gifticonPrice,

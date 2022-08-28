@@ -79,7 +79,7 @@ class MemberGifticonServiceTest {
         }
 
         @Test
-        @DisplayName("본인 기프티콘을 보내면 성공한다")
+        @DisplayName("본인 기프티콘을 다른 사람에게 보내면 성공한다")
         fun sendGifticonSuccess() {
             member = aMember()
             sendGifticonRequest = SendGifticonRequest(targetMemberId, 1L)

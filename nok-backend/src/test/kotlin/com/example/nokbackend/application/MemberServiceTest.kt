@@ -3,6 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.Password
 import com.example.nokbackend.fixture.aMember
+import com.example.nokbackend.fixture.aUuid
 import com.example.nokbackend.fixture.email
 import com.example.nokbackend.fixture.password
 import io.mockk.Runs
@@ -36,7 +37,7 @@ class MemberServiceTest {
     @MockK
     private lateinit var applicationEventPublisher: ApplicationEventPublisher
 
-    private val uuid = "qawsedrf"
+    private val uuid = aUuid()
 
     @BeforeEach
     internal fun setUp() {
