@@ -3,6 +3,7 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.GifticonService
 import com.example.nokbackend.application.RegisterGifticonRequest
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,6 +15,7 @@ class GifticonController(
     private val gifticonService: GifticonService
 ) {
 
+    @Authenticated
     @PostMapping("/register")
     fun registerGifticon(@MemberClaim member: Member, @RequestBody registerGifticonRequest: RegisterGifticonRequest): ResponseEntity<Any> {
         gifticonService.registerGifticon(member, registerGifticonRequest)

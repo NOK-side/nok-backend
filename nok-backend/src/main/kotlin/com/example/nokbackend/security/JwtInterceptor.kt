@@ -21,7 +21,13 @@ class JwtInterceptor(private val jwtTokenProvider: JwtTokenProvider) : HandlerIn
 
         val token = extractBearerToken(request)
 
-        return jwtTokenProvider.isValidToken(token)
+        val validToken = jwtTokenProvider.isValidToken(token)
+
+        if (!validToken) {
+            throw IllegalAccessException("유효한 토큰이 아닙니다")
+        }
+
+        return true
     }
 
     private fun isAuthenticationPresent(handler: HandlerMethod): Boolean {
@@ -30,11 +36,11 @@ class JwtInterceptor(private val jwtTokenProvider: JwtTokenProvider) : HandlerIn
     }
 
     private fun extractBearerToken(request: HttpServletRequest): String {
-        val authorization = request.getHeader(AUTHORIZATION) ?: throw IllegalAccessException()
+        val authorization = request.getHeader(AUTHORIZATION) ?: throw IllegalAccessException("토큰이 존재하지 않습니다")
         val (tokenType, token) = BearerHeader.splitToTokenFormat(authorization)
 
         if (tokenType != BEARER) {
-            throw IllegalAccessException()
+            throw IllegalAccessException("Bearer 형식의 토큰이 아닙니다")
         }
 
         return token

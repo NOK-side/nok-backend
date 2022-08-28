@@ -51,4 +51,11 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
             .body(ApiResponse.error(exception.message))
     }
+
+    @ExceptionHandler(Exception::class)
+    fun handleBadRequestException(exception: Exception): ResponseEntity<ApiResponse<Unit>> {
+        logger.error("message", exception)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ApiResponse.error(exception.message))
+    }
 }

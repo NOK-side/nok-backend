@@ -10,6 +10,10 @@ data class BuyGifticonRequest(
     val quantity: Int
 )
 
+data class BuyGifticonInCartRequest(
+    val cartIds: List<Long>
+)
+
 data class MemberGifticonResponse(
     val memberGifticonId: Long,
     val gifticonId: Long,

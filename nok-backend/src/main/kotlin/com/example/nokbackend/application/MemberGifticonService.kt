@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
@@ -19,7 +20,8 @@ import java.time.LocalDate
 class MemberGifticonService(
     private val memberGifticonRepository: MemberGifticonRepository,
     private val gifticonRepository: GifticonRepository,
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val cartRepository: CartRepository
 ) {
 
     fun findMyGifticon(member: Member): List<MemberGifticonResponse> {
@@ -31,14 +33,6 @@ class MemberGifticonService(
         return memberGifticons.map {
             MemberGifticonResponse(gifticonMap[it.gifticonId]!!, it)
         }
-    }
-
-    private fun List<Gifticon>.mapById(): HashMap<Long, Gifticon> {
-        val gifticonMap = hashMapOf<Long, Gifticon>()
-
-        this.forEach { gifticonMap[it.id] = it }
-
-        return gifticonMap
     }
 
     fun buyGifticon(member: Member, buyGifticonRequest: BuyGifticonRequest) {
@@ -54,6 +48,14 @@ class MemberGifticonService(
         }
 
         memberGifticonRepository.saveAll(memberGifticons)
+    }
+
+    fun buyGifticonInCart(member: Member, buyGifticonInCartRequest: BuyGifticonInCartRequest) {
+        cartRepository.findAllById(buyGifticonInCartRequest.cartIds).forEach {
+            val buyGifticonRequest = BuyGifticonRequest(it.gifticonId, it.quantity)
+            buyGifticon(member, buyGifticonRequest)
+            cartRepository.deleteById(it.id)
+        }
     }
 
     fun sendGifticon(member: Member, sendGifticonRequest: SendGifticonRequest) {
