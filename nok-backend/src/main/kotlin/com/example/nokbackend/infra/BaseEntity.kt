@@ -26,3 +26,13 @@ abstract class BaseEntity(
         return id.hashCode()
     }
 }
+
+class BaseEntityUtil<T: BaseEntity> {
+    fun mapById(targets: List<T>): HashMap<Long, T> {
+        val gifticonMap = hashMapOf<Long, T>()
+
+        targets.forEach { gifticonMap[it.id] = it }
+
+        return gifticonMap
+    }
+}

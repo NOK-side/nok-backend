@@ -9,6 +9,7 @@ import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.memberGifticon.findByIdCheck
+import com.example.nokbackend.infra.BaseEntityUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -23,8 +24,9 @@ class MemberGifticonService(
 
     fun findMyGifticon(member: Member): List<MemberGifticonResponse> {
         val memberGifticons = memberGifticonRepository.findByOwnerIdAndStatus(member.id, MemberGifticon.Status.ACTIVE)
-        val gifticonMap = gifticonRepository.findAllById(memberGifticons.map { it.gifticonId })
-            .mapById()
+
+        val gifticons = gifticonRepository.findAllById(memberGifticons.map { it.gifticonId })
+        val gifticonMap = BaseEntityUtil<Gifticon>().mapById(gifticons)
 
         return memberGifticons.map {
             MemberGifticonResponse(gifticonMap[it.gifticonId]!!, it)
