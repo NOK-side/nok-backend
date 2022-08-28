@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
@@ -17,7 +18,6 @@ import io.mockk.slot
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
-import java.lang.IllegalStateException
 import java.time.LocalDate
 
 @ExtendWith(MockKExtension::class)
@@ -34,9 +34,12 @@ class MemberGifticonServiceTest {
     @MockK
     private lateinit var memberGifticonService: MemberGifticonService
 
+    @MockK
+    private lateinit var cartRepository: CartRepository
+
     @BeforeEach
     internal fun setUp() {
-        memberGifticonService = MemberGifticonService(memberGifticonRepository, gifticonRepository, memberRepository)
+        memberGifticonService = MemberGifticonService(memberGifticonRepository, gifticonRepository, memberRepository, cartRepository)
     }
 
     private val targetMemberId: String = "targetMemberId"
