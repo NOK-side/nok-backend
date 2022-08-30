@@ -88,9 +88,25 @@ data class FindMemberPasswordResponse(
     val code: String,
 )
 
+data class InitMemberPWCheckRequest(
+    val authId: Long,
+    val email: String,
+    val code: String,
+)
+
+data class InitMemberPWCheckResponse(
+    val authId: Long,
+    val email: String,
+)
+
 data class ResetMemberPasswordRequest(
     val authId: Long,
     val email: String,
+    val code: String,
+)
+
+data class ResetMbeberPasswordResponse(
+    val password: Password,
     val code: String,
 )
 
