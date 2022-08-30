@@ -52,6 +52,7 @@ class MemberGifticonService(
 
     fun buyGifticonInCart(member: Member, buyGifticonInCartRequest: BuyGifticonInCartRequest) {
         cartRepository.findAllById(buyGifticonInCartRequest.cartIds).forEach {
+            check(it.ownerId == member.id) { "본인 카트의 상품만 구매할 수 있습니다" }
             val buyGifticonRequest = BuyGifticonRequest(it.gifticonId, it.quantity)
             buyGifticon(member, buyGifticonRequest)
             cartRepository.deleteById(it.id)
