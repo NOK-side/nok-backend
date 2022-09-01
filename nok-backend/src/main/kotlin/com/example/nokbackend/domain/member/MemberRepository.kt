@@ -9,7 +9,7 @@ fun MemberRepository.findByMemberIdCheck(memberId: String): Member = findByInfor
 fun MemberRepository.existByMemberId(memberId: String): Boolean = existsByInformationMemberId(memberId)
 fun MemberRepository.existByEmail(memberId: String): Boolean = existsByInformationEmail(memberId)
 fun MemberRepository.findByIdCheck(id: Long): Member = findByIdOrNull(id) ?: throw RuntimeException("회원이 존재하지 않습니다")
-fun MemberRepository.findByNameAndPhoneNumber(name: String, phoneNumber: String) = findByInformationNameAndInformationPhoneNumber(name, phoneNumber) ?: throw RuntimeException("해당정보에 맞는 회원이 존재하지 않습니다")
+fun MemberRepository.findByPhoneNumber(phoneNumber: String) = findByInformationPhoneNumber(phoneNumber) ?: throw RuntimeException("해당정보에 맞는 회원이 존재하지 않습니다")
 
 interface MemberRepository : JpaRepository<Member, Long> {
 
@@ -21,6 +21,6 @@ interface MemberRepository : JpaRepository<Member, Long> {
 
     fun existsByInformationEmail(memberId: String): Boolean
 
-    fun findByInformationNameAndInformationPhoneNumber(name: String, phoneNumber: String): Member?
+    fun findByInformationPhoneNumber(phoneNumber: String): Member?
 
 }

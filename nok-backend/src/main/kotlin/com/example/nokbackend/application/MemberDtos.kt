@@ -66,8 +66,8 @@ data class MemberInfoResponse(
 }
 
 data class FindMemberIdRequest(
-    val name: String,
-    val phoneNumber: String
+//    val name: String,
+    val phoneNumber: String,
 )
 
 data class FindMemberIdResponse(

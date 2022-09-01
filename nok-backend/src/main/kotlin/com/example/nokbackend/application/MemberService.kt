@@ -43,8 +43,7 @@ class MemberService(
     }
 
     fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): FindMemberIdResponse {
-        val member = memberRepository.findByNameAndPhoneNumber(
-            findMemberIdRequest.name,
+        val member = memberRepository.findByPhoneNumber(
             findMemberIdRequest.phoneNumber
         )
 
