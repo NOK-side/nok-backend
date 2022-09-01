@@ -43,8 +43,7 @@ class MemberService(
     }
 
     fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): FindMemberIdResponse {
-        val member = memberRepository.findByNameAndPhoneNumber(
-            findMemberIdRequest.name,
+        val member = memberRepository.findByPhoneNumber(
             findMemberIdRequest.phoneNumber
         )
 
@@ -66,26 +65,26 @@ class MemberService(
         return FindMemberPasswordResponse(authentication.id, authentication.code)
     }
 
-    fun initMemberPasswordCheck(resetMemberPasswordRequest: ResetMemberPasswordRequest) {
-        val (authId, email, code) = resetMemberPasswordRequest
+    fun initMemberPasswordCheck(initMemberPWCheckRequest: InitMemberPWCheckRequest) {
+        val (authId, email, code) = initMemberPWCheckRequest
         authenticationService.checkAuthentication(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
     }
 
-    fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): Password {
-        val (authId, email, code) = resetMemberPasswordRequest
+    fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): ResetMbeberPasswordResponse {
+        val (authId, email) = resetMemberPasswordRequest
 
-        authenticationService.confirmAuthentication(
-            ConfirmAuthenticationRequest(id = authId, email, code),
-            Authentication.Type.FIND_PW
-        )
+//        authenticationService.confirmAuthentication(
+//            ConfirmAuthenticationRequest(id = authId, email, code),
+//            Authentication.Type.FIND_PW
+//        )
 
         val randomPassword = Password(uuidGenerator.generate(10))
-        memberRepository.findByEmailCheck(email)
+        memberRepository.findByMemberIdCheck(email)
             .updatePassword(randomPassword)
 
-        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", uuidGenerator.generate(8)))
+//        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", uuidGenerator.generate(8)))
 
-        return randomPassword
+        return ResetMbeberPasswordResponse(randomPassword, "")
     }
 
     fun checkEmailDuplication(email: String) {

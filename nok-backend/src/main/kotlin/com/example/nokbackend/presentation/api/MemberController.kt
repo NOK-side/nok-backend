@@ -66,8 +66,8 @@ class MemberController(
     }
 
     @PostMapping("/find/password/check")
-    fun initMemberPasswordCheck(@RequestBody resetMemberPasswordRequest: ResetMemberPasswordRequest): ResponseEntity<Any> {
-        memberService.initMemberPasswordCheck(resetMemberPasswordRequest)
+    fun initMemberPasswordCheck(@RequestBody initMemberPWCheckRequest: InitMemberPWCheckRequest): ResponseEntity<Any> {
+        memberService.initMemberPasswordCheck(initMemberPWCheckRequest)
         return ResponseEntity.ok().build()
     }
 
