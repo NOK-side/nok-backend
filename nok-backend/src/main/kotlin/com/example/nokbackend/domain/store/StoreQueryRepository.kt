@@ -21,8 +21,8 @@ class StoreQueryRepository(
             associate(Store::class, StoreInformation::class, on(Store::storeInformation))
             where(
                 and(
-                    name?.run { column(StoreInformation::name).like("%${this.trim()}%") },
                     category?.run { column(StoreInformation::category).equal(this) },
+                    name?.run { column(StoreInformation::name).like("%${this.trim()}%") },
                     column(Store::status).equal(Store.Status.ACTIVE)
                 )
             )

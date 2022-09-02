@@ -7,6 +7,8 @@ import com.example.nokbackend.domain.store.Address
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreInformation
+import com.example.nokbackend.domain.touristspot.Facility
+import com.example.nokbackend.domain.touristspot.Location
 import com.example.nokbackend.domain.touristspot.TouristSpot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
@@ -115,17 +117,21 @@ class InitService(
                 val touristSpot1 = TouristSpot(
                     "고래불관광지",
                     "관광지",
-                    "경상북도 영덕군 병곡면 병곡리 72-8",
-                    "경상북도 영덕군 병곡면 병곡리 72-8",
-                    BigDecimal.valueOf(36.6003009541),
-                    BigDecimal.valueOf(129.4105747991),
+                    Location(
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        BigDecimal.valueOf(36.6003009541),
+                        BigDecimal.valueOf(129.4105747991)
+                    ),
                     880400,
-                    "관리사무소(2동)+주차장+화장실(6동)+샤워장(5동)+하계휴양소+취사동(4동)",
-                    null,
-                    "비치발리볼경기장+자전거대여점+풋살구장+체력단련시설",
-                    "연수원",
-                    "상가(2동)",
-                    null,
+                    Facility(
+                        "관리사무소(2동)+주차장+화장실(6동)+샤워장(5동)+하계휴양소+취사동(4동)",
+                        null,
+                        "비치발리볼경기장+자전거대여점+풋살구장+체력단련시설",
+                        "연수원",
+                        "상가(2동)",
+                        null,
+                    ),
                     LocalDate.of(1988, 3, 28),
                     17100,
                     1000,
@@ -139,17 +145,21 @@ class InitService(
                 val touristSpot2 = TouristSpot(
                     "장사해수욕장관광지",
                     "관광지",
-                    "경상북도 영덕군 남정면 동해대로 3592",
-                    "경상북도 영덕군 남정면 장사리 74-1",
-                    BigDecimal.valueOf(36.2824187049),
-                    BigDecimal.valueOf(129.3755938472),
+                    Location(
+                        "경상북도 영덕군 남정면 동해대로 3592",
+                        "경상북도 영덕군 남정면 장사리 74-1",
+                        BigDecimal.valueOf(36.2824187049),
+                        BigDecimal.valueOf(129.3755938472)
+                    ),
                     104219,
-                    "관리사무소+주차장+화장실(3동)+샤워장(2동)+광장",
-                    "방갈로(20동)",
-                    "미니축구장",
-                    "전승기념마당",
-                    "상가(2동)",
-                    null,
+                    Facility(
+                        "관리사무소+주차장+화장실(3동)+샤워장(2동)+광장",
+                        "방갈로(20동)",
+                        "미니축구장",
+                        "전승기념마당",
+                        "상가(2동)",
+                        null,
+                    ),
                     LocalDate.of(1981, 12, 31),
                     2500,
                     297,

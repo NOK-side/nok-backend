@@ -3,6 +3,7 @@ package com.example.nokbackend.domain.touristspot
 import com.example.nokbackend.infra.BaseEntity
 import java.math.BigDecimal
 import java.time.LocalDate
+import javax.persistence.Embedded
 import javax.persistence.Entity
 
 @Entity
@@ -11,27 +12,13 @@ class TouristSpot(
 
     val type: String,
 
-    val roadNameAddress: String,
-
-    val landNumberAddress: String,
-
-    val latitude: BigDecimal,
-
-    val longitude: BigDecimal,
+    @Embedded
+    val location: Location,
 
     val area: Int,
 
-    val publicBenefitFacilities: String,
-
-    val accommodation: String?,
-
-    val amusement: String,
-
-    val recreationalFacilities: String,
-
-    val customerServiceFacilities: String,
-
-    val supportingFacilities: String?,
+    @Embedded
+    val facility: Facility,
 
     val registerDate: LocalDate,
 
