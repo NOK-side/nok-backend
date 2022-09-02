@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import springfox.documentation.annotations.ApiIgnore
 import javax.validation.Valid
 
 @RestController
@@ -31,24 +32,24 @@ class MemberController(
     }
 
     @GetMapping("/me/info")
-    fun findMyInfo(@MemberClaim member: Member): ResponseEntity<Any> {
+    fun findMyInfo(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
         return ResponseEntity.ok().body(ApiResponse.success(MemberInfoResponse(member)))
     }
 
     @PutMapping("/me/info")
-    fun updateMyInfo(@MemberClaim member: Member, @RequestPart updateMemberRequest: UpdateMemberRequest, @RequestPart(required = false) profileImage: MultipartFile?): ResponseEntity<Any> {
+    fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestPart updateMemberRequest: UpdateMemberRequest, @RequestPart(required = false) profileImage: MultipartFile?): ResponseEntity<Any> {
         memberService.updateMemberInfo(member, updateMemberRequest, profileImage)
         return ResponseEntity.ok().build()
     }
 
     @PatchMapping("/me/password")
-    fun updateMyPassword(@MemberClaim member: Member, @RequestBody updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<Any> {
+    fun updateMyPassword(@ApiIgnore @MemberClaim member: Member, @RequestBody updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<Any> {
         memberService.updatePassword(member, updatePasswordRequest)
         return ResponseEntity.ok().build()
     }
 
     @DeleteMapping("/me")
-    fun withdraw(@MemberClaim member: Member, @RequestBody withdrawMemberRequest: WithdrawMemberRequest): ResponseEntity<Any> {
+    fun withdraw(@ApiIgnore @MemberClaim member: Member, @RequestBody withdrawMemberRequest: WithdrawMemberRequest): ResponseEntity<Any> {
         memberService.withdraw(member, withdrawMemberRequest)
         return ResponseEntity.ok().build()
     }

@@ -50,11 +50,6 @@ class CartService(
 
     fun flushCart(member: Member) {
         val carts = cartRepository.findByOwnerId(member.id)
-        carts.deleteAll()
-    }
-
-    private fun List<Cart>.deleteAll() {
-        val ids = map { it.id }
-        cartRepository.deleteAllById(ids)
+        cartRepository.deleteAll(carts)
     }
 }

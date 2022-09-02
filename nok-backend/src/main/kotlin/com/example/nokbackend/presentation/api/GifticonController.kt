@@ -8,6 +8,7 @@ import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import springfox.documentation.annotations.ApiIgnore
 
 @RestController
 @RequestMapping("/gifticon")
@@ -17,7 +18,7 @@ class GifticonController(
 
     @Authenticated
     @PostMapping("/register")
-    fun registerGifticon(@MemberClaim member: Member, @RequestBody registerGifticonRequest: RegisterGifticonRequest): ResponseEntity<Any> {
+    fun registerGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody registerGifticonRequest: RegisterGifticonRequest): ResponseEntity<Any> {
         gifticonService.registerGifticon(member, registerGifticonRequest)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
