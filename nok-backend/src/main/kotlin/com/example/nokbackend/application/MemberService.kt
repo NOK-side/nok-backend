@@ -43,24 +43,30 @@ class MemberService(
     }
 
     fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): FindMemberIdResponse {
+        val reqNumber = findMemberIdRequest.phoneNumber
+
+        check(memberRepository.existByPhoneNumber(reqNumber)) {
+            "등록되지 않은 전화번호입니다"
+        }
+
         val member = memberRepository.findByPhoneNumber(
-            findMemberIdRequest.phoneNumber
+            reqNumber
         )
 
 //        applicationEventPublisher.publishEvent(MailEvent(member.email, "회원 아이디 찾기", member.memberId))
 
-        return FindMemberIdResponse(email = member.email, memberId = member.memberId, ResultCode.Success.code)
+        return FindMemberIdResponse(memberId = member.memberId, ResultCode.Success.code)
     }
 
     fun findMemberPassword(findMemberPasswordRequest: FindMemberPasswordRequest): FindMemberPasswordResponse {
-        val (email, name) = findMemberPasswordRequest
+        val reqId = findMemberPasswordRequest.memberId
 
-        val member = memberRepository.findByEmailCheck(email)
+        check(memberRepository.existByMemberId(reqId)) { "등록되지 않은 아이디입니다." }
 
-        check(member.name == name) { "이름이 일치하지 않습니다" }
+        val member = memberRepository.findByMemberIdCheck(reqId)
 
-        val authentication = authenticationService.registerAuthentication(email, Authentication.Type.FIND_PW)
-        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 찾기 인증코드", message = authentication.code))
+        val authentication = authenticationService.registerAuthentication(member.email, Authentication.Type.FIND_PW)
+        applicationEventPublisher.publishEvent(MailEvent(member.email, "비밀번호 찾기 인증코드", message = authentication.code))
 
         return FindMemberPasswordResponse(authentication.id, authentication.code)
     }
@@ -78,9 +84,9 @@ class MemberService(
 //            Authentication.Type.FIND_PW
 //        )
 
-        val randomPassword = Password(uuidGenerator.generate(10))
+        val randomPassword = uuidGenerator.generate(8)
         memberRepository.findByEmailCheck(email)
-            .updatePassword(randomPassword)
+            .newPassword(Password(randomPassword))
 
 //        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", uuidGenerator.generate(8)))
 

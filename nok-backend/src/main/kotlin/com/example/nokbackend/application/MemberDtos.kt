@@ -71,16 +71,14 @@ data class FindMemberIdRequest(
 )
 
 data class FindMemberIdResponse(
-    val email: String,
+//    val email: String,
     //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
     val memberId: String,
     val code: String,
 )
 
 data class FindMemberPasswordRequest(
-    @field:Email
-    val email: String,
-    val name: String,
+    val memberId: String,
 )
 
 data class FindMemberPasswordResponse(
@@ -107,7 +105,7 @@ data class ResetMemberPasswordRequest(
 )
 
 data class ResetMemberPasswordResponse(
-    val password: Password,
+    val password: String,
     val code: String,
 )
 
@@ -128,6 +126,6 @@ data class LoginResponse(
 )
 
 enum class ResultCode(val code: String){
-    Success("00"),
-    Error("01")
+    Success("성공"),
+    Error("실패")
 }
