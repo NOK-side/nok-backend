@@ -10,9 +10,11 @@ fun TouristSpotRepository.findByIdCheck(id: Long): TouristSpot = findByIdOrNull(
 interface TouristSpotRepository : JpaRepository<TouristSpot, Long> {
 
     @Query(
-        value = "select t " +
-                "from TouristSpot t " +
-                "where ST_Distance_Sphere(Point(:longitude, :latitude), Point(t.location.longitude, t.location.latitude)) < :meterDistance",
+        value = """
+            select t
+            from TouristSpot t 
+            where ST_Distance_Sphere(Point(:longitude, :latitude), Point(t.location.longitude, t.location.latitude)) < :meterDistance
+        """,
     )
-    fun findWithDistance(longitude: BigDecimal, latitude: BigDecimal, meterDistance: Int): List<TouristSpot>
+    fun findByDistance(longitude: BigDecimal, latitude: BigDecimal, meterDistance: Int): List<TouristSpot>
 }

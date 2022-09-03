@@ -13,10 +13,9 @@ class TouristSpotService(
     private val touristSpotQueryRepository: TouristSpotQueryRepository
 ) {
 
-    fun findWithDistance(findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): List<FindTouristSpotResponse> {
+    fun findByDistance(findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): List<FindTouristSpotResponse> {
         val (longitude, latitude, distance) = findTouristSpotByDistanceRequest
-        touristSpotRepository.findWithDistance(longitude, latitude, distance)
-        return touristSpotRepository.findWithDistance(longitude, latitude, distance)
+        return touristSpotRepository.findByDistance(longitude, latitude, distance)
             .map { FindTouristSpotResponse(it) }
     }
 

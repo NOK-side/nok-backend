@@ -49,18 +49,6 @@ class InitService(
         class Init(private val em: EntityManager) {
             fun init() {
                 val member = Member(
-                    memberId = "rkdals213",
-                    email = "rkdals213@naver.com",
-                    password = Password("1q2w3e4r"),
-                    name = "tester",
-                    role = Member.Role.USER,
-                    phoneNumber = "01000000000",
-                    profileImg = "testImg",
-                    status = Member.Status.ACTIVE
-                )
-                em.persist(member)
-
-                val member2 = Member(
                     memberId = "rkdals2134",
                     email = "rkdals2134@naver.com",
                     password = Password("1q2w3e4r"),
@@ -70,7 +58,7 @@ class InitService(
                     profileImg = "testImg",
                     status = Member.Status.ACTIVE
                 )
-                em.persist(member2)
+                em.persist(member)
 
                 val store = Store(
                     1,
