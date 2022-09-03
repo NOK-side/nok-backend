@@ -47,9 +47,9 @@ class MemberService(
             findMemberIdRequest.phoneNumber
         )
 
-        applicationEventPublisher.publishEvent(MailEvent(member.email, "회원 아이디 찾기", member.memberId))
+//        applicationEventPublisher.publishEvent(MailEvent(member.email, "회원 아이디 찾기", member.memberId))
 
-        return FindMemberIdResponse(email = member.email, memberId = member.memberId)
+        return FindMemberIdResponse(email = member.email, memberId = member.memberId, ResultCode.Success.code)
     }
 
     fun findMemberPassword(findMemberPasswordRequest: FindMemberPasswordRequest): FindMemberPasswordResponse {
@@ -70,8 +70,8 @@ class MemberService(
         authenticationService.checkAuthentication(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
     }
 
-    fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): ResetMbeberPasswordResponse {
-        val (authId, email) = resetMemberPasswordRequest
+    fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): ResetMemberPasswordResponse {
+        val (email) = resetMemberPasswordRequest
 
 //        authenticationService.confirmAuthentication(
 //            ConfirmAuthenticationRequest(id = authId, email, code),
@@ -79,12 +79,12 @@ class MemberService(
 //        )
 
         val randomPassword = Password(uuidGenerator.generate(10))
-        memberRepository.findByMemberIdCheck(email)
+        memberRepository.findByEmailCheck(email)
             .updatePassword(randomPassword)
 
 //        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", uuidGenerator.generate(8)))
 
-        return ResetMbeberPasswordResponse(randomPassword, "")
+        return ResetMemberPasswordResponse(randomPassword, ResultCode.Success.code)
     }
 
     fun checkEmailDuplication(email: String) {
