@@ -13,8 +13,8 @@ class TouristSpotController(
 ) {
 
     @GetMapping("/by-distance")
-    fun findWithDistance(@RequestBody findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): ResponseEntity<Any> {
-        val touristSpots = touristSpotService.findWithDistance(findTouristSpotByDistanceRequest)
+    fun findByDistance(@RequestBody findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): ResponseEntity<Any> {
+        val touristSpots = touristSpotService.findByDistance(findTouristSpotByDistanceRequest)
         return ResponseEntity.ok().body(ApiResponse.success(touristSpots))
     }
 

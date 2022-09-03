@@ -12,7 +12,7 @@ class TouristSpotQueryRepository(
 ) {
 
     fun findByCondition(findTouristSpotCondition: FindTouristSpotCondition): List<TouristSpot> {
-        val (name, sido) = findTouristSpotCondition
+        val (name, addressKeyword) = findTouristSpotCondition
 
         return queryFactory.listQuery<TouristSpot> {
             select(entity(TouristSpot::class))
@@ -21,8 +21,8 @@ class TouristSpotQueryRepository(
             where(
                 and(
                     name?.run { column(TouristSpot::name).like("%${this.trim()}%") },
-                    sido?.run { column(Location::landNumberAddress).like("%${this.trim()}%") },
-                    sido?.run { column(Location::roadNameAddress).like("%${this.trim()}%") }
+                    addressKeyword?.run { column(Location::landNumberAddress).like("%${this.trim()}%") },
+                    addressKeyword?.run { column(Location::roadNameAddress).like("%${this.trim()}%") }
                 )
             )
         }

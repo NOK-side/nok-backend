@@ -4,7 +4,6 @@ import com.example.nokbackend.domain.touristspot.Facility
 import com.example.nokbackend.domain.touristspot.Location
 import com.example.nokbackend.domain.touristspot.TouristSpot
 import java.math.BigDecimal
-import java.time.LocalDate
 
 data class FindTouristSpotByDistanceRequest(
     val longitude: BigDecimal,
@@ -14,7 +13,7 @@ data class FindTouristSpotByDistanceRequest(
 
 data class FindTouristSpotCondition(
     val name: String?,
-    val sido: String?
+    val addressKeyword: String?
 )
 
 data class FindTouristSpotResponse(
@@ -38,7 +37,6 @@ data class TouristSpotDetailResponse(
     val location: Location,
     val area: Int,
     val facility: Facility,
-    val registerDate: LocalDate,
     val numberOfCapacity: Int,
     val numberOfParking: Int,
     val description: String,
@@ -52,7 +50,6 @@ data class TouristSpotDetailResponse(
         location = touristSpot.location,
         area = touristSpot.area,
         facility = touristSpot.facility,
-        registerDate = touristSpot.registerDate,
         numberOfCapacity = touristSpot.numberOfCapacity,
         numberOfParking = touristSpot.numberOfParking,
         description = touristSpot.description,
