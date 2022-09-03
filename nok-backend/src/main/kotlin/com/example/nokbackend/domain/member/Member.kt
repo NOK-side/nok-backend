@@ -76,7 +76,7 @@ class Member(
         )
     }
 
-    fun updatePassword(newPassword: Password) {
+    fun newPassword(newPassword: Password) {
         password = newPassword
     }
 
