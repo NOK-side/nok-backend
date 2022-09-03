@@ -66,16 +66,16 @@ class MemberServiceTest {
         assertThat(member.password).isEqualTo(newPassword)
     }
 
-    @Test
-    fun 비밀번호를_랜덤값으로_초기화한다() {
-        every { uuidGenerator.generate(any()) } returns uuid
-        every { authenticationService.confirmAuthentication(any(), any()) } just Runs
-        every { memberRepository.findByInformationEmail(any()) } returns aMember()
-        every { memberRepository.save(any()) } returns aMember()
-
-        val resetMemberPasswordRequest = ResetMemberPasswordRequest(1L, email, uuid)
-        val resetMemberPassword = memberService.resetMemberPassword(resetMemberPasswordRequest)
-
-        assertThat(resetMemberPassword).isEqualTo(Password(uuid))
-    }
+//    @Test
+//    fun 비밀번호를_랜덤값으로_초기화한다() {
+//        every { uuidGenerator.generate(any()) } returns uuid
+//        every { authenticationService.confirmAuthentication(any(), any()) } just Runs
+//        every { memberRepository.findByInformationEmail(any()) } returns aMember()
+//        every { memberRepository.save(any()) } returns aMember()
+//
+//        val resetMemberPasswordRequest = ResetMemberPasswordRequest(1L, email, uuid)
+//        val resetMemberPassword = memberService.resetMemberPassword(resetMemberPasswordRequest)
+//
+//        assertThat(resetMemberPassword).isEqualTo(Password(uuid))
+//    }
 }

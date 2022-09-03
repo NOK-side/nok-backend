@@ -74,6 +74,7 @@ data class FindMemberIdResponse(
     val email: String,
     //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
     val memberId: String,
+    val code: String,
 )
 
 data class FindMemberPasswordRequest(
@@ -100,12 +101,12 @@ data class InitMemberPWCheckResponse(
 )
 
 data class ResetMemberPasswordRequest(
-    val authId: Long,
+//    val authId: Long,
     val email: String,
-    val code: String,
+//    val code: String,
 )
 
-data class ResetMbeberPasswordResponse(
+data class ResetMemberPasswordResponse(
     val password: Password,
     val code: String,
 )
@@ -125,3 +126,8 @@ data class LoginResponse(
     val memberId: String,
     val email: String
 )
+
+enum class ResultCode(val code: String){
+    Success("00"),
+    Error("01")
+}
