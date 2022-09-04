@@ -106,7 +106,7 @@ data class ResetMemberPasswordRequest(
 )
 
 data class ResetMemberPasswordResponse(
-    val password: String,
+    val message: String,
     val code: String,
 )
 
@@ -127,6 +127,6 @@ data class LoginResponse(
 )
 
 enum class ResultCode(val code: String){
-    Success("성공"),
-    Error("실패")
+    Success("success"),
+    Failed("fail")
 }

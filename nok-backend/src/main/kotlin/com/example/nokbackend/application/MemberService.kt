@@ -74,18 +74,13 @@ class MemberService(
     fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): ResetMemberPasswordResponse {
         val (email) = resetMemberPasswordRequest
 
-//        authenticationService.confirmAuthentication(
-//            ConfirmAuthenticationRequest(id = authId, email, code),
-//            Authentication.Type.FIND_PW
-//        )
-
         val randomPassword = uuidGenerator.generate(8)
         memberRepository.findByEmailCheck(email)
             .newPassword(Password(randomPassword))
 
-//        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", uuidGenerator.generate(8)))
+        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", randomPassword))
 
-        return ResetMemberPasswordResponse(randomPassword, ResultCode.Success.code)
+        return ResetMemberPasswordResponse("등록된 이메일로 임시 비밀번호를 발송하였습니다.", ResultCode.Success.code)
     }
 
     fun checkEmailDuplication(email: String) {
