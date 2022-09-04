@@ -2,10 +2,7 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.store.MenuRepository
-import com.example.nokbackend.domain.store.StoreImageRepository
-import com.example.nokbackend.domain.store.StoreQueryRepository
-import com.example.nokbackend.domain.store.StoreRepository
+import com.example.nokbackend.domain.store.*
 import com.example.nokbackend.fixture.*
 import io.mockk.Runs
 import io.mockk.every
@@ -14,6 +11,7 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.just
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -38,14 +36,11 @@ class StoreServiceTest {
     private lateinit var authenticationService: AuthenticationService
 
     @MockK
-    private lateinit var imageService: ImageService
-
-    @MockK
     private lateinit var storeService: StoreService
 
     @BeforeEach
     internal fun setUp() {
-        storeService = StoreService(storeRepository, storeQueryRepository, memberRepository, menuRepository, storeImageRepository, authenticationService, imageService)
+        storeService = StoreService(storeRepository, storeQueryRepository, memberRepository, menuRepository, storeImageRepository, authenticationService)
     }
 
     @Test
@@ -57,7 +52,7 @@ class StoreServiceTest {
         every { storeImageRepository.save(any()) } returns aStoreImage()
 
         val registerStoreRequest = createRegisterStoreRequest()
-        val storeId = storeService.registerStore(registerStoreRequest, listOf(), listOf(null))
+        val storeId = storeService.registerStore(registerStoreRequest)
 
         assertThat(storeId).isEqualTo(aStore().id)
     }
@@ -77,12 +72,34 @@ class StoreServiceTest {
 
         val storeInformation = aStoreInformation()
 
-        val registerMenuRequest = RegisterMenuRequest(
+        val commonMenuRequest = CommonMenuRequest(
+            id = null,
             name = menuName,
             price = menuPrice,
-            description = menuDescription
+            description = menuDescription,
+            imageUrl = "",
+            dmlStatus = CommonMenuRequest.DmlStatus.REGISTER
         )
 
-        return RegisterStoreRequest(ownerRequest, storeInformation, listOf(registerMenuRequest))
+        return RegisterStoreRequest(ownerRequest, storeInformation, listOf(), listOf(commonMenuRequest))
     }
+
+    @Test
+    @DisplayName("상점정보 업데이트에 성공한다")
+    fun updateStoreInformation() {
+        val member = aMember()
+        val store = aStore()
+        val updateStoreInformationRequest = UpdateStoreInformationRequest(
+            aStoreInformation(
+                name = "new store name",
+            )
+        )
+
+        every { storeRepository.findByIdCheck(any()) } returns store
+
+        storeService.updateStoreInformation(member, aStore().id, updateStoreInformationRequest)
+
+        assertThat(store.storeInformation).isEqualTo(updateStoreInformationRequest.storeInformation)
+    }
+
 }

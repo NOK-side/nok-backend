@@ -1,5 +1,6 @@
 package com.example.nokbackend.domain.store
 
+import com.example.nokbackend.application.UpdateStoreInformationRequest
 import com.example.nokbackend.infra.BaseEntity
 import javax.persistence.Embedded
 import javax.persistence.Entity
@@ -50,6 +51,10 @@ class Store(
 
     fun activate() {
         status = Status.ACTIVE
+    }
+
+    fun updateStoreInformation(updateStoreInformationRequest: UpdateStoreInformationRequest) {
+        storeInformation = updateStoreInformationRequest.storeInformation
     }
 
 

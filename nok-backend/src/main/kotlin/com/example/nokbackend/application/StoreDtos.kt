@@ -5,12 +5,12 @@ import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage
 import com.example.nokbackend.domain.store.StoreInformation
 import java.math.BigDecimal
-import javax.persistence.Lob
 
 data class RegisterStoreRequest(
     val owner: RegisterMemberRequest,
     val storeInformation: StoreInformation,
-    val menus: List<RegisterMenuRequest> = listOf()
+    val storeImages: List<String>,
+    val menus: List<CommonMenuRequest> = listOf()
 ) {
     fun toEntity(ownerId: Long): Store {
         return Store(
@@ -21,20 +21,25 @@ data class RegisterStoreRequest(
     }
 }
 
-data class RegisterMenuRequest(
-    var name: String,
-    var price: BigDecimal,
-    var description: String,
+data class CommonMenuRequest(
+    val id: Long?,
+    val name: String,
+    val price: BigDecimal,
+    val description: String,
+    val imageUrl: String,
+    val dmlStatus: DmlStatus?
 ) {
-    fun toEntity(store: Store, menuImageUrl: String): Menu {
+    fun toEntity(store: Store): Menu {
         return Menu(
             name = name,
             price = price,
             description = description,
-            imageUrl = menuImageUrl,
+            imageUrl = imageUrl,
             store = store
         )
     }
+
+    enum class DmlStatus { REGISTER, UPDATE, DELETE }
 }
 
 
@@ -78,3 +83,7 @@ data class MenuResponse(
         imageUrl = menu.imageUrl
     )
 }
+
+data class UpdateStoreInformationRequest(
+    val storeInformation: StoreInformation
+)

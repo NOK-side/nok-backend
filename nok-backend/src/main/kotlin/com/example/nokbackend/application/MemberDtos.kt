@@ -35,6 +35,7 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String?,
+    val imageUrl: String?,
     val verificationPassword: Password
 )
 

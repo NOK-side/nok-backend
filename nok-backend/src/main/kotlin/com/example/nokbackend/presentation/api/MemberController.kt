@@ -37,8 +37,8 @@ class MemberController(
     }
 
     @PutMapping("/me/info")
-    fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestPart updateMemberRequest: UpdateMemberRequest, @RequestPart(required = false) profileImage: MultipartFile?): ResponseEntity<Any> {
-        memberService.updateMemberInfo(member, updateMemberRequest, profileImage)
+    fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestPart updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
+        memberService.updateMemberInfo(member, updateMemberRequest)
         return ResponseEntity.ok().build()
     }
 

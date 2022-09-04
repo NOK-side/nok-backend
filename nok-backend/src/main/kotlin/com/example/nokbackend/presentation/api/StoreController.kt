@@ -1,12 +1,11 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.FindStoreCondition
-import com.example.nokbackend.application.RegisterStoreRequest
-import com.example.nokbackend.application.StoreService
+import com.example.nokbackend.application.*
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/store")
@@ -15,8 +14,8 @@ class StoreController(
 ) {
 
     @PostMapping("/register")
-    fun registerStore(@RequestPart registerStoreRequest: RegisterStoreRequest, @RequestPart storeImages: List<MultipartFile>, @RequestPart menuImages: List<MultipartFile?>): ResponseEntity<Any> {
-        val storeId = storeService.registerStore(registerStoreRequest, storeImages, menuImages)
+    fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<Any> {
+        val storeId = storeService.registerStore(registerStoreRequest)
         return ResponseEntity.status(HttpStatus.CREATED).body(storeId)
     }
 
@@ -27,8 +26,20 @@ class StoreController(
     }
 
     @GetMapping("/info/{storeId}")
-    fun findStoreInfo(@PathVariable storeId: Long): ResponseEntity<Any> {
-        val store = storeService.findStoreInfo(storeId)
+    fun findStoreInformation(@PathVariable storeId: Long): ResponseEntity<Any> {
+        val store = storeService.findStoreInformation(storeId)
         return ResponseEntity.ok().body(store)
+    }
+
+    @PutMapping("/info/{storeId}")
+    fun updateStoreInformation(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<Any> {
+        val store = storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
+        return ResponseEntity.ok().body(store)
+    }
+
+    @PutMapping("/info/{storeId}/menu")
+    fun updateStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody commonMenuRequest: List<CommonMenuRequest>): ResponseEntity<Any> {
+        storeService.updateMenu(member, storeId, commonMenuRequest)
+        return ResponseEntity.ok().build()
     }
 }

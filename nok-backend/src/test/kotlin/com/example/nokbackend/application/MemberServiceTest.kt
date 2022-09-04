@@ -38,8 +38,6 @@ class MemberServiceTest {
     @MockK
     private lateinit var applicationEventPublisher: ApplicationEventPublisher
 
-    private val uuid = aUuid()
-
     @BeforeEach
     internal fun setUp() {
         memberService = MemberService(memberRepository, authenticationService, imageService, uuidGenerator, applicationEventPublisher)
@@ -49,9 +47,9 @@ class MemberServiceTest {
     @Test
     fun 회원정보를_업데이트한다() {
         val member = aMember()
-        val updateMemberRequest = UpdateMemberRequest(name = "updated name", verificationPassword = password)
+        val updateMemberRequest = UpdateMemberRequest(name = "updated name", imageUrl = "", verificationPassword = password)
 
-        memberService.updateMemberInfo(member, updateMemberRequest, null)
+        memberService.updateMemberInfo(member, updateMemberRequest)
 
         assertThat(member.information.name).isEqualTo(updateMemberRequest.name)
     }

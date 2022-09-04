@@ -17,13 +17,8 @@ class MemberService(
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
-    fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest, profileImage: MultipartFile?) {
-        val profileImageUrl = profileImage?.let {
-            val uuid = uuidGenerator.generate(16)
-            imageService.uploadFile(profileImage, uuid)
-        }
-
-        member.update(updateMemberRequest, profileImageUrl)
+    fun updateMemberInfo(member: Member, updateMemberRequest: UpdateMemberRequest) {
+        member.update(updateMemberRequest)
     }
 
     fun updatePassword(member: Member, updatePasswordRequest: UpdatePasswordRequest) {
