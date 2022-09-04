@@ -4,6 +4,7 @@ import com.example.nokbackend.domain.store.Menu
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage
 import com.example.nokbackend.domain.store.StoreInformation
+import com.example.nokbackend.util.DmlStatus
 import java.math.BigDecimal
 
 data class RegisterStoreRequest(
@@ -27,7 +28,7 @@ data class CommonMenuRequest(
     val price: BigDecimal,
     val description: String,
     val imageUrl: String,
-    val dmlStatus: DmlStatus?
+    val dmlStatus: DmlStatus = DmlStatus.NOTHING
 ) {
     fun toEntity(store: Store): Menu {
         return Menu(
@@ -38,8 +39,6 @@ data class CommonMenuRequest(
             store = store
         )
     }
-
-    enum class DmlStatus { REGISTER, UPDATE, DELETE }
 }
 
 

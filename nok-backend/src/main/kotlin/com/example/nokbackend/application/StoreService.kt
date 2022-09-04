@@ -1,10 +1,11 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.application.CommonMenuRequest.DmlStatus.*
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
+import com.example.nokbackend.util.*
+import com.example.nokbackend.util.Nothing
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -49,7 +50,7 @@ class StoreService(
     }
 
     private fun saveMenu(it: CommonMenuRequest, store: Store) {
-        check(it.dmlStatus == REGISTER)
+        check(it.dmlStatus == DmlStatus.REGISTER)
 
         val menu = it.toEntity(store)
         menuRepository.save(menu)
@@ -104,27 +105,30 @@ class StoreService(
         check(store.ownerId == member.id) { "본인의 상점만 수정할 수 있습니다" }
 
         commonMenuRequests.forEach { commonMenuRequest ->
-            when (commonMenuRequest.dmlStatus) {
-                REGISTER -> {
-                    saveMenu(commonMenuRequest, store)
-                }
-
-                UPDATE -> {
-                    commonMenuRequest.id?.let {
-                        menuRepository.findByIdCheck(it).update(commonMenuRequest)
-                    }
-                }
-
-                DELETE -> {
-                    commonMenuRequest.id?.let {
-                        menuRepository.findByIdCheck(it).inactive()
-                    }
-                }
-
-                else -> {
-                }
-            }
+            handleMenuByDmlStatus(commonMenuRequest, store)
         }
 
+    }
+
+    private fun handleMenuByDmlStatus(commonMenuRequest: CommonMenuRequest, store: Store) {
+        when (commonMenuRequest.dmlStatus.dml) {
+            is Register -> {
+                saveMenu(commonMenuRequest, store)
+            }
+
+            is Update -> {
+                commonMenuRequest.id?.let {
+                    menuRepository.findByIdCheck(it).update(commonMenuRequest)
+                }
+            }
+
+            is Delete -> {
+                commonMenuRequest.id?.let {
+                    menuRepository.findByIdCheck(it).inactive()
+                }
+            }
+
+            is Nothing -> {}
+        }
     }
 }
