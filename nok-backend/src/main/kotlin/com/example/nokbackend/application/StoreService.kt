@@ -119,13 +119,13 @@ class StoreService(
             is Update -> {
                 commonMenuRequest.id?.let {
                     menuRepository.findByIdCheck(it).update(commonMenuRequest)
-                }
+                } ?: throw RuntimeException("대상을 지정해야 합니다")
             }
 
             is Delete -> {
                 commonMenuRequest.id?.let {
                     menuRepository.findByIdCheck(it).inactive()
-                }
+                } ?: throw RuntimeException("대상을 지정해야 합니다")
             }
 
             is Nothing -> {}

@@ -1,6 +1,5 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.cart.Cart
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.cart.findByIdCheck
 import com.example.nokbackend.domain.gifticon.Gifticon
