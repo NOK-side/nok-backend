@@ -27,8 +27,7 @@ class SwaggerConfig {
 
     private fun apiInfo(): ApiInfo {
         return ApiInfoBuilder()
-            .title("Key Value Project")
-            .description("Key Value Project")
+            .title("NOK PROJECT")
             .version("1.0")
             .build()
     }
