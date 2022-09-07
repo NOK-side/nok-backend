@@ -16,7 +16,6 @@ class AuthenticationService(
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
-
     fun sendAuthenticationToEmail(email: String, type: Authentication.Type): AuthenticationResponse {
         val authentication = registerAuthentication(email, type)
 

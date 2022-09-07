@@ -33,13 +33,13 @@ class StoreController(
 
     @PutMapping("/info/{storeId}")
     fun updateStoreInformation(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<Any> {
-        val store = storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
-        return ResponseEntity.ok().body(store)
+        storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 
     @PutMapping("/info/{storeId}/menu")
     fun updateStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody commonMenuRequest: List<CommonMenuRequest>): ResponseEntity<Any> {
         storeService.updateMenu(member, storeId, commonMenuRequest)
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 }
