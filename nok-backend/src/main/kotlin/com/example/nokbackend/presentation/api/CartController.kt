@@ -27,27 +27,27 @@ class CartController(
     @PostMapping("/register")
     fun registerItemToCart(@ApiIgnore @MemberClaim member: Member, @RequestBody registerItemToCartRequest: RegisterItemToCartRequest): ResponseEntity<Any> {
         cartService.registerItemToCart(member, registerItemToCartRequest)
-        return ResponseEntity.accepted().build()
+        return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 
     @Authenticated
     @PatchMapping("/update/quantity")
     fun updateQuantityOfCart(@ApiIgnore @MemberClaim member: Member, @RequestBody updateQuantityOfCartRequest: ChangeQuantityOfCartRequest): ResponseEntity<Any> {
         cartService.changeQuantityOfCart(member, updateQuantityOfCartRequest)
-        return ResponseEntity.accepted().build()
+        return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 
     @Authenticated
     @DeleteMapping("/delete/{cartId}")
     fun deleteItemFromCart(@ApiIgnore @MemberClaim member: Member, @PathVariable cartId: Long): ResponseEntity<Any> {
         cartService.deleteItemFromCart(member, cartId)
-        return ResponseEntity.accepted().build()
+        return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 
     @Authenticated
     @DeleteMapping("/flush")
     fun flushCart(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
         cartService.flushCart(member)
-        return ResponseEntity.accepted().build()
+        return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 }
