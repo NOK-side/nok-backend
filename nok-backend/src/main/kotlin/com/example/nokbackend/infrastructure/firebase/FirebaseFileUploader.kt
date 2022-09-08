@@ -1,4 +1,4 @@
-package com.example.nokbackend.infrastructure
+package com.example.nokbackend.infrastructure.firebase
 
 import com.example.nokbackend.application.UploadFileResponse
 import com.example.nokbackend.application.UploadFileRequest
