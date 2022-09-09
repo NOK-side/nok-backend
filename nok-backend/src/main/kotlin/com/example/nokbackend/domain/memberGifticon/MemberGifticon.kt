@@ -37,12 +37,14 @@ class MemberGifticon(
         )
     }
 
-    fun use() {
-        status = Status.USED
+    fun validate(member: Member) {
+        require(ownerId == member.id) { "본인이 소유한 기프티콘이 아닙니다" }
+        check(status == Status.ACTIVE) { "${status}한 기프티콘입니다" }
+        check(dueDate >= LocalDate.now()) { "사용기간이 만료되었습니다" }
     }
 
-    fun checkOwner(member: Member) {
-        require(ownerId == member.id)
+    fun use() {
+        status = Status.USED
     }
 
     enum class Status { ACTIVE, USED, TRANSFERRED }

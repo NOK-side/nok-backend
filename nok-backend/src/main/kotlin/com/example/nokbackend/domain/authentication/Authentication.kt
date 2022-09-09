@@ -36,7 +36,7 @@ class Authentication(
     }
 
     fun verifyCode(code: String) {
-        check(this.code == code) { "인증코드가 일치하지 않습니다." }
+        require(this.code == code) { "인증코드가 일치하지 않습니다." }
     }
 
     fun expired() {

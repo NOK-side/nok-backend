@@ -2,16 +2,15 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.Password
+import com.example.nokbackend.domain.member.findByEmailCheck
 import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.fixture.aMember
 import com.example.nokbackend.fixture.aUuid
 import com.example.nokbackend.fixture.email
 import com.example.nokbackend.fixture.password
-import io.mockk.Runs
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.just
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -67,14 +66,15 @@ class MemberServiceTest {
 
     @Test
     fun 비밀번호를_랜덤값으로_초기화한다() {
-//        every { uuidGenerator.generate(any()) } returns uuid
-//        every { authenticationService.confirmAuthentication(any(), any()) } just Runs
-//        every { memberRepository.findByMemberIdCheck(any()) } returns aMember()
-//        every { memberRepository.save(any()) } returns aMember()
-//
-//        val resetMemberPasswordRequest = ResetMemberPasswordRequest( email)
-//        val resetMemberPassword = memberService.resetMemberPassword(resetMemberPasswordRequest)
-//
-//        assertThat(resetMemberPassword.password).isEqualTo(Password(uuid))
+        val member = aMember()
+
+        every { uuidGenerator.generate(any()) } returns aUuid()
+        every { authenticationService.confirmAuthentication(any(), any()) } just Runs
+        every { memberRepository.findByEmailCheck(any()) } returns member
+
+        val resetMemberPasswordRequest = ResetMemberPasswordRequest(email)
+        memberService.resetMemberPassword(resetMemberPasswordRequest)
+
+        assertThat(member.password).isEqualTo(Password(aUuid()))
     }
 }

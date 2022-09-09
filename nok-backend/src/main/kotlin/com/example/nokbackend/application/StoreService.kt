@@ -97,7 +97,8 @@ class StoreService(
     }
 
     fun updateMenu(member: Member, storeId: Long, updateMenuRequests: List<UpdateMenuRequest>) {
-        val store = storeRepository.findByIdOwnerCheck(storeId, member)
+        val store = storeRepository.findByIdCheck(storeId)
+        check(store.ownerId == member.id) { "본인의 상점이 아닙니다" }
 
         val menuIds = updateMenuRequests.map { it.id }
         val menus = menuRepository.findAllById(menuIds)
@@ -111,7 +112,8 @@ class StoreService(
     }
 
     fun deleteMenu(member: Member, storeId: Long, deleteMenuRequest: List<DeleteMenuRequest>) {
-        val store = storeRepository.findByIdOwnerCheck(storeId, member)
+        val store = storeRepository.findByIdCheck(storeId)
+        check(store.ownerId == member.id) { "본인의 상점이 아닙니다" }
 
         val menuIds = deleteMenuRequest.map { it.id }
 
