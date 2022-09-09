@@ -4,8 +4,7 @@ import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
-import com.example.nokbackend.util.*
-import com.example.nokbackend.util.Nothing
+import com.example.nokbackend.infra.BaseEntityUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -43,15 +42,13 @@ class StoreService(
         return store.id
     }
 
-    private fun saveMenus(commonMenuRequests: List<CommonMenuRequest>, store: Store) {
+    private fun saveMenus(commonMenuRequests: List<RegisterMenuRequest>, store: Store) {
         commonMenuRequests.forEach {
             saveMenu(it, store)
         }
     }
 
-    private fun saveMenu(it: CommonMenuRequest, store: Store) {
-        check(it.dmlStatus == DmlStatus.REGISTER)
-
+    private fun saveMenu(it: RegisterMenuRequest, store: Store) {
         val menu = it.toEntity(store)
         menuRepository.save(menu)
     }
@@ -99,36 +96,28 @@ class StoreService(
         store.updateStoreInformation(updateStoreInformationRequest)
     }
 
-    fun updateMenu(member: Member, storeId: Long, commonMenuRequests: List<CommonMenuRequest>) {
-        val store = storeRepository.findByIdCheck(storeId)
+    fun updateMenu(member: Member, storeId: Long, updateMenuRequests: List<UpdateMenuRequest>) {
+        val store = storeRepository.findByIdOwnerCheck(storeId, member)
 
-        check(store.ownerId == member.id) { "본인의 상점만 수정할 수 있습니다" }
+        val menuIds = updateMenuRequests.map { it.id }
+        val menus = menuRepository.findAllById(menuIds)
+        val menuMap = BaseEntityUtil<Menu>().mapById(menus)
 
-        commonMenuRequests.forEach { commonMenuRequest ->
-            handleMenuByDmlStatus(commonMenuRequest, store)
+        updateMenuRequests.forEach {
+            val menu = menuMap[it.id]!!
+            check(menu.store == store) { "해당 상점의 메뉴만 수정할 수 있습니다" }
+            menu.update(it)
         }
-
     }
 
-    private fun handleMenuByDmlStatus(commonMenuRequest: CommonMenuRequest, store: Store) {
-        when (commonMenuRequest.dmlStatus.dml) {
-            is Register -> {
-                saveMenu(commonMenuRequest, store)
-            }
+    fun deleteMenu(member: Member, storeId: Long, deleteMenuRequest: List<DeleteMenuRequest>) {
+        val store = storeRepository.findByIdOwnerCheck(storeId, member)
 
-            is Update -> {
-                commonMenuRequest.id?.let {
-                    menuRepository.findByIdCheck(it).update(commonMenuRequest)
-                } ?: throw RuntimeException("대상을 지정해야 합니다")
-            }
+        val menuIds = deleteMenuRequest.map { it.id }
 
-            is Delete -> {
-                commonMenuRequest.id?.let {
-                    menuRepository.findByIdCheck(it).inactive()
-                } ?: throw RuntimeException("대상을 지정해야 합니다")
-            }
-
-            is Nothing -> {}
+        menuRepository.findAllById(menuIds).forEach {
+            check(it.store == store) { "해당 상점의 메뉴만 수정할 수 있습니다" }
+            it.inactive()
         }
     }
 }

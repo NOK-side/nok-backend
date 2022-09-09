@@ -4,7 +4,6 @@ import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
 import com.example.nokbackend.fixture.*
-import com.example.nokbackend.util.DmlStatus
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -73,16 +72,14 @@ class StoreServiceTest {
 
         val storeInformation = aStoreInformation()
 
-        val commonMenuRequest = CommonMenuRequest(
-            id = null,
+        val registerMenuRequest = RegisterMenuRequest(
             name = menuName,
             price = menuPrice,
             description = menuDescription,
             imageUrl = "",
-            dmlStatus = DmlStatus.REGISTER
         )
 
-        return RegisterStoreRequest(ownerRequest, storeInformation, listOf(), listOf(commonMenuRequest))
+        return RegisterStoreRequest(ownerRequest, storeInformation, listOf(), listOf(registerMenuRequest))
     }
 
     @Test

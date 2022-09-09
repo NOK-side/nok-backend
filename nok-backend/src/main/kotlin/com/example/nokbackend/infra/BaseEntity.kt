@@ -29,10 +29,10 @@ abstract class BaseEntity(
 
 class BaseEntityUtil<T: BaseEntity> {
     fun mapById(targets: List<T>): HashMap<Long, T> {
-        val gifticonMap = hashMapOf<Long, T>()
+        val entityMap = hashMapOf<Long, T>()
 
-        targets.forEach { gifticonMap[it.id] = it }
+        targets.forEach { entityMap[it.id] = it }
 
-        return gifticonMap
+        return entityMap
     }
 }

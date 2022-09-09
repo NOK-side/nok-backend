@@ -57,6 +57,5 @@ class Store(
         storeInformation = updateStoreInformationRequest.storeInformation
     }
 
-
     enum class Status { READY, ACTIVE, INACTIVE, }
 }

@@ -38,8 +38,14 @@ class StoreController(
     }
 
     @PutMapping("/info/{storeId}/menu")
-    fun updateStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody commonMenuRequest: List<CommonMenuRequest>): ResponseEntity<Any> {
-        storeService.updateMenu(member, storeId, commonMenuRequest)
+    fun updateStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateMenuRequest: List<UpdateMenuRequest>): ResponseEntity<Any> {
+        storeService.updateMenu(member, storeId, updateMenuRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(null))
+    }
+
+    @DeleteMapping("/info/{storeId}/menu")
+    fun deleteStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody deleteMenuRequest: List<DeleteMenuRequest>): ResponseEntity<Any> {
+        storeService.deleteMenu(member, storeId, deleteMenuRequest)
         return ResponseEntity.ok().body(ApiResponse.success(null))
     }
 }

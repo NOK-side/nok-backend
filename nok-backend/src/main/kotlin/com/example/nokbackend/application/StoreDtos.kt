@@ -11,7 +11,7 @@ data class RegisterStoreRequest(
     val owner: RegisterMemberRequest,
     val storeInformation: StoreInformation,
     val storeImages: List<String>,
-    val menus: List<CommonMenuRequest> = listOf()
+    val menus: List<RegisterMenuRequest> = listOf()
 ) {
     fun toEntity(ownerId: Long): Store {
         return Store(
@@ -21,14 +21,31 @@ data class RegisterStoreRequest(
         )
     }
 }
+//
+//data class CommonMenuRequest(
+//    val id: Long?,
+//    val name: String,
+//    val price: BigDecimal,
+//    val description: String,
+//    val imageUrl: String,
+//    val dmlStatus: DmlStatus = DmlStatus.NOTHING
+//) {
+//    fun toEntity(store: Store): Menu {
+//        return Menu(
+//            name = name,
+//            price = price,
+//            description = description,
+//            imageUrl = imageUrl,
+//            store = store
+//        )
+//    }
+//}
 
-data class CommonMenuRequest(
-    val id: Long?,
+data class RegisterMenuRequest(
     val name: String,
     val price: BigDecimal,
     val description: String,
-    val imageUrl: String,
-    val dmlStatus: DmlStatus = DmlStatus.NOTHING
+    val imageUrl: String
 ) {
     fun toEntity(store: Store): Menu {
         return Menu(
@@ -40,6 +57,18 @@ data class CommonMenuRequest(
         )
     }
 }
+
+data class UpdateMenuRequest(
+    val id: Long,
+    val name: String,
+    val price: BigDecimal,
+    val description: String,
+    val imageUrl: String
+)
+
+data class DeleteMenuRequest(
+    val id: Long
+)
 
 
 data class FindStoreCondition(

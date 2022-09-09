@@ -1,6 +1,6 @@
 package com.example.nokbackend.infrastructure.firebase
 
-import com.example.nokbackend.application.Firebase
+import com.example.nokbackend.domain.firebase.Firebase
 import com.example.nokbackend.application.UploadFileResponse
 import com.example.nokbackend.application.UploadFileRequest
 import org.springframework.stereotype.Component
