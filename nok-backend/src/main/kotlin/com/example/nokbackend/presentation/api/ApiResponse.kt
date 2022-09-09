@@ -1,7 +1,5 @@
 package com.example.nokbackend.presentation.api
 
-import org.springframework.http.ResponseEntity
-
 data class ApiResponse<T>(
     val message: String? = "",
     val body: T? = null
@@ -12,3 +10,5 @@ data class ApiResponse<T>(
         fun <T> success(body: T?): ApiResponse<T> = ApiResponse(body = body)
     }
 }
+
+object EmptyBody

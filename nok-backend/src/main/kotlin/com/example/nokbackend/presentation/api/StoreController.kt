@@ -34,18 +34,18 @@ class StoreController(
     @PutMapping("/info/{storeId}")
     fun updateStoreInformation(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<Any> {
         storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @PutMapping("/info/{storeId}/menu")
     fun updateStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateMenuRequest: List<UpdateMenuRequest>): ResponseEntity<Any> {
         storeService.updateMenu(member, storeId, updateMenuRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @DeleteMapping("/info/{storeId}/menu")
     fun deleteStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody deleteMenuRequest: List<DeleteMenuRequest>): ResponseEntity<Any> {
         storeService.deleteMenu(member, storeId, deleteMenuRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 }

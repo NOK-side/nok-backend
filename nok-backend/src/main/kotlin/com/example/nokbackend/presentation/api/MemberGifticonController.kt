@@ -29,27 +29,27 @@ class MemberGifticonController(
     @PostMapping("/buy")
     fun buyGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody buyGifticonRequest: BuyGifticonRequest): ResponseEntity<Any> {
         memberGifticonService.buyGifticon(member, buyGifticonRequest)
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @Authenticated
     @PostMapping("/buy/cart")
     fun buyGifticonInCart(@ApiIgnore @MemberClaim member: Member, @RequestBody buyGifticonInCartRequest: BuyGifticonInCartRequest): ResponseEntity<Any> {
         memberGifticonService.buyGifticonInCart(member, buyGifticonInCartRequest)
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @Authenticated
     @PostMapping("/send")
     fun sendGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody sendGifticonRequest: SendGifticonRequest): ResponseEntity<Any> {
         memberGifticonService.sendGifticon(member, sendGifticonRequest)
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @Authenticated
     @PostMapping("/use")
     fun useGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody useGifticonRequest: UseGifticonRequest): ResponseEntity<Any> {
         memberGifticonService.useGifticon(member, useGifticonRequest)
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 }

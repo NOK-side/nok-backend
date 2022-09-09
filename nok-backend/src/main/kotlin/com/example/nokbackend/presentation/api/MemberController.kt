@@ -39,19 +39,19 @@ class MemberController(
     @PutMapping("/me/info")
     fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestPart updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
         memberService.updateMemberInfo(member, updateMemberRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @PatchMapping("/me/password")
     fun updateMyPassword(@ApiIgnore @MemberClaim member: Member, @RequestBody updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<Any> {
         memberService.updatePassword(member, updatePasswordRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @DeleteMapping("/me")
     fun withdraw(@ApiIgnore @MemberClaim member: Member, @RequestBody withdrawMemberRequest: WithdrawMemberRequest): ResponseEntity<Any> {
         memberService.withdraw(member, withdrawMemberRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @GetMapping("/find/id")
@@ -69,7 +69,7 @@ class MemberController(
     @PostMapping("/find/password/check")
     fun initMemberPasswordCheck(@RequestBody initMemberPWCheckRequest: InitMemberPWCheckRequest): ResponseEntity<Any> {
         memberService.initMemberPasswordCheck(initMemberPWCheckRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @PostMapping("/find/password/reset")
@@ -91,12 +91,12 @@ class MemberController(
     @PostMapping("/verify/email")
     fun verifyAuthenticationCodeForEmail(@RequestBody confirmAuthenticationRequest: ConfirmAuthenticationRequest): ResponseEntity<Any> {
         authenticationService.confirmAuthentication(confirmAuthenticationRequest, Authentication.Type.REGISTER)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @PostMapping("/check/memberId/duplication")
     fun checkMemberIdDuplication(@RequestBody checkMemberIdDuplicationRequest: CheckMemberIdDuplicationRequest): ResponseEntity<Any> {
         memberService.checkMemberIdDuplication(checkMemberIdDuplicationRequest.memberId)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 }

@@ -27,27 +27,27 @@ class CartController(
     @PostMapping("/register")
     fun registerItemToCart(@ApiIgnore @MemberClaim member: Member, @RequestBody registerItemToCartRequest: RegisterItemToCartRequest): ResponseEntity<Any> {
         cartService.registerItemToCart(member, registerItemToCartRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @Authenticated
     @PatchMapping("/update/quantity")
     fun updateQuantityOfCart(@ApiIgnore @MemberClaim member: Member, @RequestBody updateQuantityOfCartRequest: ChangeQuantityOfCartRequest): ResponseEntity<Any> {
         cartService.changeQuantityOfCart(member, updateQuantityOfCartRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @Authenticated
     @DeleteMapping("/delete/{cartId}")
     fun deleteItemFromCart(@ApiIgnore @MemberClaim member: Member, @PathVariable cartId: Long): ResponseEntity<Any> {
         cartService.deleteItemFromCart(member, cartId)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @Authenticated
     @DeleteMapping("/flush")
     fun flushCart(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
         cartService.flushCart(member)
-        return ResponseEntity.ok().body(ApiResponse.success(null))
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 }
