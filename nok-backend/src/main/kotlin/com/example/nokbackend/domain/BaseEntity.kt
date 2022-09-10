@@ -1,4 +1,4 @@
-package com.example.nokbackend.infra
+package com.example.nokbackend.domain
 
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType

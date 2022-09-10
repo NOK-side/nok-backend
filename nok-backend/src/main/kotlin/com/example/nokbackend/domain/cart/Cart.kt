@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.cart
 
-import com.example.nokbackend.infra.BaseEntity
+import com.example.nokbackend.domain.BaseEntity
 import javax.persistence.Entity
 
 @Entity

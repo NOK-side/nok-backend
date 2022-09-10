@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.gifticon
 
-import com.example.nokbackend.infra.BaseEntity
+import com.example.nokbackend.domain.BaseEntity
 import java.math.BigDecimal
 import javax.persistence.Entity
 import javax.persistence.EnumType

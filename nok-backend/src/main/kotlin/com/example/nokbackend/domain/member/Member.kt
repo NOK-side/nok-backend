@@ -2,7 +2,7 @@ package com.example.nokbackend.domain.member
 
 import com.example.nokbackend.application.UpdateMemberRequest
 import com.example.nokbackend.application.UpdatePasswordRequest
-import com.example.nokbackend.infra.BaseEntity
+import com.example.nokbackend.domain.BaseEntity
 import javax.persistence.*
 
 @Entity

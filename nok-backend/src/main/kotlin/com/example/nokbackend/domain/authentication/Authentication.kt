@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.authentication
 
-import com.example.nokbackend.infra.BaseEntity
+import com.example.nokbackend.domain.BaseEntity
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
 import javax.persistence.Entity

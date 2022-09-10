@@ -1,10 +1,10 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.BaseEntityUtil
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
-import com.example.nokbackend.infra.BaseEntityUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

@@ -1,11 +1,11 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.BaseEntityUtil
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.cart.findByIdCheck
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.infra.BaseEntityUtil
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

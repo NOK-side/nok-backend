@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.memberGifticon
 
+import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.infra.BaseEntity
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDate

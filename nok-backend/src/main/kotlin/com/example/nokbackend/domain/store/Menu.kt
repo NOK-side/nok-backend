@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.store
 
 import com.example.nokbackend.application.UpdateMenuRequest
-import com.example.nokbackend.infra.BaseEntity
+import com.example.nokbackend.domain.BaseEntity
 import java.math.BigDecimal
 import javax.persistence.*
 
