@@ -61,7 +61,7 @@ class AuthenticationServiceTest @Autowired constructor(
             println("code = ${authentication.code}, input = $code")
             authService.confirmAuthentication(ConfirmAuthenticationRequest(id, authTarget, code), authType)
             fail()
-        } catch (exception: IllegalStateException) {
+        } catch (exception: IllegalArgumentException) {
             //pass
         }
     }

@@ -4,8 +4,6 @@ import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.Password
-import org.springframework.web.multipart.MultipartFile
-import java.io.Serializable
 import javax.validation.constraints.Email
 
 data class RegisterMemberRequest(

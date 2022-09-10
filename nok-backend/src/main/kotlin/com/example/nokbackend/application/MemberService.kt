@@ -5,7 +5,6 @@ import com.example.nokbackend.domain.member.*
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 @Transactional

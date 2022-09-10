@@ -4,7 +4,6 @@ import com.example.nokbackend.domain.store.Menu
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage
 import com.example.nokbackend.domain.store.StoreInformation
-import com.example.nokbackend.util.DmlStatus
 import java.math.BigDecimal
 
 data class RegisterStoreRequest(
@@ -21,25 +20,6 @@ data class RegisterStoreRequest(
         )
     }
 }
-//
-//data class CommonMenuRequest(
-//    val id: Long?,
-//    val name: String,
-//    val price: BigDecimal,
-//    val description: String,
-//    val imageUrl: String,
-//    val dmlStatus: DmlStatus = DmlStatus.NOTHING
-//) {
-//    fun toEntity(store: Store): Menu {
-//        return Menu(
-//            name = name,
-//            price = price,
-//            description = description,
-//            imageUrl = imageUrl,
-//            store = store
-//        )
-//    }
-//}
 
 data class RegisterMenuRequest(
     val name: String,
@@ -69,7 +49,6 @@ data class UpdateMenuRequest(
 data class DeleteMenuRequest(
     val id: Long
 )
-
 
 data class FindStoreCondition(
     val name: String?,
