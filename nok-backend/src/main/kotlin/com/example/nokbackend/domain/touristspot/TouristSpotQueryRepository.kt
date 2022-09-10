@@ -18,12 +18,10 @@ class TouristSpotQueryRepository(
             select(entity(TouristSpot::class))
             from(entity(TouristSpot::class))
             associate(TouristSpot::class, Location::class, on(TouristSpot::location))
-            where(
-                and(
-                    name?.run { column(TouristSpot::name).like("%${this.trim()}%") },
-                    addressKeyword?.run { column(Location::landNumberAddress).like("%${this.trim()}%") },
-                    addressKeyword?.run { column(Location::roadNameAddress).like("%${this.trim()}%") }
-                )
+            whereAnd(
+                name?.run { column(TouristSpot::name).like("%${this.trim()}%") },
+                addressKeyword?.run { column(Location::landNumberAddress).like("%${this.trim()}%") },
+                addressKeyword?.run { column(Location::roadNameAddress).like("%${this.trim()}%") }
             )
         }
     }

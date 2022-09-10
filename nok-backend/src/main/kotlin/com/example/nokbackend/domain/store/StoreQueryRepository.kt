@@ -19,12 +19,10 @@ class StoreQueryRepository(
             select(entity(Store::class))
             from(entity(Store::class))
             associate(Store::class, StoreInformation::class, on(Store::storeInformation))
-            where(
-                and(
-                    category?.run { column(StoreInformation::category).equal(this) },
-                    name?.run { column(StoreInformation::name).like("%${this.trim()}%") },
-                    column(Store::status).equal(Store.Status.ACTIVE)
-                )
+            whereAnd(
+                category?.run { column(StoreInformation::category).equal(this) },
+                name?.run { column(StoreInformation::name).like("%${this.trim()}%") },
+                column(Store::status).equal(Store.Status.ACTIVE)
             )
             orderBy(column(Store::id).desc())
         }
