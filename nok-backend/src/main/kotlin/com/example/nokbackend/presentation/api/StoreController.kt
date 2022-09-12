@@ -3,9 +3,11 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import springfox.documentation.annotations.ApiIgnore
 
 @RestController
 @RequestMapping("/store")
@@ -32,19 +34,19 @@ class StoreController(
     }
 
     @PutMapping("/info/{storeId}")
-    fun updateStoreInformation(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<Any> {
+    fun updateStoreInformation(@ApiIgnore @MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<Any> {
         storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
         return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @PutMapping("/info/{storeId}/menu")
-    fun updateStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateMenuRequest: List<UpdateMenuRequest>): ResponseEntity<Any> {
+    fun updateStoreMenus(@ApiIgnore @MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateMenuRequest: List<UpdateMenuRequest>): ResponseEntity<Any> {
         storeService.updateMenu(member, storeId, updateMenuRequest)
         return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
 
     @DeleteMapping("/info/{storeId}/menu")
-    fun deleteStoreMenus(@MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody deleteMenuRequest: List<DeleteMenuRequest>): ResponseEntity<Any> {
+    fun deleteStoreMenus(@ApiIgnore @MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody deleteMenuRequest: List<DeleteMenuRequest>): ResponseEntity<Any> {
         storeService.deleteMenu(member, storeId, deleteMenuRequest)
         return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
     }
