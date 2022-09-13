@@ -43,8 +43,7 @@ data class UpdatePasswordRequest(
 )
 
 data class WithdrawMemberRequest(
-    val authenticationId: Long,
-    val authenticationCode: String
+    val password: Password
 )
 
 data class LoginRequest(

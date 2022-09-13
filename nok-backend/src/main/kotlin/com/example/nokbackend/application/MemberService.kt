@@ -25,14 +25,7 @@ class MemberService(
     }
 
     fun withdraw(member: Member, withdrawMemberRequest: WithdrawMemberRequest) {
-        authenticationService.confirmAuthentication(
-            ConfirmAuthenticationRequest(
-                withdrawMemberRequest.authenticationId,
-                member.email,
-                withdrawMemberRequest.authenticationCode
-            ),
-            Authentication.Type.WITHDRAW
-        )
+        member.authenticate(withdrawMemberRequest.password)
         member.inActivate()
     }
 
