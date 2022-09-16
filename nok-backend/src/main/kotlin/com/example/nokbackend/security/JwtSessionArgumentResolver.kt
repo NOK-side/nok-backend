@@ -1,8 +1,8 @@
 package com.example.nokbackend.security
 
-import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.member.findByEmail
+import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.model.member.MemberRepository
+import com.example.nokbackend.domain.model.member.findByEmail
 import com.example.nokbackend.util.http.BearerHeader
 import org.springframework.core.MethodParameter
 import org.springframework.http.HttpHeaders

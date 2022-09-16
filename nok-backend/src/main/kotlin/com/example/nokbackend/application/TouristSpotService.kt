@@ -1,8 +1,8 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.touristspot.TouristSpotQueryRepository
-import com.example.nokbackend.domain.touristspot.TouristSpotRepository
-import com.example.nokbackend.domain.touristspot.findByIdCheck
+import com.example.nokbackend.domain.model.touristspot.TouristSpotQueryRepository
+import com.example.nokbackend.domain.model.touristspot.TouristSpotRepository
+import com.example.nokbackend.domain.model.touristspot.findByIdCheck
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

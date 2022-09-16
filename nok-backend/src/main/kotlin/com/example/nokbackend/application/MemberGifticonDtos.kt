@@ -1,7 +1,7 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.gifticon.Gifticon
-import com.example.nokbackend.domain.memberGifticon.MemberGifticon
+import com.example.nokbackend.domain.model.gifticon.Gifticon
+import com.example.nokbackend.domain.model.memberGifticon.MemberGifticon
 import java.math.BigDecimal
 import java.time.LocalDate
 

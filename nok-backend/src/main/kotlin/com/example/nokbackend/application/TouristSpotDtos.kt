@@ -1,8 +1,8 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.touristspot.Facility
-import com.example.nokbackend.domain.touristspot.Location
-import com.example.nokbackend.domain.touristspot.TouristSpot
+import com.example.nokbackend.domain.model.touristspot.Facility
+import com.example.nokbackend.domain.model.touristspot.Location
+import com.example.nokbackend.domain.model.touristspot.TouristSpot
 import java.math.BigDecimal
 
 data class FindTouristSpotByDistanceRequest(

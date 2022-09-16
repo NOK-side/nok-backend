@@ -1,8 +1,8 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.store.*
+import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.model.member.MemberRepository
+import com.example.nokbackend.domain.model.store.*
 import com.example.nokbackend.fixture.*
 import io.mockk.Runs
 import io.mockk.every

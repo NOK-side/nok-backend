@@ -1,8 +1,8 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
-import com.example.nokbackend.domain.authentication.Authentication
-import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.model.authentication.Authentication
+import com.example.nokbackend.domain.model.member.Member
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

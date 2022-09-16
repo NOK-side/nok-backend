@@ -1,9 +1,9 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.store.Menu
-import com.example.nokbackend.domain.store.Store
-import com.example.nokbackend.domain.store.StoreImage
-import com.example.nokbackend.domain.store.StoreInformation
+import com.example.nokbackend.domain.model.store.Menu
+import com.example.nokbackend.domain.model.store.Store
+import com.example.nokbackend.domain.model.store.StoreImage
+import com.example.nokbackend.domain.model.store.StoreInformation
 import java.math.BigDecimal
 
 data class RegisterStoreRequest(

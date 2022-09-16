@@ -1,11 +1,12 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.gifticon.Gifticon
-import com.example.nokbackend.domain.gifticon.GifticonRepository
-import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.store.StoreRepository
-import com.example.nokbackend.domain.store.findByOwnerIdCheck
+import com.example.nokbackend.domain.model.gifticon.Gifticon
+import com.example.nokbackend.domain.model.gifticon.GifticonRepository
+import com.example.nokbackend.domain.model.gifticon.findByIdCheck
+import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.model.store.StoreRepository
+import com.example.nokbackend.domain.model.store.findByOwnerIdCheck
+
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

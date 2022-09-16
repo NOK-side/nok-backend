@@ -1,6 +1,6 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.model.gifticon.Gifticon
 import java.math.BigDecimal
 
 data class FindGifticonCondition(

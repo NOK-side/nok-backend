@@ -1,8 +1,8 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.cart.Cart
-import com.example.nokbackend.domain.gifticon.Gifticon
-import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.model.cart.Cart
+import com.example.nokbackend.domain.model.gifticon.Gifticon
+import com.example.nokbackend.domain.model.member.Member
 import java.math.BigDecimal
 
 data class RegisterItemToCartRequest(

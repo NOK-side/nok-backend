@@ -1,6 +1,6 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.store.Menu
+import com.example.nokbackend.domain.model.store.Menu
 import java.math.BigDecimal
 
 const val menuName: String = "testMenu"
