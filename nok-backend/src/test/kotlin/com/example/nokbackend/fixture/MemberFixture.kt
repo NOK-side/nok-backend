@@ -1,8 +1,8 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.model.member.Member
-import com.example.nokbackend.domain.model.member.MemberInformation
-import com.example.nokbackend.domain.model.member.Password
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberInformation
+import com.example.nokbackend.domain.member.Password
 
 const val email: String = "test@test.com"
 const val memberId: String = "testMemberId"

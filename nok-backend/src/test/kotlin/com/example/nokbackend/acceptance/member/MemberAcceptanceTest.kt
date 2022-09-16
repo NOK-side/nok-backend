@@ -5,8 +5,8 @@ import com.example.nokbackend.DatabaseCleanup
 import com.example.nokbackend.application.ConfirmAuthenticationRequest
 import com.example.nokbackend.application.RegisterMemberRequest
 import com.example.nokbackend.application.VerifyEmailRequest
-import com.example.nokbackend.domain.model.authentication.Authentication
-import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.fixture.*
 import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given

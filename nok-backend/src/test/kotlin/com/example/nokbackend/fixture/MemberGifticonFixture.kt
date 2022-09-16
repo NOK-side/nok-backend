@@ -1,6 +1,6 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.model.memberGifticon.MemberGifticon
+import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import java.time.LocalDate
 
 fun aMemberGifticon(

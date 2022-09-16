@@ -2,7 +2,7 @@ package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.GifticonService
 import com.example.nokbackend.application.RegisterGifticonRequest
-import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.HttpStatus

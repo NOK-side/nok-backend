@@ -1,10 +1,10 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.authentication.Authentication
-import com.example.nokbackend.domain.model.member.MemberRepository
-import com.example.nokbackend.domain.model.member.existByEmail
-import com.example.nokbackend.domain.model.member.existByMemberId
-import com.example.nokbackend.domain.model.member.findByMemberIdCheck
+import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.existByEmail
+import com.example.nokbackend.domain.member.existByMemberId
+import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.security.JwtTokenProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

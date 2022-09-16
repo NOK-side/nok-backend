@@ -1,8 +1,8 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.authentication.Authentication
-import com.example.nokbackend.domain.model.authentication.AuthenticationRepository
-import com.example.nokbackend.domain.model.authentication.findByIdAndTargetAndTypeCheck
+import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.authentication.AuthenticationRepository
+import com.example.nokbackend.domain.authentication.findByIdAndTargetAndTypeCheck
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

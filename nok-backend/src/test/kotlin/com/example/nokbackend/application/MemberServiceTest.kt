@@ -1,9 +1,9 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.member.MemberRepository
-import com.example.nokbackend.domain.model.member.Password
-import com.example.nokbackend.domain.model.member.findByEmailCheck
-import com.example.nokbackend.domain.model.member.findByMemberIdCheck
+import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.Password
+import com.example.nokbackend.domain.member.findByEmailCheck
+import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.fixture.aMember
 import com.example.nokbackend.fixture.aUuid
 import com.example.nokbackend.fixture.email

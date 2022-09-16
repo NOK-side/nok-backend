@@ -1,6 +1,6 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.firebase.Firebase
+import com.example.nokbackend.domain.firebase.Firebase
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 

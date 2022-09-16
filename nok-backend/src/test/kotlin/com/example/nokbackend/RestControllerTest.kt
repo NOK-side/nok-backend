@@ -1,7 +1,7 @@
 package com.example.nokbackend
 
 import com.example.nokbackend.application.RegisterMemberRequest
-import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.fixture.*
 import com.example.nokbackend.security.JwtSessionArgumentResolver
 import com.example.nokbackend.security.MemberClaim

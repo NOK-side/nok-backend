@@ -1,6 +1,6 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.model.gifticon.Gifticon
+import com.example.nokbackend.domain.gifticon.Gifticon
 import java.math.BigDecimal
 
 const val gifticonName = "test gifticon"

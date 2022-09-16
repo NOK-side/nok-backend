@@ -1,6 +1,6 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.model.store.*
+import com.example.nokbackend.domain.store.*
 
 const val storeBusinessNumber: String = "ABCDEFG"
 const val storeName: String = "test store"

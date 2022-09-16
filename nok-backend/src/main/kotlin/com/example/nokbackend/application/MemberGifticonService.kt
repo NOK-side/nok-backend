@@ -1,16 +1,16 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.BaseEntityUtil
-import com.example.nokbackend.domain.model.cart.CartRepository
-import com.example.nokbackend.domain.model.gifticon.Gifticon
-import com.example.nokbackend.domain.model.gifticon.GifticonRepository
-import com.example.nokbackend.domain.model.gifticon.findByIdCheck
-import com.example.nokbackend.domain.model.member.Member
-import com.example.nokbackend.domain.model.member.MemberRepository
-import com.example.nokbackend.domain.model.member.findByMemberIdCheck
-import com.example.nokbackend.domain.model.memberGifticon.MemberGifticon
-import com.example.nokbackend.domain.model.memberGifticon.MemberGifticonRepository
-import com.example.nokbackend.domain.model.memberGifticon.findByIdCheck
+import com.example.nokbackend.domain.BaseEntityUtil
+import com.example.nokbackend.domain.cart.CartRepository
+import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.gifticon.findByIdCheck
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.findByMemberIdCheck
+import com.example.nokbackend.domain.memberGifticon.MemberGifticon
+import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
+import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate

@@ -3,8 +3,6 @@ package com.example.nokbackend.domain.authentication
 import com.example.nokbackend.application.AuthenticationService
 import com.example.nokbackend.application.ConfirmAuthenticationRequest
 import com.example.nokbackend.application.UUIDGenerator
-import com.example.nokbackend.domain.model.authentication.Authentication
-import com.example.nokbackend.domain.model.authentication.AuthenticationRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test

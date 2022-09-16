@@ -1,8 +1,7 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.authentication.Authentication
+import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.*
-import com.example.nokbackend.domain.model.member.*
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

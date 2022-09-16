@@ -1,7 +1,7 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
-import com.example.nokbackend.domain.model.member.Member
+import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.http.HttpStatus

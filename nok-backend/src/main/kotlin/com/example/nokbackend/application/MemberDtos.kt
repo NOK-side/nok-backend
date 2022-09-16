@@ -1,9 +1,9 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.authentication.Authentication
-import com.example.nokbackend.domain.model.member.Member
-import com.example.nokbackend.domain.model.member.MemberInformation
-import com.example.nokbackend.domain.model.member.Password
+import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberInformation
+import com.example.nokbackend.domain.member.Password
 import javax.validation.constraints.Email
 
 data class RegisterMemberRequest(

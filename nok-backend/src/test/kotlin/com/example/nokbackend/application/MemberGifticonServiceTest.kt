@@ -1,15 +1,15 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.cart.CartRepository
-import com.example.nokbackend.domain.model.gifticon.GifticonRepository
-import com.example.nokbackend.domain.model.gifticon.findByIdCheck
-import com.example.nokbackend.domain.model.member.Member
-import com.example.nokbackend.domain.model.member.MemberInformation
-import com.example.nokbackend.domain.model.member.MemberRepository
-import com.example.nokbackend.domain.model.member.findByMemberIdCheck
-import com.example.nokbackend.domain.model.memberGifticon.MemberGifticon
-import com.example.nokbackend.domain.model.memberGifticon.MemberGifticonRepository
-import com.example.nokbackend.domain.model.memberGifticon.findByIdCheck
+import com.example.nokbackend.domain.cart.CartRepository
+import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.gifticon.findByIdCheck
+import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberInformation
+import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.findByMemberIdCheck
+import com.example.nokbackend.domain.memberGifticon.MemberGifticon
+import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
+import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import com.example.nokbackend.fixture.*
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

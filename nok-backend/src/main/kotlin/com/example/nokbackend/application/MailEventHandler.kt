@@ -1,6 +1,6 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.model.mail.Mail
+import com.example.nokbackend.domain.mail.Mail
 import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component

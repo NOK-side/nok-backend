@@ -1,6 +1,6 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.model.authentication.Authentication
+import com.example.nokbackend.domain.authentication.Authentication
 import java.time.LocalDateTime
 
 fun aRegisterAuthentication(
