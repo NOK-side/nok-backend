@@ -34,7 +34,7 @@ class SessionService(
         memberRepository.save(member)
         val token = jwtTokenProvider.createToken(member.email)
 
-        return LoginResponse(token, member.memberId, member.email)
+        return LoginResponse(token, member.memberId, member.email, member.name, member.profileImg, member.role)
     }
 
     fun generateTokenWithLogin(loginRequest: LoginRequest): LoginResponse {
@@ -44,6 +44,6 @@ class SessionService(
 
         val token = jwtTokenProvider.createToken(member.email)
 
-        return LoginResponse(token, member.memberId, member.email)
+        return LoginResponse(token, member.memberId, member.email, member.name, member.profileImg, member.role)
     }
 }
