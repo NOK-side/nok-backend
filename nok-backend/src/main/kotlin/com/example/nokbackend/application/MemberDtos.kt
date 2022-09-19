@@ -104,7 +104,7 @@ data class ResetMemberPasswordRequest(
 
 data class ResetMemberPasswordResponse(
     val message: String,
-    val code: String,
+    val code: String
 )
 
 data class VerifyEmailRequest(
@@ -120,7 +120,10 @@ data class CheckMemberIdDuplicationRequest(
 data class LoginResponse(
     val token: String,
     val memberId: String,
-    val email: String
+    val email: String,
+    val name: String,
+    var profileImg: String,
+    var role: Member.Role
 )
 
 enum class ResultCode(val code: String){
