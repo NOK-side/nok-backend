@@ -9,7 +9,7 @@ class MissionGroup(
 
     var description: String,
 
-    var priceId: Long,
+    var prizeId: Long,
 
     var imageUrl: String,
 
