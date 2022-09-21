@@ -1,5 +1,6 @@
 package com.example.nokbackend.domain.store
 
+import com.example.nokbackend.domain.Address
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Embedded

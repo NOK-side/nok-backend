@@ -3,7 +3,7 @@ package com.example.nokbackend
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.Password
-import com.example.nokbackend.domain.store.Address
+import com.example.nokbackend.domain.Address
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreInformation
