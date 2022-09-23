@@ -15,4 +15,10 @@ class CommonController(
         val response = imageService.uploadFiles(images)
         return ResponseEntity.ok().body(ApiResponse.success(response))
     }
+
+    @PostMapping("/delete/img")
+    fun deleteImage(@RequestBody deleteFileRequests: List<DeleteFileRequest>): ResponseEntity<Any> {
+        imageService.deleteFiles(deleteFileRequests)
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+    }
 }

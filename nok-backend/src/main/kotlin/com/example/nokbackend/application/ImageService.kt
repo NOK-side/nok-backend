@@ -17,4 +17,8 @@ class ImageService(
 
         return firebase.uploadFile(uploadFileRequests)
     }
+
+    fun deleteFiles(deleteFileRequests: List<DeleteFileRequest>) {
+        firebase.deleteFile(deleteFileRequests)
+    }
 }

@@ -75,6 +75,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.6.4")
+    implementation(kotlin("stdlib"))
+    implementation("io.arrow-kt:arrow-core:1.1.2")
+    implementation("io.arrow-kt:arrow-fx-coroutines:1.1.2")
+    implementation("io.arrow-kt:arrow-fx-stm:1.1.2")
 
     implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3")
 }

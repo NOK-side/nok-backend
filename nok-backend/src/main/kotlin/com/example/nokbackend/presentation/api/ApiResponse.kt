@@ -5,7 +5,7 @@ data class ApiResponse<T>(
     val body: T? = null
 ) {
     companion object {
-        fun error(message: String?): ApiResponse<Unit> = ApiResponse(message = message)
+        fun error(message: String?): ApiResponse<EmptyBody> = ApiResponse(message = message, body = EmptyBody)
 
         fun <T> success(body: T?): ApiResponse<T> = ApiResponse(body = body)
     }

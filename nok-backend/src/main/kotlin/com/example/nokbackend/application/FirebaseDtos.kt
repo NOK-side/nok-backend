@@ -11,3 +11,7 @@ data class UploadFileResponse(
     val index: Int,
     val url: String
 )
+
+data class DeleteFileRequest(
+    val url: String
+)
