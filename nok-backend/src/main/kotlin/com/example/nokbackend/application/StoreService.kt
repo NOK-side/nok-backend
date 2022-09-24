@@ -5,6 +5,7 @@ import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
+import kotlinx.coroutines.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,15 +32,18 @@ class StoreService(
             Authentication.Type.REGISTER
         )
 
-        val owner = saveOwner(registerStoreRequest.owner)
+        return runBlocking {
+            val store = withContext(Dispatchers.IO) {
+                val owner = saveOwner(registerStoreRequest.owner)
+                saveStore(registerStoreRequest, owner)
+            }
 
-        val store = saveStore(registerStoreRequest, owner)
+            launch(Dispatchers.IO) { saveStoreImages(registerStoreRequest.storeImages, store) }
 
-        saveStoreImages(registerStoreRequest.storeImages, store)
+            launch(Dispatchers.IO) { saveMenus(registerStoreRequest.menus, store) }
 
-        saveMenus(registerStoreRequest.menus, store)
-
-        return store.id
+            store.id
+        }
     }
 
     private fun saveMenus(commonMenuRequests: List<RegisterMenuRequest>, store: Store) {
@@ -77,15 +81,15 @@ class StoreService(
     }
 
     fun findStoreInformation(storeId: Long): StoreDetailResponse {
-        val store = storeRepository.findByIdCheck(storeId)
+        val store = storeRepository.findByIdAndStatusCheck(storeId, Store.Status.ACTIVE)
 
-        check(store.status == Store.Status.ACTIVE) { "삭제되거나 등록대기 상태인 점포입니다" }
+        return runBlocking {
+            val storeImages = async(Dispatchers.IO) { storeImageRepository.findByStoreAndStatus(store, StoreImage.Status.ACTIVE) }
 
-        val storeImages = storeImageRepository.findByStoreAndStatus(store, StoreImage.Status.ACTIVE)
+            val menus = async(Dispatchers.IO) { menuRepository.findByStoreAndStatus(store, Menu.Status.ACTIVE) }
 
-        val menus = menuRepository.findByStoreAndStatus(store, Menu.Status.ACTIVE)
-
-        return StoreDetailResponse(store, storeImages, menus)
+            StoreDetailResponse(store, storeImages.await(), menus.await())
+        }
     }
 
     fun updateStoreInformation(member: Member, storeId: Long, updateStoreInformationRequest: UpdateStoreInformationRequest) {
