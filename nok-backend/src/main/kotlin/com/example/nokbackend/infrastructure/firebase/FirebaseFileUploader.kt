@@ -34,7 +34,7 @@ class FirebaseFileUploader {
             }
         }.getOrElse {
             uploadFileResponse.forEach {
-                deleteFiles(it.url, bucket)
+                deleteFile(it.url, bucket)
             }
 
             throw RuntimeException("파일 업로드에 실패하였습니다")
@@ -50,7 +50,7 @@ class FirebaseFileUploader {
             runBlocking {
                 deleteFileRequests.forEach {
                     launch {
-                        deleteFiles(getFilenameFromUrl(it.url), bucket)
+                        deleteFile(getFilenameFromUrl(it.url), bucket)
                     }
                 }
             }
@@ -59,7 +59,7 @@ class FirebaseFileUploader {
         }
     }
 
-    private fun deleteFiles(url: String, bucket: Bucket) {
+    private fun deleteFile(url: String, bucket: Bucket) {
         val filenameFromUrl = getFilenameFromUrl(url)
         bucket.get(filenameFromUrl).delete()
     }
@@ -71,9 +71,8 @@ class FirebaseFileUploader {
         return PREFIX + uploadFileRequest.name + SUFFIX
     }
 
-    private fun getFilenameFromUrl(url: String): String {
-        return url.removePrefix(PREFIX).removeSuffix(SUFFIX)
-    }
+    private fun getFilenameFromUrl(url: String): String = url.removePrefix(PREFIX).removeSuffix(SUFFIX)
+
 
     companion object {
         private const val PREFIX = "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/"
