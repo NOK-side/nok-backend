@@ -72,7 +72,8 @@ class InitService(
                         "",
                         "",
                         BusinessHour(9, 18),
-                        "SUNDAY"
+                        "SUNDAY",
+                        ""
                     ),
                     Store.Status.ACTIVE
                 )

@@ -39,7 +39,10 @@ class StoreInformation(
     var businessHour: BusinessHour,
 
     @Column
-    var holidays: String
+    var holidays: String,
+
+    @Column
+    var menuPictureUrl: String
 ) {
 
     enum class Category { DEFAULT, CAFE, RESTAURANT }

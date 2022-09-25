@@ -29,7 +29,8 @@ fun aStoreInformation(
     description: String = storeDescription,
     keyword: String = storeKeyword,
     businessHour: BusinessHour = storeBusinessHour,
-    holidays: String = storeHolidays
+    holidays: String = storeHolidays,
+    menuPictureUrl: String = ""
 ) = StoreInformation(
     businessNumber = businessNumber,
     name = name,
@@ -40,7 +41,8 @@ fun aStoreInformation(
     description = description,
     keyword = keyword,
     businessHour = businessHour,
-    holidays = holidays
+    holidays = holidays,
+    menuPictureUrl = menuPictureUrl
 )
 
 fun aStoreImage(): StoreImage = StoreImage(
