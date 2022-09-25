@@ -33,8 +33,11 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String?,
-    val imageUrl: String?,
-    val verificationPassword: Password
+    val phoneNumber: String
+)
+
+data class UpdateMemberResponse(
+    val message: String
 )
 
 data class UpdatePasswordRequest(
@@ -42,6 +45,9 @@ data class UpdatePasswordRequest(
     val newPassword: Password
 )
 
+data class UpdatePasswordResponse(
+    val message: String
+)
 data class WithdrawMemberRequest(
     val password: Password
 )
@@ -71,8 +77,7 @@ data class FindMemberIdRequest(
 data class FindMemberIdResponse(
 //    val email: String,
     //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
-    val memberId: String,
-    val code: String,
+    val memberId: String
 )
 
 data class FindMemberPasswordRequest(
@@ -104,7 +109,6 @@ data class ResetMemberPasswordRequest(
 
 data class ResetMemberPasswordResponse(
     val message: String,
-    val code: String
 )
 
 data class VerifyEmailRequest(
@@ -125,8 +129,3 @@ data class LoginResponse(
     var profileImg: String,
     var role: Member.Role
 )
-
-enum class ResultCode(val code: String){
-    Success("success"),
-    Failed("fail")
-}

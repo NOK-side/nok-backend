@@ -37,14 +37,14 @@ class MemberController(
 
     @PutMapping("/me/info")
     fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestBody updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
-        memberService.updateMemberInfo(member, updateMemberRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        val updateMemberResponse = memberService.updateMemberInfo(member, updateMemberRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(updateMemberResponse))
     }
 
     @PatchMapping("/me/password")
     fun updateMyPassword(@ApiIgnore @MemberClaim member: Member, @RequestBody updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<Any> {
-        memberService.updatePassword(member, updatePasswordRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        val updatePasswordResponse = memberService.updatePassword(member, updatePasswordRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(updatePasswordResponse))
     }
 
     @DeleteMapping("/me")
