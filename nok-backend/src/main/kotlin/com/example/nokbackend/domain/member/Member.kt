@@ -65,14 +65,13 @@ class Member(
     }
 
     fun update(updateMemberRequest: UpdateMemberRequest) {
-        require(password == updateMemberRequest.verificationPassword) { "비밀번호가 일치하지 않습니다" }
 
         information = MemberInformation(
             memberId = memberId,
             email = email,
             name = updateMemberRequest.name ?: information.name,
             phoneNumber = information.phoneNumber,
-            profileImage = updateMemberRequest.imageUrl ?: information.profileImage
+            profileImage = information.profileImage
         )
     }
 
