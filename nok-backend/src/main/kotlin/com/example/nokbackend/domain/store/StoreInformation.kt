@@ -26,9 +26,6 @@ class StoreInformation(
     @Embedded
     var address: Address,
 
-    @Column
-    var imageUrl: String,
-
     @Lob
     var description: String,
 

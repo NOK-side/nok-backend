@@ -20,7 +20,7 @@ class GifticonController(
     @PostMapping("/register")
     fun registerGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody registerGifticonRequest: RegisterGifticonRequest): ResponseEntity<Any> {
         gifticonService.registerGifticon(member, registerGifticonRequest)
-        return ResponseEntity.status(HttpStatus.CREATED).build()
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(EmptyBody))
     }
 
     @GetMapping("/store/{storeId}")

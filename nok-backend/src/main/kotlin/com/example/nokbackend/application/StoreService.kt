@@ -1,11 +1,9 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.BaseEntityUtil
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*
-import kotlinx.coroutines.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,12 +13,11 @@ class StoreService(
     private val storeRepository: StoreRepository,
     private val storeQueryRepository: StoreQueryRepository,
     private val memberRepository: MemberRepository,
-    private val menuRepository: MenuRepository,
     private val storeImageRepository: StoreImageRepository,
     private val authenticationService: AuthenticationService
 ) {
 
-    fun registerStore(registerStoreRequest: RegisterStoreRequest): Long {
+    fun registerStore(registerStoreRequest: RegisterStoreRequest): RegisterStoreResponse {
         check(registerStoreRequest.owner.role == Member.Role.STORE) { "상점 주인으로만 등록할 수 있습니다" }
 
         authenticationService.confirmAuthentication(
@@ -32,31 +29,14 @@ class StoreService(
             Authentication.Type.REGISTER
         )
 
-        return runBlocking {
-            val store = withContext(Dispatchers.IO) {
-                val owner = saveOwner(registerStoreRequest.owner)
-                saveStore(registerStoreRequest, owner)
-            }
+        val owner = saveOwner(registerStoreRequest.owner)
 
-            launch(Dispatchers.IO) { saveStoreImages(registerStoreRequest.storeImages, store) }
+        val store = saveStore(registerStoreRequest, owner)
 
-            launch(Dispatchers.IO) { saveMenus(registerStoreRequest.menus, store) }
+        saveStoreImages(registerStoreRequest.storeImages, store)
 
-            store.id
-        }
+        return RegisterStoreResponse(store.id)
     }
-
-    private fun saveMenus(commonMenuRequests: List<RegisterMenuRequest>, store: Store) {
-        commonMenuRequests.forEach {
-            saveMenu(it, store)
-        }
-    }
-
-    private fun saveMenu(it: RegisterMenuRequest, store: Store) {
-        val menu = it.toEntity(store)
-        menuRepository.save(menu)
-    }
-
 
     private fun saveOwner(registerStoreRequest: RegisterMemberRequest): Member {
         val owner = registerStoreRequest.toEntity()
@@ -83,13 +63,9 @@ class StoreService(
     fun findStoreInformation(storeId: Long): StoreDetailResponse {
         val store = storeRepository.findByIdAndStatusCheck(storeId, Store.Status.ACTIVE)
 
-        return runBlocking {
-            val storeImages = async(Dispatchers.IO) { storeImageRepository.findByStoreAndStatus(store, StoreImage.Status.ACTIVE) }
+        val storeImages = storeImageRepository.findByStoreAndStatus(store, StoreImage.Status.ACTIVE)
 
-            val menus = async(Dispatchers.IO) { menuRepository.findByStoreAndStatus(store, Menu.Status.ACTIVE) }
-
-            StoreDetailResponse(store, storeImages.await(), menus.await())
-        }
+        return StoreDetailResponse(store, storeImages)
     }
 
     fun updateStoreInformation(member: Member, storeId: Long, updateStoreInformationRequest: UpdateStoreInformationRequest) {
@@ -98,32 +74,5 @@ class StoreService(
         check(store.ownerId == member.id) { "본인의 상점만 수정할 수 있습니다" }
 
         store.updateStoreInformation(updateStoreInformationRequest)
-    }
-
-    fun updateMenu(member: Member, storeId: Long, updateMenuRequests: List<UpdateMenuRequest>) {
-        val store = storeRepository.findByIdCheck(storeId)
-        check(store.ownerId == member.id) { "본인의 상점이 아닙니다" }
-
-        val menuIds = updateMenuRequests.map { it.id }
-        val menus = menuRepository.findAllById(menuIds)
-        val menuMap = BaseEntityUtil<Menu>().mapById(menus)
-
-        updateMenuRequests.forEach {
-            val menu = menuMap[it.id]!!
-            check(menu.store == store) { "해당 상점의 메뉴만 수정할 수 있습니다" }
-            menu.update(it)
-        }
-    }
-
-    fun deleteMenu(member: Member, storeId: Long, deleteMenuRequest: List<DeleteMenuRequest>) {
-        val store = storeRepository.findByIdCheck(storeId)
-        check(store.ownerId == member.id) { "본인의 상점이 아닙니다" }
-
-        val menuIds = deleteMenuRequest.map { it.id }
-
-        menuRepository.findAllById(menuIds).forEach {
-            check(it.store == store) { "해당 상점의 메뉴만 수정할 수 있습니다" }
-            it.inactive()
-        }
     }
 }

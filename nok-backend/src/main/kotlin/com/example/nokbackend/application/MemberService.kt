@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional
 class MemberService(
     private val memberRepository: MemberRepository,
     private val authenticationService: AuthenticationService,
-    private val imageService: ImageService,
     private val uuidGenerator: UUIDGenerator,
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {

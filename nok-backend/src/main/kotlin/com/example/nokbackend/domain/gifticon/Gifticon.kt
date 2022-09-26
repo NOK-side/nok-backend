@@ -11,20 +11,22 @@ import javax.persistence.Lob
 class Gifticon(
     val storeId: Long,
 
-    val productName: String,
+    var productName: String,
 
-    val period: Long,
+    var period: Long,
 
     @Lob
-    val description: String,
+    var description: String,
 
-    val price: BigDecimal,
-
-    @Enumerated(value = EnumType.STRING)
-    val category: Category = Category.NOTHING,
+    var price: BigDecimal,
 
     @Enumerated(value = EnumType.STRING)
-    val status: Status = Status.INACTIVE,
+    var category: Category = Category.NOTHING,
+
+    @Enumerated(value = EnumType.STRING)
+    var status: Status = Status.INACTIVE,
+
+    var imageUrl: String,
 
     id: Long = 0L
 ) : BaseEntity(id) {

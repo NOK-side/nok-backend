@@ -13,22 +13,25 @@ data class RegisterGifticonRequest(
     val description: String,
     val price: BigDecimal,
     val category: Gifticon.Category = Gifticon.Category.NOTHING,
-    val status: Gifticon.Status = Gifticon.Status.ACTIVE
+    val status: Gifticon.Status = Gifticon.Status.ACTIVE,
+    val imageUrl: String
 ) {
     fun toEntity(storeId: Long): Gifticon {
-        return Gifticon(storeId, productName, period, description, price, category, status)
+        return Gifticon(storeId, productName, period, description, price, category, status, imageUrl)
     }
 }
 
 data class GifticonResponse(
     val productName: String,
     val price: BigDecimal,
-    val category: Gifticon.Category
+    val category: Gifticon.Category,
+    val imageUrl: String
 ) {
     constructor(gifticon: Gifticon) : this(
         gifticon.productName,
         gifticon.price,
-        gifticon.category
+        gifticon.category,
+        gifticon.imageUrl
     )
 }
 
@@ -37,13 +40,15 @@ data class GifticonDetailResponse(
     val period: Long,
     val description: String,
     val price: BigDecimal,
-    val category: Gifticon.Category
+    val category: Gifticon.Category,
+    val imageUrl: String
 ) {
     constructor(gifticon: Gifticon) : this(
         gifticon.productName,
         gifticon.period,
         gifticon.description,
         gifticon.price,
-        gifticon.category
+        gifticon.category,
+        gifticon.imageUrl
     )
 }

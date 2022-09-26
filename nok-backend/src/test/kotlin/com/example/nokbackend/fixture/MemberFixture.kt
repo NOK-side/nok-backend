@@ -7,7 +7,7 @@ import com.example.nokbackend.domain.member.Password
 const val email: String = "test@test.com"
 const val memberId: String = "testMemberId"
 const val name: String = "tester"
-val phoneNumber: String = "010-0000-0000"
+const val phoneNumber: String = "010-0000-0000"
 val password: Password = Password("password")
 
 fun aMember(

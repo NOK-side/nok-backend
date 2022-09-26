@@ -15,5 +15,6 @@ fun aGifticon(): Gifticon = Gifticon(
     description = gifticonDescription,
     price = gifticonPrice,
     category = Gifticon.Category.CAFE,
-    status = Gifticon.Status.ACTIVE
+    status = Gifticon.Status.ACTIVE,
+    imageUrl = ""
 )

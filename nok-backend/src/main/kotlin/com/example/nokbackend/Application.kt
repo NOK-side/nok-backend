@@ -70,7 +70,6 @@ class InitService(
                         Address(""),
                         "",
                         "",
-                        "",
                         BusinessHour(9, 18),
                         "SUNDAY",
                         ""
@@ -86,7 +85,8 @@ class InitService(
                     "",
                     BigDecimal(10000),
                     Gifticon.Category.CAFE,
-                    Gifticon.Status.ACTIVE
+                    Gifticon.Status.ACTIVE,
+                    ""
                 )
 
                 em.persist(gifticon)
@@ -98,7 +98,8 @@ class InitService(
                     "",
                     BigDecimal(15000),
                     Gifticon.Category.CAFE,
-                    Gifticon.Status.ACTIVE
+                    Gifticon.Status.ACTIVE,
+                    ""
                 )
 
                 em.persist(gifticon2)

@@ -7,7 +7,7 @@ data class ApiResponse<T>(
     companion object {
         fun error(message: String?): ApiResponse<EmptyBody> = ApiResponse(message = message, body = EmptyBody)
 
-        fun <T> success(body: T?): ApiResponse<T> = ApiResponse(body = body)
+        fun <T> success(body: T?, lazyMessage: () -> String = { "" }): ApiResponse<T> = ApiResponse(body = body, message = lazyMessage())
     }
 }
 

@@ -1,6 +1,5 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.store.Menu
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage
 import com.example.nokbackend.domain.store.StoreInformation
@@ -9,8 +8,7 @@ import java.math.BigDecimal
 data class RegisterStoreRequest(
     val owner: RegisterMemberRequest,
     val storeInformation: StoreInformation,
-    val storeImages: List<String>,
-    val menus: List<RegisterMenuRequest> = listOf()
+    val storeImages: List<String>
 ) {
     fun toEntity(ownerId: Long): Store {
         return Store(
@@ -21,33 +19,8 @@ data class RegisterStoreRequest(
     }
 }
 
-data class RegisterMenuRequest(
-    val name: String,
-    val price: BigDecimal,
-    val description: String,
-    val imageUrl: String
-) {
-    fun toEntity(store: Store): Menu {
-        return Menu(
-            name = name,
-            price = price,
-            description = description,
-            imageUrl = imageUrl,
-            store = store
-        )
-    }
-}
-
-data class UpdateMenuRequest(
-    val id: Long,
-    val name: String,
-    val price: BigDecimal,
-    val description: String,
-    val imageUrl: String
-)
-
-data class DeleteMenuRequest(
-    val id: Long
+data class RegisterStoreResponse(
+    val storeId: Long
 )
 
 data class FindStoreCondition(
@@ -56,10 +29,12 @@ data class FindStoreCondition(
 )
 
 data class StoreResponse(
+    val id: Long,
     val name: String,
     val category: StoreInformation.Category
 ) {
     constructor(store: Store) : this(
+        id = store.id,
         name = store.name,
         category = store.category
     )
@@ -68,26 +43,10 @@ data class StoreResponse(
 data class StoreDetailResponse(
     val storeInformation: StoreInformation,
     val storeImageUrls: List<String>,
-    val menus: List<MenuResponse>
 ) {
-    constructor(store: Store, storeImages: List<StoreImage>, menus: List<Menu>) : this(
+    constructor(store: Store, storeImages: List<StoreImage>) : this(
         storeInformation = store.storeInformation,
         storeImageUrls = storeImages.map { it.imageUrl },
-        menus = menus.map { MenuResponse(it) }
-    )
-}
-
-data class MenuResponse(
-    val name: String,
-    val price: BigDecimal,
-    val description: String,
-    val imageUrl: String,
-) {
-    constructor(menu: Menu) : this(
-        name = menu.name,
-        price = menu.price,
-        description = menu.description,
-        imageUrl = menu.imageUrl
     )
 }
 

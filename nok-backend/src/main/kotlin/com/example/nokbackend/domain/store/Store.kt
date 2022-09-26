@@ -35,9 +35,6 @@ class Store(
     val address: Address
         get() = storeInformation.address
 
-    val imageUrl: String
-        get() = storeInformation.imageUrl
-
     val description: String
         get() = storeInformation.description
 

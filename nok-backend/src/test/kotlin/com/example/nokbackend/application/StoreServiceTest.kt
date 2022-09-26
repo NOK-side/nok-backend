@@ -27,9 +27,6 @@ class StoreServiceTest {
     private lateinit var memberRepository: MemberRepository
 
     @MockK
-    private lateinit var menuRepository: MenuRepository
-
-    @MockK
     private lateinit var storeImageRepository: StoreImageRepository
 
     @MockK
@@ -40,7 +37,7 @@ class StoreServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        storeService = StoreService(storeRepository, storeQueryRepository, memberRepository, menuRepository, storeImageRepository, authenticationService)
+        storeService = StoreService(storeRepository, storeQueryRepository, memberRepository, storeImageRepository, authenticationService)
     }
 
     @Test
@@ -48,13 +45,12 @@ class StoreServiceTest {
         every { authenticationService.confirmAuthentication(any(), any()) } just Runs
         every { memberRepository.save(any()) } returns aMember().apply { role = Member.Role.STORE }
         every { storeRepository.save(any()) } returns aStore()
-        every { menuRepository.save(any()) } returns aMenu()
         every { storeImageRepository.save(any()) } returns aStoreImage()
 
         val registerStoreRequest = createRegisterStoreRequest()
-        val storeId = storeService.registerStore(registerStoreRequest)
+        val storeResponse = storeService.registerStore(registerStoreRequest)
 
-        assertThat(storeId).isEqualTo(aStore().id)
+        assertThat(storeResponse.storeId).isEqualTo(aStore().id)
     }
 
     private fun createRegisterStoreRequest(): RegisterStoreRequest {
@@ -72,14 +68,7 @@ class StoreServiceTest {
 
         val storeInformation = aStoreInformation()
 
-        val registerMenuRequest = RegisterMenuRequest(
-            name = menuName,
-            price = menuPrice,
-            description = menuDescription,
-            imageUrl = "",
-        )
-
-        return RegisterStoreRequest(ownerRequest, storeInformation, listOf(), listOf(registerMenuRequest))
+        return RegisterStoreRequest(ownerRequest, storeInformation, listOf())
     }
 
     @Test

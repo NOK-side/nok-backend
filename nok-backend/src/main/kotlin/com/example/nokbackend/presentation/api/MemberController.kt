@@ -38,7 +38,7 @@ class MemberController(
     @PutMapping("/me/info")
     fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestBody updateMemberRequest: UpdateMemberRequest): ResponseEntity<Any> {
         val updateMemberResponse = memberService.updateMemberInfo(member, updateMemberRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(updateMemberResponse))
+        return ResponseEntity.ok().body(ApiResponse.success(updateMemberResponse) { "회원 정보가 수정되었습니다" })
     }
 
     @PatchMapping("/me/password")
