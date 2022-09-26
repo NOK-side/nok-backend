@@ -3,11 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.Password
 import com.example.nokbackend.domain.member.findByEmailCheck
-import com.example.nokbackend.domain.member.findByMemberIdCheck
-import com.example.nokbackend.fixture.aMember
-import com.example.nokbackend.fixture.aUuid
-import com.example.nokbackend.fixture.email
-import com.example.nokbackend.fixture.password
+import com.example.nokbackend.fixture.*
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -46,7 +42,7 @@ class MemberServiceTest {
     @Test
     fun 회원정보를_업데이트한다() {
         val member = aMember()
-        val updateMemberRequest = UpdateMemberRequest(name = "updated name", imageUrl = "", verificationPassword = password)
+        val updateMemberRequest = UpdateMemberRequest(name = "updated name", phoneNumber = phoneNumber)
 
         memberService.updateMemberInfo(member, updateMemberRequest)
 
