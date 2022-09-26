@@ -33,7 +33,7 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String?,
-    val phoneNumber: String
+    val phoneNumber: String?
 )
 
 data class UpdateMemberResponse(

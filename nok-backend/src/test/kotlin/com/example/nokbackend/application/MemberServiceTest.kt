@@ -22,9 +22,6 @@ class MemberServiceTest {
     private lateinit var authenticationService: AuthenticationService
 
     @MockK
-    private lateinit var imageService: ImageService
-
-    @MockK
     private lateinit var uuidGenerator: UUIDGenerator
 
     @MockK
@@ -35,7 +32,7 @@ class MemberServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        memberService = MemberService(memberRepository, authenticationService, imageService, uuidGenerator, applicationEventPublisher)
+        memberService = MemberService(memberRepository, authenticationService, uuidGenerator, applicationEventPublisher)
         every { applicationEventPublisher.publishEvent(any<MailEvent>()) } just Runs
     }
 

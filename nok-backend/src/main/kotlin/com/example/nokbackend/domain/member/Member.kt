@@ -70,7 +70,7 @@ class Member(
             memberId = memberId,
             email = email,
             name = updateMemberRequest.name ?: information.name,
-            phoneNumber = information.phoneNumber,
+            phoneNumber = updateMemberRequest.phoneNumber ?: information.phoneNumber,
             profileImage = information.profileImage
         )
     }
