@@ -1,14 +1,13 @@
 package com.example.nokbackend
 
+import com.example.nokbackend.domain.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.Password
-import com.example.nokbackend.domain.Address
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreInformation
 import com.example.nokbackend.domain.touristspot.Facility
-import com.example.nokbackend.domain.touristspot.Location
 import com.example.nokbackend.domain.touristspot.TouristSpot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
@@ -60,23 +59,25 @@ class InitService(
                 )
                 em.persist(member)
 
-                val store = Store(
-                    1,
-                    StoreInformation(
-                        "123123123",
-                        "test store",
-                        StoreInformation.Category.CAFE,
-                        "000-0000-0000",
-                        Address(""),
-                        "",
-                        "",
-                        BusinessHour(9, 18),
-                        "SUNDAY",
-                        ""
-                    ),
-                    Store.Status.ACTIVE
-                )
-                em.persist(store)
+                for (i in 0..20) {
+                    val store = Store(
+                        i.toLong(),
+                        StoreInformation(
+                            "123123123",
+                            "테스트 상점 $i",
+                            StoreInformation.Category.CAFE,
+                            "000-0000-0000",
+                            Location("도로명 주소", "지번 주소", BigDecimal(100), BigDecimal(100)),
+                            "이것은 $i 번재 테스트 상점인데요 어쩔티비 저쩔티비 크크루삥뽕",
+                            "",
+                            BusinessHour(9, 18),
+                            "SUNDAY",
+                            ""
+                        ),
+                        Store.Status.ACTIVE
+                    )
+                    em.persist(store)
+                }
 
                 val gifticon = Gifticon(
                     1,

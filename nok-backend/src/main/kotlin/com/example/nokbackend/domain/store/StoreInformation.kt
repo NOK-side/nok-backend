@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.store
 
-import com.example.nokbackend.domain.Address
+import com.example.nokbackend.domain.Location
 import javax.persistence.Column
 import javax.persistence.Embeddable
 import javax.persistence.Embedded
@@ -24,7 +24,7 @@ class StoreInformation(
     var phoneNumber: String,
 
     @Embedded
-    var address: Address,
+    var location: Location,
 
     @Lob
     var description: String,

@@ -1,4 +1,4 @@
-package com.example.nokbackend.domain.touristspot
+package com.example.nokbackend.domain
 
 import java.math.BigDecimal
 import javax.persistence.Column

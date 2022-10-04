@@ -1,8 +1,8 @@
 package com.example.nokbackend.domain.store
 
 import com.example.nokbackend.application.UpdateStoreInformationRequest
-import com.example.nokbackend.domain.Address
 import com.example.nokbackend.domain.BaseEntity
+import com.example.nokbackend.domain.Location
 import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -32,8 +32,8 @@ class Store(
     val phoneNumber: String
         get() = storeInformation.phoneNumber
 
-    val address: Address
-        get() = storeInformation.address
+    val location: Location
+        get() = storeInformation.location
 
     val description: String
         get() = storeInformation.description

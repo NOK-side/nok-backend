@@ -27,12 +27,10 @@ abstract class BaseEntity(
     }
 }
 
-class BaseEntityUtil<T: BaseEntity> {
-    fun mapById(targets: List<T>): HashMap<Long, T> {
-        val entityMap = hashMapOf<Long, T>()
+fun <T : BaseEntity> mapById(targets: List<T>): HashMap<Long, T> {
+    val entityMap = hashMapOf<Long, T>()
 
-        targets.forEach { entityMap[it.id] = it }
+    targets.forEach { entityMap[it.id] = it }
 
-        return entityMap
-    }
+    return entityMap
 }

@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.misson
 
 import com.example.nokbackend.domain.BaseEntity
-import com.example.nokbackend.domain.Address
+import com.example.nokbackend.domain.Location
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -18,7 +18,7 @@ class Mission(
 
     var description: String,
 
-    var location: Address,
+    var location: Location,
 
     @Enumerated(EnumType.STRING)
     val type: Type,
