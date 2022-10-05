@@ -27,7 +27,7 @@ abstract class BaseEntity(
     }
 }
 
-fun <T : BaseEntity> mapById(targets: List<T>): HashMap<Long, T> {
+fun <T : BaseEntity> toHashmapByIdAsKey(targets: List<T>): HashMap<Long, T> {
     val entityMap = hashMapOf<Long, T>()
 
     targets.forEach { entityMap[it.id] = it }

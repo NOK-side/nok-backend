@@ -3,7 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.mapById
+import com.example.nokbackend.domain.toHashmapByIdAsKey
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByMemberIdCheck
@@ -27,7 +27,7 @@ class MemberGifticonService(
         val memberGifticons = memberGifticonRepository.findByOwnerIdAndStatus(member.id, MemberGifticon.Status.ACTIVE)
 
         val gifticons = gifticonRepository.findAllById(memberGifticons.map { it.gifticonId })
-        val gifticonMap = mapById(gifticons)
+        val gifticonMap = toHashmapByIdAsKey(gifticons)
 
         return memberGifticons.map {
             MemberGifticonResponse(gifticonMap[it.gifticonId]!!, it)

@@ -1,13 +1,10 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.cart.Cart
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.cart.findByIdCheck
-import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
-import com.example.nokbackend.domain.mapById
+import com.example.nokbackend.domain.toHashmapByIdAsKey
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.util.http.compose
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,17 +18,11 @@ class CartService(
     fun findMyCart(member: Member): List<CartResponse> {
         val carts = cartRepository.findByOwnerId(member.id)
 
-        val mapToCartIds = { cartList: List<Cart> -> cartList.map { it.gifticonId } }
+        val gifticonIds = carts.map { it.gifticonId }
+        val gifticons = gifticonRepository.findAllById(gifticonIds)
+        val gifticonMap = toHashmapByIdAsKey(gifticons)
 
-        val findGifticonsByIds = { gifticonIds: List<Long> -> gifticonRepository.findAllById(gifticonIds) }
-
-        val toGifticonMap = { gifticons: List<Gifticon> -> mapById(gifticons) }
-
-        val gifticonMap = (toGifticonMap compose findGifticonsByIds compose mapToCartIds)(carts)
-
-        return carts.map {
-            CartResponse(gifticonMap[it.gifticonId]!!, it)
-        }
+        return carts.map { CartResponse(gifticonMap[it.gifticonId]!!, it) }
     }
 
     fun registerItemToCart(member: Member, registerItemToCartRequest: RegisterItemToCartRequest) {
