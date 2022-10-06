@@ -72,7 +72,7 @@ class InitService(
                             "",
                             BusinessHour(9, 18),
                             "SUNDAY",
-                            ""
+                            "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media"
                         ),
                         Store.Status.ACTIVE
                     )
@@ -87,7 +87,7 @@ class InitService(
                     BigDecimal(10000),
                     Gifticon.Category.CAFE,
                     Gifticon.Status.ACTIVE,
-                    ""
+                    "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media"
                 )
 
                 em.persist(gifticon)
@@ -100,7 +100,7 @@ class InitService(
                     BigDecimal(15000),
                     Gifticon.Category.CAFE,
                     Gifticon.Status.ACTIVE,
-                    ""
+                    "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media"
                 )
 
                 em.persist(gifticon2)
