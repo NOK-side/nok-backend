@@ -49,8 +49,8 @@ class MemberController(
 
     @DeleteMapping("/me")
     fun withdraw(@ApiIgnore @MemberClaim member: Member, @RequestBody withdrawMemberRequest: WithdrawMemberRequest): ResponseEntity<Any> {
-        memberService.withdraw(member, withdrawMemberRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        val withResponse = memberService.withdraw(member, withdrawMemberRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(withResponse))
     }
 
     @GetMapping("/find/id")

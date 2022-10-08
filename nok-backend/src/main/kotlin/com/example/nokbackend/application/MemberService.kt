@@ -25,9 +25,10 @@ class MemberService(
         return UpdatePasswordResponse("비밀번호가 변경되었습니다.")
     }
 
-    fun withdraw(member: Member, withdrawMemberRequest: WithdrawMemberRequest) {
+    fun withdraw(member: Member, withdrawMemberRequest: WithdrawMemberRequest): WithdrawMemberResponse {
         member.authenticate(withdrawMemberRequest.password)
         member.inActivate()
+        return WithdrawMemberResponse("회원 탈퇴하였습니다.")
     }
 
     fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): FindMemberIdResponse {
@@ -73,7 +74,7 @@ class MemberService(
 
         applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", randomPassword))
 
-        return ResetMemberPasswordResponse("등록된 이메일로 임시 비밀번호를 발송하였습니다.")
+        return ResetMemberPasswordResponse("등록된 이메일 ( "+ email + " ) 로 임시 비밀번호를 발송하였습니다.")
     }
 
     fun checkEmailDuplication(email: String) {

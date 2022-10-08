@@ -52,6 +52,10 @@ data class WithdrawMemberRequest(
     val password: Password
 )
 
+data class WithdrawMemberResponse(
+    val message: String
+)
+
 data class LoginRequest(
     val memberId: String,
     val password: Password
