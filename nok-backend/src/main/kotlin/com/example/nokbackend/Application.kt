@@ -2,7 +2,9 @@ package com.example.nokbackend
 
 import com.example.nokbackend.domain.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.member.LoginInformation
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.Password
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
@@ -48,13 +50,16 @@ class InitService(
         class Init(private val em: EntityManager) {
             fun init() {
                 val member = Member(
-                    memberId = "rkdals2134",
-                    email = "rkdals2134@naver.com",
+                    MemberInformation(
+                        memberId = "rkdals2134",
+                        email = "rkdals2134@naver.com",
+                        name = "tester",
+                        phoneNumber = "01000000000",
+                        profileImage = "testImg",
+                    ),
+                    loginInformation = LoginInformation("", ""),
                     password = Password("1q2w3e4r"),
-                    name = "tester",
                     role = Member.Role.STORE,
-                    phoneNumber = "01000000000",
-                    profileImg = "testImg",
                     status = Member.Status.ACTIVE
                 )
                 em.persist(member)

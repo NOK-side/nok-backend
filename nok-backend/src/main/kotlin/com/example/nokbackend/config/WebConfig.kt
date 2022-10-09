@@ -1,5 +1,6 @@
 package com.example.nokbackend.config
 
+import com.example.nokbackend.security.HeaderArgumentResolver
 import com.example.nokbackend.security.JwtInterceptor
 import com.example.nokbackend.security.JwtSessionArgumentResolver
 import com.example.nokbackend.security.JwtTokenProvider
@@ -13,7 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class WebConfig(
     private val jwtTokenProvider: JwtTokenProvider,
-    private val jwtArgsResolver: JwtSessionArgumentResolver
+    private val jwtArgsResolver: JwtSessionArgumentResolver,
+    private val headerArgumentResolver: HeaderArgumentResolver
 ) : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(jwtInterceptor())
@@ -21,6 +23,7 @@ class WebConfig(
 
     override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
         resolvers.add(jwtArgsResolver)
+        resolvers.add(headerArgumentResolver)
     }
 
     override fun addCorsMappings(registry: CorsRegistry) {

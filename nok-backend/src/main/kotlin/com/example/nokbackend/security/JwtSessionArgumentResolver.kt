@@ -13,7 +13,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 
 private const val BEARER = "Bearer"
-private const val INFO_EMAIL_PATH = "info.email"
 
 @Component
 class JwtSessionArgumentResolver(

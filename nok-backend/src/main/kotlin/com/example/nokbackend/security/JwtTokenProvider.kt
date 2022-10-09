@@ -7,16 +7,29 @@ import java.util.*
 import javax.crypto.SecretKey
 
 const val TWELVE_HOURS_IN_MILLISECONDS: Long = 1000 * 60 * 60 * 12
+const val ONE_WEEK_IN_MILLISECONDS: Long = 1000 * 60 * 60 * 24 * 7
 
 @Component
 class JwtTokenProvider(
     private val signingKey: SecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256),
-    private val expirationInMilliseconds: Long = TWELVE_HOURS_IN_MILLISECONDS,
+    private val accessTokenExpirationInMilliseconds: Long = TWELVE_HOURS_IN_MILLISECONDS,
+    private val refreshTokenExpirationInMilliseconds: Long = ONE_WEEK_IN_MILLISECONDS,
     private val claimEmail: String = "email"
 ) {
-    fun createToken(payload: String): String {
+    fun createAccessToken(payload: String): String {
         val now = Date()
-        val expiration = Date(now.time + expirationInMilliseconds)
+        val expiration = Date(now.time + accessTokenExpirationInMilliseconds)
+        return Jwts.builder()
+            .claim(claimEmail, payload)
+            .setIssuedAt(now)
+            .setExpiration(expiration)
+            .signWith(signingKey)
+            .compact()
+    }
+
+    fun createRefreshToken(payload: String): String {
+        val now = Date()
+        val expiration = Date(now.time + refreshTokenExpirationInMilliseconds)
         return Jwts.builder()
             .claim(claimEmail, payload)
             .setIssuedAt(now)
@@ -27,7 +40,7 @@ class JwtTokenProvider(
 
     fun getEmail(token: String): String {
         if (isValidToken(token).not()) {
-            throw RuntimeException("로그인 정보가 정확하지 않습니다")
+            throw RuntimeException("유효한 토큰이 아닙니다")
         }
 
         return getClaimsJws(token).body[claimEmail]

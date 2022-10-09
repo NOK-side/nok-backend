@@ -3,12 +3,17 @@ package com.example.nokbackend.domain.member
 import com.example.nokbackend.application.UpdateMemberRequest
 import com.example.nokbackend.application.UpdatePasswordRequest
 import com.example.nokbackend.domain.BaseEntity
+import org.hibernate.annotations.DynamicUpdate
 import javax.persistence.*
 
 @Entity
+@DynamicUpdate
 class Member(
     @Embedded
     var information: MemberInformation,
+
+    @Embedded
+    var loginInformation: LoginInformation,
 
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "password", nullable = false))
@@ -36,17 +41,6 @@ class Member(
 
     val profileImg: String
         get() = information.profileImage
-
-    constructor(
-        memberId: String,
-        email: String,
-        name: String,
-        phoneNumber: String,
-        profileImg: String,
-        password: Password,
-        role: Role = Role.NOTHING,
-        status: Status = Status.READY
-    ) : this(MemberInformation(memberId, email, name, phoneNumber, profileImg), password, role, status)
 
     fun authenticate(password: Password) {
         check(this.password == password) { "사용자 정보가 일치하지 않습니다." }
@@ -90,7 +84,7 @@ class Member(
 
     companion object {
         val DUMMY: Member
-            get() = Member("", "", "", "", "", Password(""))
+            get() = Member(MemberInformation("", "", "", "", ""), LoginInformation("", ""), Password(""), Role.USER, Status.ACTIVE)
     }
 }
 

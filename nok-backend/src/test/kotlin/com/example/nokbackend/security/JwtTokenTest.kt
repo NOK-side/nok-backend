@@ -11,15 +11,15 @@ class JwtTokenTest {
     @Test
     fun `payload를 넣어 토큰을 생성하고 토큰에서 다시 payload를 불러올 수 있는지 확인한다`() {
         val jwtTokenProvider = JwtTokenProvider()
-        val token = jwtTokenProvider.createToken(PAYLOAD)
+        val token = jwtTokenProvider.createAccessToken(PAYLOAD)
 
         assertThat(jwtTokenProvider.getEmail(token)).isEqualTo(PAYLOAD)
     }
 
     @Test
     fun `유효시간이 지난 토큰의 유효성 검사가 실패한다`() {
-        val jwtTokenProvider = JwtTokenProvider(expirationInMilliseconds = NEGATIVE_VALIDITY_TIME)
-        val token = jwtTokenProvider.createToken(PAYLOAD)
+        val jwtTokenProvider = JwtTokenProvider(accessTokenExpirationInMilliseconds = NEGATIVE_VALIDITY_TIME)
+        val token = jwtTokenProvider.createAccessToken(PAYLOAD)
 
         assertThat(jwtTokenProvider.isValidToken(token)).isFalse
     }

@@ -1,6 +1,7 @@
 package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.domain.member.LoginInformation
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.Password
@@ -19,12 +20,15 @@ data class RegisterMemberRequest(
     val authenticationId: Long,
     val authenticationCode: String
 ) {
-    fun toEntity() = Member(
-        memberId = memberId,
-        email = email,
-        name = name,
-        phoneNumber = phoneNumber,
-        profileImg = profileImage,
+    fun toEntity(loginInformation: LoginInformation = LoginInformation("", "")) = Member(
+        MemberInformation(
+            memberId = memberId,
+            email = email,
+            name = name,
+            phoneNumber = phoneNumber,
+            profileImage = profileImage
+        ),
+        loginInformation,
         password = password,
         role = role,
         status = status
@@ -48,6 +52,7 @@ data class UpdatePasswordRequest(
 data class UpdatePasswordResponse(
     val message: String
 )
+
 data class WithdrawMemberRequest(
     val password: Password
 )
@@ -122,10 +127,29 @@ data class CheckMemberIdDuplicationRequest(
 )
 
 data class LoginResponse(
-    val token: String,
     val memberId: String,
     val email: String,
     val name: String,
     var profileImg: String,
-    var role: Member.Role
+    var role: Member.Role,
+    val tokenResponse: TokenResponse
+) {
+    constructor(member: Member, tokenResponse: TokenResponse) : this(
+        member.memberId,
+        member.email,
+        member.name,
+        member.profileImg,
+        member.role,
+        tokenResponse
+    )
+}
+
+data class RefreshTokenRequest(
+    val memberId: String,
+    val refreshToken: String
+)
+
+data class TokenResponse(
+    val accessToken: String,
+    val refreshToken: String
 )
