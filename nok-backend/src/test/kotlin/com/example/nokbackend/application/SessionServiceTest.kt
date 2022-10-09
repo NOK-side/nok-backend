@@ -1,6 +1,7 @@
 package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.findByEmailCheck
 import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.fixture.aMember
 import com.example.nokbackend.fixture.memberId
@@ -45,10 +46,11 @@ class SessionServiceTest {
         @Test
         fun 유효한_리프레시_토큰을_보내면_성공한다() {
             userAgent = "user agent"
-            refreshTokenRequest = RefreshTokenRequest(memberId, refreshToken)
+            refreshTokenRequest = RefreshTokenRequest(refreshToken)
 
-            every { memberRepository.findByMemberIdCheck(any()) } returns aMember()
-            every { jwtTokenProvider.isValidToken(refreshToken) } returns true
+            every { memberRepository.findByEmailCheck(any()) } returns aMember()
+            every { jwtTokenProvider.isValidToken(any()) } returns true
+            every { jwtTokenProvider.getEmail(any()) } returns aMember().email
             every { jwtTokenProvider.createAccessToken(any()) } returns "valid access token"
             every { jwtTokenProvider.createRefreshToken(any()) } returns refreshToken
 
@@ -58,10 +60,11 @@ class SessionServiceTest {
         @Test
         fun 만료된_리프레시_토큰을_보내면_실패한다() {
             userAgent = "user agent"
-            refreshTokenRequest = RefreshTokenRequest(memberId, refreshToken)
+            refreshTokenRequest = RefreshTokenRequest(refreshToken)
 
-            every { memberRepository.findByMemberIdCheck(any()) } returns aMember()
-            every { jwtTokenProvider.isValidToken(refreshToken) } returns false
+            every { memberRepository.findByEmailCheck(any()) } returns aMember()
+            every { jwtTokenProvider.isValidToken(any()) } returns false
+            every { jwtTokenProvider.getEmail(any()) } returns aMember().email
             every { jwtTokenProvider.createAccessToken(any()) } returns "valid access token"
             every { jwtTokenProvider.createRefreshToken(any()) } returns refreshToken
 
@@ -73,10 +76,11 @@ class SessionServiceTest {
         @Test
         fun 보유한_리프레시_토큰과_일치하지_않으면_실패한다() {
             userAgent = "user agent"
-            refreshTokenRequest = RefreshTokenRequest(memberId, "not same refresh token with member")
+            refreshTokenRequest = RefreshTokenRequest("not same refresh token with member")
 
-            every { memberRepository.findByMemberIdCheck(any()) } returns aMember()
-            every { jwtTokenProvider.isValidToken(refreshToken) } returns false
+            every { memberRepository.findByEmailCheck(any()) } returns aMember()
+            every { jwtTokenProvider.isValidToken(any()) } returns false
+            every { jwtTokenProvider.getEmail(any()) } returns aMember().email
             every { jwtTokenProvider.createAccessToken(any()) } returns "valid access token"
             every { jwtTokenProvider.createRefreshToken(any()) } returns refreshToken
 

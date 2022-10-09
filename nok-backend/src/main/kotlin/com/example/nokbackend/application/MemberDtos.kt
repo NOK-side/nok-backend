@@ -145,7 +145,6 @@ data class LoginResponse(
 }
 
 data class RefreshTokenRequest(
-    val memberId: String,
     val refreshToken: String
 )
 

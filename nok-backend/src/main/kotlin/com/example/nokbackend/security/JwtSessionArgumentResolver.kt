@@ -4,6 +4,7 @@ import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByEmail
 import com.example.nokbackend.util.http.BearerHeader
+import com.example.nokbackend.util.http.HeaderHandler
 import org.springframework.core.MethodParameter
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
@@ -11,8 +12,6 @@ import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
-
-private const val BEARER = "Bearer"
 
 @Component
 class JwtSessionArgumentResolver(
@@ -29,21 +28,12 @@ class JwtSessionArgumentResolver(
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
     ): Any {
-        val token = extractBearerToken(webRequest) ?: return Member.DUMMY
+        val authorization = webRequest.getHeader(HttpHeaders.AUTHORIZATION) ?: return Member.DUMMY
+
+        val token = HeaderHandler.extractBearerToken(authorization)
 
         val email = jwtTokenProvider.getEmail(token)
 
         return memberRepository.findByEmail(email) ?: Member.DUMMY
-    }
-
-    private fun extractBearerToken(request: NativeWebRequest): String? {
-        val authorization = request.getHeader(HttpHeaders.AUTHORIZATION) ?: return null
-        val (tokenType, token) = BearerHeader.splitToTokenFormat(authorization)
-
-        if (tokenType != BEARER) {
-            throw IllegalAccessException()
-        }
-
-        return token
     }
 }
