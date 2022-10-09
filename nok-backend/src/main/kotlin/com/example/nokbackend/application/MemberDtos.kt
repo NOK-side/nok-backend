@@ -130,7 +130,7 @@ data class LoginResponse(
     val memberId: String,
     val email: String,
     val name: String,
-    var profileImg: String,
+    var profileImage: String,
     var role: Member.Role,
     val tokenResponse: TokenResponse
 ) {
@@ -138,7 +138,7 @@ data class LoginResponse(
         member.memberId,
         member.email,
         member.name,
-        member.profileImg,
+        member.profileImage,
         member.role,
         tokenResponse
     )

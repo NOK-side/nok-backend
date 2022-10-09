@@ -39,7 +39,7 @@ class Member(
     val phoneNumber: String
         get() = information.phoneNumber
 
-    val profileImg: String
+    val profileImage: String
         get() = information.profileImage
 
     fun authenticate(password: Password) {
