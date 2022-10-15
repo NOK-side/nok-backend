@@ -14,32 +14,32 @@ class StoreInformation(
     val businessNumber: String,
 
     @Column
-    var name: String,
+    val name: String,
 
     @Column
     @Enumerated(value = EnumType.STRING)
-    var category: Category,
+    val category: Category,
 
     @Column
-    var phoneNumber: String,
+    val phoneNumber: String,
 
     @Embedded
-    var location: Location,
+    val location: Location,
 
     @Lob
-    var description: String,
+    val description: String,
 
     @Column
-    var keyword: String,
+    val keyword: String,
 
     @Embedded
-    var businessHour: BusinessHour,
+    val businessHour: BusinessHour,
 
     @Column
-    var holidays: String,
+    val holidays: String,
 
     @Column
-    var menuPictureUrl: String
+    val menuPictureUrl: String
 ) {
     val keywords: List<String>
         get() = keyword.split("|")
