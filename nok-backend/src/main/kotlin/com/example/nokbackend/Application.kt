@@ -65,12 +65,12 @@ class InitService(
                 em.persist(member)
 
                 for (i in 0..20) {
-                    val store = Store(
+                    val store2 = Store(
                         i.toLong(),
                         StoreInformation(
                             "123123123",
                             "테스트 상점 $i",
-                            StoreInformation.Category.CAFE,
+                            StoreInformation.Category.RESTAURANT,
                             "000-0000-0000",
                             Location("도로명 주소", "지번 주소", BigDecimal(100), BigDecimal(100)),
                             "이것은 $i 번재 테스트 상점인데요 어쩔티비 저쩔티비 크크루삥뽕",
@@ -81,8 +81,26 @@ class InitService(
                         ),
                         Store.Status.ACTIVE
                     )
-                    em.persist(store)
+                    em.persist(store2)
                 }
+
+                val store = Store(
+                    1,
+                    StoreInformation(
+                        "123123123",
+                        "콩새식당",
+                        StoreInformation.Category.CAFE,
+                        "000-0000-0000",
+                        Location("강원 속초시 영금정로2길 9-1", "강원 속초시 동명동 53-17", BigDecimal(38.2120613), BigDecimal(128.598580)),
+                        "밑반찬부터 생선조림까지 몽땅 맛있는 콩새식당",
+                        "속초|가자미|가자미찜|생선조림",
+                        BusinessHour(9, 18),
+                        "SUNDAY",
+                        "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/f3d2b37e-7e95-4c80-9?alt=media"
+                    ),
+                    Store.Status.ACTIVE
+                )
+                em.persist(store)
 
                 val gifticon = Gifticon(
                     1,

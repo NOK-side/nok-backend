@@ -41,6 +41,8 @@ class StoreInformation(
     @Column
     var menuPictureUrl: String
 ) {
+    val keywords: List<String>
+        get() = keyword.split("|")
 
     enum class Category { DEFAULT, CAFE, RESTAURANT }
 }
