@@ -16,7 +16,10 @@ class Gifticon(
     var period: Long,
 
     @Lob
-    var description: String,
+    var notice: String,
+
+    @Lob
+    var refundAndExchangeInstruction: String,
 
     var price: BigDecimal,
 
@@ -27,6 +30,8 @@ class Gifticon(
     var status: Status = Status.INACTIVE,
 
     var imageUrl: String,
+
+    var orderCancellationPeriod: Long,
 
     id: Long = 0L
 ) : BaseEntity(id) {

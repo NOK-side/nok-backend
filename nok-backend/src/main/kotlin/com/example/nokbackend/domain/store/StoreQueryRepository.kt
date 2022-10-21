@@ -12,7 +12,7 @@ class StoreQueryRepository(
     private val queryFactory: SpringDataQueryFactory
 ) {
 
-    fun findByCondition(findStoreCondition: FindStoreCondition): List<Store> {
+    fun findByCondition(storeIds: List<Long>, findStoreCondition: FindStoreCondition): List<Store> {
         val (name, category) = findStoreCondition
 
         return queryFactory.listQuery {
@@ -20,6 +20,7 @@ class StoreQueryRepository(
             from(entity(Store::class))
             associate(Store::class, StoreInformation::class, on(Store::storeInformation))
             whereAnd(
+                column(Store::id).`in`(storeIds),
                 category?.run { column(StoreInformation::category).equal(this) },
                 name?.run { column(StoreInformation::name).like("%${this.trim()}%") },
                 column(Store::status).equal(Store.Status.ACTIVE)

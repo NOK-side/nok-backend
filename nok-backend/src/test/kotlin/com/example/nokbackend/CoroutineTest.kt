@@ -4,6 +4,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class CoroutineTest {
 
@@ -22,5 +25,12 @@ class CoroutineTest {
         }
 
         println("first")
+    }
+
+    @Test
+    fun test04() {
+        val pattern = DateTimeFormatter.ofPattern("yyyyMMdd")
+        val take = LocalDate.now().format(pattern) + UUID.randomUUID().toString().take(8).uppercase()
+        println(take)
     }
 }

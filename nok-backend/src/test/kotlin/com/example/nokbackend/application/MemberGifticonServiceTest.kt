@@ -10,6 +10,7 @@ import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.memberGifticon.findByIdCheck
+import com.example.nokbackend.domain.store.StoreRepository
 import com.example.nokbackend.fixture.*
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -37,9 +38,15 @@ class MemberGifticonServiceTest {
     @MockK
     private lateinit var cartRepository: CartRepository
 
+    @MockK
+    private lateinit var storeRepository: StoreRepository
+
+    @MockK
+    private lateinit var uuidGenerator: UUIDGenerator
+
     @BeforeEach
     internal fun setUp() {
-        memberGifticonService = MemberGifticonService(memberGifticonRepository, gifticonRepository, memberRepository, cartRepository)
+        memberGifticonService = MemberGifticonService(memberGifticonRepository, gifticonRepository, memberRepository, cartRepository, storeRepository, uuidGenerator)
     }
 
     private val targetMemberId: String = "targetMemberId"
@@ -53,6 +60,7 @@ class MemberGifticonServiceTest {
         val buyGifticonRequest = BuyGifticonRequest(1L, 3)
 
         every { gifticonRepository.findByIdCheck(any()) } returns aGifticon()
+        every { uuidGenerator.generate(8) } returns "abcdefgh"
 
         slot<List<MemberGifticon>>().also { slot ->
             every { memberGifticonRepository.saveAll(capture(slot)) } answers {
@@ -60,10 +68,12 @@ class MemberGifticonServiceTest {
                     map {
                         MemberGifticon(
                             id = it.id,
+                            orderId = "abcdef",
                             ownerId = it.ownerId,
                             gifticonId = it.gifticonId,
                             dueDate = it.dueDate,
-                            status = it.status
+                            status = it.status,
+                            orderCancellationDueDate = LocalDate.now().plusDays(aGifticon().orderCancellationPeriod)
                         )
                     }
                 }
@@ -78,6 +88,7 @@ class MemberGifticonServiceTest {
     inner class SendGifticon {
 
         private fun subject() {
+            every { uuidGenerator.generate(8) } returns "abcdefgh"
             memberGifticonService.sendGifticon(member, sendGifticonRequest)
         }
 

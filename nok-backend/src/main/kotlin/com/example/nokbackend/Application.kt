@@ -72,7 +72,7 @@ class InitService(
                             "테스트 상점 $i",
                             StoreInformation.Category.RESTAURANT,
                             "000-0000-0000",
-                            Location("도로명 주소", "지번 주소", BigDecimal(100), BigDecimal(100)),
+                            Location("도로명 주소", "지번 주소", BigDecimal(38.212), BigDecimal(128.597)),
                             "이것은 $i 번재 테스트 상점인데요 어쩔티비 저쩔티비 크크루삥뽕",
                             "",
                             BusinessHour(9, 18),
@@ -106,11 +106,13 @@ class InitService(
                     1,
                     "gifticon 1",
                     90,
-                    "",
+                    "공지사항",
+                    "이건 환불 절대 안됨 교환도 안됨",
                     BigDecimal(10000),
                     Gifticon.Category.CAFE,
                     Gifticon.Status.ACTIVE,
-                    "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media"
+                    "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media",
+                    30L
                 )
 
                 em.persist(gifticon)
@@ -119,11 +121,13 @@ class InitService(
                     1,
                     "gifticon 2",
                     30,
-                    "",
+                    "공지사항",
+                    "이건 환불 절대 안됨 교환도 안됨",
                     BigDecimal(15000),
                     Gifticon.Category.CAFE,
                     Gifticon.Status.ACTIVE,
-                    "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media"
+                    "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media",
+                    60L
                 )
 
                 em.persist(gifticon2)

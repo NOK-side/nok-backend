@@ -3,6 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.misson.Mission
 import com.example.nokbackend.domain.misson.MissionGroup
+import com.example.nokbackend.domain.store.Store
 
 data class MissionGroupInfoResponse(
     val id: Long,
@@ -11,10 +12,10 @@ data class MissionGroupInfoResponse(
     val imageUrl: String,
     val missionInfoResponses: List<MissionInfoResponse>
 ) {
-    constructor(missionGroup: MissionGroup, gifticon: Gifticon, missions: List<Mission>) : this(
+    constructor(missionGroup: MissionGroup, gifticon: Gifticon, missions: List<Mission>, store: Store) : this(
         id = missionGroup.id,
         description = missionGroup.description,
-        prizeInfo = GifticonResponse(gifticon),
+        prizeInfo = GifticonResponse(gifticon, store),
         imageUrl = missionGroup.imageUrl,
         missionInfoResponses = missions.map { MissionInfoResponse(it) }
     )

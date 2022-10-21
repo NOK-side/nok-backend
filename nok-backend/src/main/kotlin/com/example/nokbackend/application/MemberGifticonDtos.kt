@@ -2,6 +2,7 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon
+import com.example.nokbackend.domain.store.Store
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -20,21 +21,25 @@ data class MemberGifticonResponse(
     val gifticonName: String,
     val price: BigDecimal,
     val category: Gifticon.Category,
+    val orderId: String,
     val dueDate: LocalDate,
     val status: MemberGifticon.Status,
     val createDate: LocalDate,
-    val modifiedDate: LocalDate
+    val modifiedDate: LocalDate,
+    val storeName: String
 ) {
-    constructor(gifticon: Gifticon, memberGifticon: MemberGifticon) : this(
+    constructor(gifticon: Gifticon, memberGifticon: MemberGifticon, store: Store) : this(
         memberGifticon.id,
         memberGifticon.gifticonId,
         gifticon.productName,
         gifticon.price,
         gifticon.category,
+        memberGifticon.orderId,
         memberGifticon.dueDate,
         memberGifticon.status,
         memberGifticon.createDate,
-        memberGifticon.modifiedDate
+        memberGifticon.modifiedDate,
+        store.name
     )
 }
 
@@ -45,4 +50,11 @@ data class SendGifticonRequest(
 
 data class UseGifticonRequest(
     val memberGifticonId: Long
+)
+
+data class TransferGifticonRequest(
+    val targetId: Long,
+    val targetDueDate: LocalDate,
+    val newOrderId: String,
+    val orderCancellationDueDate: LocalDate
 )

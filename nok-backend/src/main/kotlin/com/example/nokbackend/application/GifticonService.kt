@@ -6,6 +6,7 @@ import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.store.StoreRepository
 import com.example.nokbackend.domain.store.findByOwnerIdCheck
+import com.example.nokbackend.domain.toHashmapByIdAsKey
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -24,8 +25,15 @@ class GifticonService(
     }
 
     fun findStoreGifticon(storeId: Long): List<GifticonResponse> {
-        return gifticonRepository.findByStoreIdAndStatus(storeId, Gifticon.Status.ACTIVE)
-            .map { GifticonResponse(it) }
+        val gifticons = gifticonRepository.findByStoreIdAndStatus(storeId, Gifticon.Status.ACTIVE)
+
+        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
+        val storeMap = toHashmapByIdAsKey(stores)
+
+        return gifticons.map {
+            val store = storeMap[it.storeId]!!
+            GifticonResponse(it, store)
+        }
     }
 
     fun findGifticonInfo(id: Long): GifticonDetailResponse {

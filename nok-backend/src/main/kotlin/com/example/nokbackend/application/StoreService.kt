@@ -56,7 +56,13 @@ class StoreService(
     }
 
     fun findByCondition(findStoreCondition: FindStoreCondition): List<StoreResponse> {
-        return storeQueryRepository.findByCondition(findStoreCondition)
+        val storeIds = storeRepository.findStoreIdsByDistance(
+            longitude = findStoreCondition.longitude,
+            latitude = findStoreCondition.latitude,
+            meterDistance = findStoreCondition.distance
+        )
+
+        return storeQueryRepository.findByCondition(storeIds, findStoreCondition)
             .map { StoreResponse(it) }
     }
 

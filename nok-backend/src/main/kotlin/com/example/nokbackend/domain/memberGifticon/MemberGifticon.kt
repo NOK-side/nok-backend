@@ -1,5 +1,6 @@
 package com.example.nokbackend.domain.memberGifticon
 
+import com.example.nokbackend.application.TransferGifticonRequest
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.member.Member
 import org.springframework.data.annotation.CreatedDate
@@ -9,6 +10,8 @@ import javax.persistence.Entity
 
 @Entity
 class MemberGifticon(
+    val orderId: String,
+
     val ownerId: Long,
 
     val gifticonId: Long,
@@ -23,15 +26,19 @@ class MemberGifticon(
     @LastModifiedDate
     var modifiedDate: LocalDate = LocalDate.now(),
 
+    val orderCancellationDueDate: LocalDate,
+
     id: Long = 0L
 ) : BaseEntity(id) {
 
-    fun transferGifticonTo(targetId: Long, targetDueDate: LocalDate): MemberGifticon {
+    fun transferGifticonTo(transferGifticonRequest: TransferGifticonRequest): MemberGifticon {
         status = Status.TRANSFERRED
 
         return MemberGifticon(
-            ownerId = targetId,
-            dueDate = targetDueDate,
+            orderId = transferGifticonRequest.newOrderId,
+            ownerId = transferGifticonRequest.targetId,
+            dueDate = transferGifticonRequest.targetDueDate,
+            orderCancellationDueDate = transferGifticonRequest.orderCancellationDueDate,
             gifticonId = gifticonId,
             status = Status.ACTIVE
         )
