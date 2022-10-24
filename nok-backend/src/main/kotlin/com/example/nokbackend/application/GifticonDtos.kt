@@ -3,6 +3,9 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.store.Store
 import java.math.BigDecimal
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.Lob
 
 data class FindGifticonCondition(
     val name: String
@@ -49,17 +52,27 @@ data class GifticonResponse(
 data class GifticonDetailResponse(
     val productName: String,
     val period: Long,
-    val description: String,
+    val notice: String,
+    val refundAndExchangeInstruction: String,
     val price: BigDecimal,
-    val category: Gifticon.Category,
-    val imageUrl: String
+    val category: Gifticon.Category = Gifticon.Category.NOTHING,
+    val status: Gifticon.Status = Gifticon.Status.INACTIVE,
+    val imageUrl: String,
+    val orderCancellationPeriod: Long,
+    val storeId: Long,
+    val storeName: String
 ) {
-    constructor(gifticon: Gifticon) : this(
-        gifticon.productName,
-        gifticon.period,
-        gifticon.refundAndExchangeInstruction,
-        gifticon.price,
-        gifticon.category,
-        gifticon.imageUrl
+    constructor(gifticon: Gifticon, store: Store) : this(
+        productName = gifticon.productName,
+        period = gifticon.period,
+        notice = gifticon.notice,
+        refundAndExchangeInstruction = gifticon.refundAndExchangeInstruction,
+        price = gifticon.price,
+        category = gifticon.category,
+        status = gifticon.status,
+        imageUrl = gifticon.imageUrl,
+        orderCancellationPeriod = gifticon.orderCancellationPeriod,
+        storeId = store.id,
+        storeName = store.name
     )
 }

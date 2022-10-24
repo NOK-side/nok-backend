@@ -1,7 +1,6 @@
 package com.example.nokbackend.fixture
 
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon
-import kotlinx.coroutines.internal.artificialFrame
 import java.time.LocalDate
 
 fun aMemberGifticon(

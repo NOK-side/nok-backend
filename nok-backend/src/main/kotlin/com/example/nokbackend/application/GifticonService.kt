@@ -5,6 +5,7 @@ import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.store.StoreRepository
+import com.example.nokbackend.domain.store.findByIdCheck
 import com.example.nokbackend.domain.store.findByOwnerIdCheck
 import com.example.nokbackend.domain.toHashmapByIdAsKey
 import org.springframework.stereotype.Service
@@ -38,6 +39,8 @@ class GifticonService(
 
     fun findGifticonInfo(id: Long): GifticonDetailResponse {
         val gifticon = gifticonRepository.findByIdCheck(id)
-        return GifticonDetailResponse(gifticon)
+        val store = storeRepository.findByIdCheck(gifticon.storeId)
+
+        return GifticonDetailResponse(gifticon, store)
     }
 }

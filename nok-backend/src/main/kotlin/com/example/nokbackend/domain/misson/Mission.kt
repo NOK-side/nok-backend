@@ -14,7 +14,7 @@ class Mission(
 
     var title: String,
 
-    var imageUrl: String,
+    var subTitle: String,
 
     var description: String,
 
@@ -24,6 +24,8 @@ class Mission(
     val type: Type,
 
     var qualification: Int,
+
+    var imageUrl: String,
 
     id: Long = 0L
 ) : BaseEntity(id) {

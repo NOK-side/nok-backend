@@ -6,6 +6,7 @@ import com.example.nokbackend.domain.member.LoginInformation
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.Password
+import com.example.nokbackend.domain.misson.*
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreInformation
@@ -187,6 +188,86 @@ class InitService(
                     LocalDate.of(2022, 8, 24)
                 )
                 em.persist(touristSpot2)
+
+                val missionGroup = MissionGroup(
+                    touristSpotId = 1L,
+                    title = "고래불 미션",
+                    subTitle = "고래고래고래밥",
+                    description = "고래불 관광지에서 진행하는 미션들이랍니다",
+                    prizeId = 1L,
+                    imageUrl = ""
+                )
+                em.persist(missionGroup)
+
+                val mission1 = Mission(
+                    missionGroup = missionGroup,
+                    title = "첫번째 미션",
+                    subTitle = "첫번째일까?",
+                    description = "첫번째 미션은 문제를 푸는겁니다",
+                    location = Location(
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        BigDecimal.valueOf(36.6003009541),
+                        BigDecimal.valueOf(129.4105747991)
+                    ),
+                    type = Mission.Type.QR_WITH_QUESTION,
+                    qualification = 3,
+                    imageUrl = ""
+                )
+                em.persist(mission1)
+
+                val questionGroup = QuestionGroup(
+                    mission = mission1,
+                    title = "고래불 관광지 문제집",
+                    description = "고래불 관광지에서 알아낼 수 있는 문제로 구성하였습니다."
+                )
+                em.persist(questionGroup)
+
+                val question = Question(
+                    questionGroup = questionGroup,
+                    question = "우리집 강아지 이름은 무엇일까요?",
+                    answer = 2
+                )
+                em.persist(question)
+
+                val example1 = Example(
+                    question = question,
+                    example = "한식"
+                )
+                em.persist(example1)
+                val example2 = Example(
+                    question = question,
+                    example = "두식"
+                )
+                em.persist(example2)
+                val example3 = Example(
+                    question = question,
+                    example = "세식"
+                )
+                em.persist(example3)
+                val example4 = Example(
+                    question = question,
+                    example = "네식"
+                )
+                em.persist(example4)
+
+
+                val mission2 = Mission(
+                    missionGroup = missionGroup,
+                    title = "두번째 미션",
+                    subTitle = "두번째일까?",
+                    description = "두번째 미션은 특정 위치에 도착하는것입니다",
+                    location = Location(
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        BigDecimal.valueOf(36.6004956),
+                        BigDecimal.valueOf(129.410655)
+                    ),
+                    type = Mission.Type.CURRENT_USER_LOCATION,
+                    qualification = 50,
+                    imageUrl = ""
+                )
+                em.persist(mission2)
             }
         }
     }
