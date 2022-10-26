@@ -20,4 +20,10 @@ class MissionController(
         val missionGroupInfo = missionService.findMissionGroupInfo(member, missionGroupId)
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfo))
     }
+
+    @GetMapping("/mission-group/tourist-spot/{touristSpotId}")
+    fun findMissionGroupOfTouristSpot(@MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<Any> {
+        val missionGroupInfos = missionService.findMissionGroupOfTouristSpot(member, touristSpotId)
+        return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+    }
 }
