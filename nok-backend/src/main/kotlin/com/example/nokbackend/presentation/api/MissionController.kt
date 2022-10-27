@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import springfox.documentation.annotations.ApiIgnore
 
 @RestController
 @RequestMapping("/mission")
@@ -16,13 +17,13 @@ class MissionController(
 ) {
 
     @GetMapping("/mission-group/{missionGroupId}")
-    fun findMissionGroupInfo(@MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
+    fun findMissionGroupInfo(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
         val missionGroupInfo = missionService.findMissionGroupInfo(member, missionGroupId)
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfo))
     }
 
     @GetMapping("/mission-group/tourist-spot/{touristSpotId}")
-    fun findMissionGroupOfTouristSpot(@MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<Any> {
+    fun findMissionGroupOfTouristSpot(@ApiIgnore @MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<Any> {
         val missionGroupInfos = missionService.findMissionGroupOfTouristSpot(member, touristSpotId)
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
     }
