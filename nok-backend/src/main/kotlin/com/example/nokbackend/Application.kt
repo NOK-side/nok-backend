@@ -57,7 +57,7 @@ class InitService(
                         email = "rkdals2134@naver.com",
                         name = "tester",
                         phoneNumber = "01000000000",
-                        profileImage = "testImg",
+                        profileImage = "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/b8f0d860-f08b-438d-b?alt=media",
                     ),
                     loginInformation = LoginInformation("", ""),
                     password = Password("1q2w3e4r"),
@@ -217,6 +217,12 @@ class InitService(
                     subTitle = "고래고래고래밥",
                     description = "고래불 관광지에서 진행하는 미션들이랍니다",
                     prizeId = 1L,
+                    location = Location(
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        "경상북도 영덕군 병곡면 병곡리 72-8",
+                        BigDecimal.valueOf(36.6003009541),
+                        BigDecimal.valueOf(129.4105747991)
+                    ),
                     imageUrl = ""
                 )
                 em.persist(missionGroup)

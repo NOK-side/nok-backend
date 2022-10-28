@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage
 import com.example.nokbackend.domain.store.StoreInformation
@@ -46,12 +47,20 @@ data class StoreResponse(
 data class StoreDetailResponse(
     val storeInformation: StoreInformation,
     val storeImageUrls: List<String>,
+    val ownerResponse: OwnerResponse
 ) {
-    constructor(store: Store, storeImages: List<StoreImage>) : this(
+    constructor(store: Store, storeImages: List<StoreImage>, owner: Member) : this(
         storeInformation = store.storeInformation,
         storeImageUrls = storeImages.map { it.imageUrl },
+        OwnerResponse(owner.id, owner.name, owner.profileImage)
     )
 }
+
+data class OwnerResponse(
+    val id: Long,
+    val name: String,
+    val profileImage: String
+)
 
 data class UpdateStoreInformationRequest(
     val storeInformation: StoreInformation

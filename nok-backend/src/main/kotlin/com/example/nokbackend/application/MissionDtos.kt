@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.membermission.MemberMission
 import com.example.nokbackend.domain.membermission.MemberMissionGroup
@@ -15,6 +16,7 @@ data class MissionGroupInfoResponse(
     val description: String,
     val prizeInfo: GifticonResponse,
     val imageUrl: String,
+    val location: Location,
     val missionInfoResponses: List<MissionInfoResponse>,
     val status: MemberMissionGroup.Status
 ) {
@@ -25,6 +27,7 @@ data class MissionGroupInfoResponse(
         description = missionGroup.description,
         prizeInfo = GifticonResponse(gifticon, store),
         imageUrl = missionGroup.imageUrl,
+        location = missionGroup.location,
         missionInfoResponses = missions.map {
             val memberMissionMap = toHashmapByIdAsKey(memberMissions)
             MissionInfoResponse(it, memberMissionMap[it.id])

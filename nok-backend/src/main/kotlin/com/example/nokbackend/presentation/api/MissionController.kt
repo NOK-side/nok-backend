@@ -6,6 +6,7 @@ import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import springfox.documentation.annotations.ApiIgnore
@@ -26,5 +27,17 @@ class MissionController(
     fun findMissionGroupOfTouristSpot(@ApiIgnore @MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<Any> {
         val missionGroupInfos = missionService.findMissionGroupOfTouristSpot(member, touristSpotId)
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+    }
+
+    @GetMapping("/me/mission-group")
+    fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
+        val missionGroupInfos = missionService.findMyMission(member)
+        return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+    }
+
+    @PostMapping("/start/mission-group/{missionGroupId}")
+    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
+        missionService.startMission(member, missionGroupId)
+        return ResponseEntity.ok(ApiResponse.success(EmptyBody))
     }
 }

@@ -3,6 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.findByIdCheck
 import com.example.nokbackend.domain.store.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -71,7 +72,9 @@ class StoreService(
 
         val storeImages = storeImageRepository.findByStoreAndStatus(store, StoreImage.Status.ACTIVE)
 
-        return StoreDetailResponse(store, storeImages)
+        val owner = memberRepository.findByIdCheck(store.ownerId)
+
+        return StoreDetailResponse(store, storeImages, owner)
     }
 
     fun updateStoreInformation(member: Member, storeId: Long, updateStoreInformationRequest: UpdateStoreInformationRequest) {

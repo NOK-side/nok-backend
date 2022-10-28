@@ -7,4 +7,8 @@ interface MemberMissionGroupRepository : JpaRepository<MemberMissionGroup, Long>
     fun findByMissionGroupId(missionGroupId: Long): MemberMissionGroup?
 
     fun findByMissionGroupIdIn(missionGroupIds: List<Long>): List<MemberMissionGroup>
+
+    fun findByMemberId(memberId: Long): List<MemberMissionGroup>
+
+    fun existsByMissionGroupId(missionGroupId: Long): Boolean
 }
