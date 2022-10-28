@@ -9,6 +9,7 @@ import com.example.nokbackend.domain.member.Password
 import com.example.nokbackend.domain.misson.*
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
+import com.example.nokbackend.domain.store.StoreImage
 import com.example.nokbackend.domain.store.StoreInformation
 import com.example.nokbackend.domain.touristspot.Facility
 import com.example.nokbackend.domain.touristspot.TouristSpot
@@ -97,11 +98,32 @@ class InitService(
                         "속초|가자미|가자미찜|생선조림",
                         BusinessHour(9, 18),
                         "SUNDAY",
-                        "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/f3d2b37e-7e95-4c80-9?alt=media"
+                        "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/0649168f-fbb6-4aad-9?alt=media"
                     ),
                     Store.Status.ACTIVE
                 )
                 em.persist(store)
+
+                val storeImage1 = StoreImage(
+                    store = store,
+                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/f3d2b37e-7e95-4c80-9?alt=media",
+                    status = StoreImage.Status.ACTIVE
+                )
+                em.persist(storeImage1)
+
+                val storeImage2 = StoreImage(
+                    store = store,
+                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/c36b8e9d-7f2d-499b-8?alt=media",
+                    status = StoreImage.Status.ACTIVE
+                )
+                em.persist(storeImage2)
+
+                val storeImage3 = StoreImage(
+                    store = store,
+                    imageUrl = "https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/2234c81a-b370-43e8-9?alt=media",
+                    status = StoreImage.Status.ACTIVE
+                )
+                em.persist(storeImage3)
 
                 val gifticon = Gifticon(
                     1,
