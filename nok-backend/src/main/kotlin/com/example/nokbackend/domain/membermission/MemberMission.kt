@@ -9,9 +9,15 @@ class MemberMission(
     @ManyToOne
     val memberMissionGroup: MemberMissionGroup,
 
-    val status: Status,
+    val missionId: Long,
+
+    var status: Status,
 
     id: Long = 0L
 ) : BaseEntity(id) {
-    enum class Status { NOTHING, PROCESS, FINISHED, FAILED }
+
+    fun complete() {
+        this.status =  Status.FINISHED
+    }
+    enum class Status { NOTHING, PROGRESSING, FINISHED, FAILED }
 }

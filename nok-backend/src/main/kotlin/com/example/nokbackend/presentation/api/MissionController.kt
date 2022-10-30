@@ -1,14 +1,11 @@
 package com.example.nokbackend.presentation.api
 
+import com.example.nokbackend.application.DistanceFromLocation
 import com.example.nokbackend.application.MissionService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore
 
 @RestController
@@ -29,6 +26,12 @@ class MissionController(
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
     }
 
+    @GetMapping("/mission-group/by-distance")
+    fun findMissionGroupByDistance(@ApiIgnore @MemberClaim member: Member, @RequestBody distanceFromLocation: DistanceFromLocation): ResponseEntity<Any> {
+        val missionGroupInfos = missionService.findMissionGroupByDistance(member, distanceFromLocation)
+        return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+    }
+
     @GetMapping("/me/mission-group")
     fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
         val missionGroupInfos = missionService.findMyMission(member)
@@ -38,6 +41,12 @@ class MissionController(
     @PostMapping("/start/mission-group/{missionGroupId}")
     fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
         missionService.startMission(member, missionGroupId)
+        return ResponseEntity.ok(ApiResponse.success(EmptyBody))
+    }
+
+    @PostMapping("/complete/current-user-location/{memberMissionId}")
+    fun completeMissionTypeOfCurrentUserLocation(@ApiIgnore @MemberClaim member: Member, @PathVariable memberMissionId: Long, @RequestBody currentLocation: DistanceFromLocation): ResponseEntity<Any> {
+        missionService.completeMissionTypeOfCurrentUserLocation(member, memberMissionId, currentLocation)
         return ResponseEntity.ok(ApiResponse.success(EmptyBody))
     }
 }

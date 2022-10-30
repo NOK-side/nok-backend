@@ -13,6 +13,9 @@ class MemberMissionGroup(
 
     id: Long = 0L
 ) : BaseEntity(id) {
+    fun complete() {
+        status = Status.FINISHED
+    }
 
     enum class Status { NOTHING, PROCESS, FINISHED, FAILED }
 }

@@ -38,20 +38,21 @@ data class MissionGroupInfoResponse(
 }
 
 data class MissionInfoResponse(
-    val id: Long,
+    val missionId: Long,
     val title: String,
     val subTitle: String,
     val description: String,
     val imageUrl: String,
+    val memberMissionId: Long,
     val status: MemberMission.Status
 ) {
     constructor(mission: Mission, memberMission: MemberMission?) : this(
-        id = mission.id,
+        missionId = mission.id,
         title = mission.title,
         subTitle = mission.subTitle,
         description = mission.description,
         imageUrl = mission.imageUrl,
+        memberMissionId = memberMission?.id ?: 0L,
         status = memberMission?.status ?: MemberMission.Status.NOTHING
     )
 }
-
