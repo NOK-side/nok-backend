@@ -77,6 +77,18 @@ class MemberController(
         return ResponseEntity.ok().body(ApiResponse.success(findMemberPasswordResponse))
     }
 
+    @PostMapping("/find/password/check")
+    fun initMemberPasswordCheck(@RequestBody initMemberPWCheckRequest: InitMemberPWCheckRequest): ResponseEntity<Any> {
+        memberService.initMemberPasswordCheck(initMemberPWCheckRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+    }
+
+    @PostMapping("/find/password/reset")
+    fun resetMemberPassword(@RequestBody resetMemberPasswordRequest: ResetMemberPasswordRequest): ResponseEntity<Any> {
+        val resetMemberPassword = memberService.resetMemberPassword(resetMemberPasswordRequest)
+        return ResponseEntity.ok().body(ApiResponse.success(resetMemberPassword))
+    }
+
     @PostMapping("/send/authentication/email")
     fun sendAuthenticationToEmail(@Valid @RequestBody verifyEmailRequest: VerifyEmailRequest): ResponseEntity<Any> {
         if (verifyEmailRequest.type == Authentication.Type.REGISTER) {
