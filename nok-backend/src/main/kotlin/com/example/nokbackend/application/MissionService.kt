@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.domain.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
@@ -178,5 +179,10 @@ class MissionService(
         if (!memberMissions.any { it.status != MemberMission.Status.FINISHED }) {
             memberMission.memberMissionGroup.complete()
         }
+    }
+
+    fun findCitiesOfMission(): List<Location> {
+        return missionGroupRepository.findAll()
+            .map { it.location }
     }
 }

@@ -38,6 +38,12 @@ class MissionController(
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
     }
 
+    @GetMapping("/cities")
+    fun findCitiesOfMission(): ResponseEntity<Any> {
+        val locations = missionService.findCitiesOfMission()
+        return ResponseEntity.ok(ApiResponse.success(locations))
+    }
+
     @PostMapping("/start/mission-group/{missionGroupId}")
     fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
         missionService.startMission(member, missionGroupId)
