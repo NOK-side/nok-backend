@@ -27,7 +27,7 @@ class MissionController(
     }
 
     @GetMapping("/mission-group/by-distance")
-    fun findMissionGroupByDistance(@ApiIgnore @MemberClaim member: Member, @RequestBody distanceFromLocation: DistanceFromLocation): ResponseEntity<Any> {
+    fun findMissionGroupByDistance(@ApiIgnore @MemberClaim member: Member, distanceFromLocation: DistanceFromLocation): ResponseEntity<Any> {
         val missionGroupInfos = missionService.findMissionGroupByDistance(member, distanceFromLocation)
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
     }
