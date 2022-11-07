@@ -81,6 +81,8 @@ dependencies {
     implementation("io.arrow-kt:arrow-fx-stm:1.1.2")
 
     implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3")
+
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1")
 }
 
 tasks.withType<KotlinCompile> {
