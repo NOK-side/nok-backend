@@ -62,12 +62,11 @@ class MemberServiceTest {
         val member = aMember()
 
         every { uuidGenerator.generate(any()) } returns aUuid()
-        every { authenticationService.confirmAuthentication(any(), any()) } just Runs
-        every { memberRepository.findByEmailCheck(any()) } returns member
 
-        val resetMemberPasswordRequest = ResetMemberPasswordRequest(email)
-        memberService.resetMemberPassword(resetMemberPasswordRequest)
+        val resetPassword = Password(aUuid())
 
-        assertThat(member.password).isEqualTo(Password(aUuid()))
+        member.newPassword(resetPassword)
+
+        assertThat(member.password).isEqualTo(resetPassword)
     }
 }

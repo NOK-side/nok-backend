@@ -54,28 +54,15 @@ class MemberService(
 
         val member = memberRepository.findByMemberIdCheck(reqId)
 
-        val authentication = authenticationService.registerAuthentication(member.email, Authentication.Type.FIND_PW)
-        applicationEventPublisher.publishEvent(MailEvent(member.email, "비밀번호 찾기 인증코드", message = authentication.code))
-
-        return FindMemberPasswordResponse(authentication.id, authentication.code)
-    }
-
-    fun initMemberPasswordCheck(initMemberPWCheckRequest: InitMemberPWCheckRequest) {
-        val (authId, email, code) = initMemberPWCheckRequest
-        authenticationService.checkAuthentication(ConfirmAuthenticationRequest(id = authId, email, code), Authentication.Type.FIND_PW)
-    }
-
-    fun resetMemberPassword(resetMemberPasswordRequest: ResetMemberPasswordRequest): ResetMemberPasswordResponse {
-        val (email) = resetMemberPasswordRequest
-
         val randomPassword = uuidGenerator.generate(8)
-        memberRepository.findByEmailCheck(email)
-            .newPassword(Password(randomPassword))
 
-        applicationEventPublisher.publishEvent(MailEvent(email, "비밀번호 초기화", randomPassword))
+        member.newPassword(Password(randomPassword))
 
-        return ResetMemberPasswordResponse("등록된 이메일 ( "+ email + " ) 로 임시 비밀번호를 발송하였습니다.")
+        applicationEventPublisher.publishEvent(MailEvent(member.email, "비밀번호 초기화", randomPassword))
+
+        return FindMemberPasswordResponse("등록된 이메일 ( "+ member.email + " ) 로 임시 비밀번호를 발송하였습니다.")
     }
+
 
     fun checkEmailDuplication(email: String) {
         check(!memberRepository.existByEmail(email)) { "이미 등록된 이메일입니다" }
