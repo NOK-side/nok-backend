@@ -94,30 +94,7 @@ data class FindMemberPasswordRequest(
 )
 
 data class FindMemberPasswordResponse(
-    val authId: Long,
-    //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
-    val code: String,
-)
-
-data class InitMemberPWCheckRequest(
-    val authId: Long,
-    val email: String,
-    val code: String,
-)
-
-data class InitMemberPWCheckResponse(
-    val authId: Long,
-    val email: String,
-)
-
-data class ResetMemberPasswordRequest(
-//    val authId: Long,
-    val email: String,
-//    val code: String,
-)
-
-data class ResetMemberPasswordResponse(
-    val message: String,
+    val email: String
 )
 
 data class VerifyEmailRequest(
