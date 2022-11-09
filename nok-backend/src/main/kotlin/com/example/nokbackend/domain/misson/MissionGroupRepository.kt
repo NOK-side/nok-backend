@@ -13,10 +13,10 @@ interface MissionGroupRepository: JpaRepository<MissionGroup, Long> {
 
     @Query(
         value = """
-            select m
+            select m.id
             from MissionGroup m 
             where ST_Distance_Sphere(Point(:longitude, :latitude), Point(m.location.longitude, m.location.latitude)) < :meterDistance
         """,
     )
-    fun findByDistance(longitude: BigDecimal, latitude: BigDecimal, meterDistance: Int): List<MissionGroup>
+    fun findIdByDistance(longitude: BigDecimal, latitude: BigDecimal, meterDistance: Int): List<Long>
 }

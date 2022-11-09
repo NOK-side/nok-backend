@@ -19,6 +19,7 @@ import kotlin.math.abs
 @Transactional
 class MissionService(
     private val missionGroupRepository: MissionGroupRepository,
+    private val missionGroupQueryRepository: MissionGroupQueryRepository,
     private val missionRepository: MissionRepository,
     private val questionGroupRepository: QuestionGroupRepository,
     private val questionRepository: QuestionRepository,
@@ -69,12 +70,14 @@ class MissionService(
         return createMissionGroupInfoResponses(missionGroups, gifticons, stores, memberMissionGroups, missions, memberMissions)
     }
 
-    fun findMissionGroupByDistance(member: Member, distanceFromLocation: DistanceFromLocation): List<MissionGroupInfoResponse> {
-        val missionGroups = missionGroupRepository.findByDistance(
-            longitude = distanceFromLocation.longitude,
-            latitude = distanceFromLocation.latitude,
-            meterDistance = distanceFromLocation.distance
+    fun findMissionGroupByCondition(member: Member, findMissionGroupCondition: FindMissionGroupCondition): List<MissionGroupInfoResponse> {
+        val missionGroupIds = missionGroupRepository.findIdByDistance(
+            longitude = findMissionGroupCondition.longitude,
+            latitude = findMissionGroupCondition.latitude,
+            meterDistance = findMissionGroupCondition.distance
         )
+
+        val missionGroups = missionGroupQueryRepository.findByCondition(missionGroupIds, findMissionGroupCondition)
 
         val gifticons = gifticonRepository.findAllById(missionGroups.map { it.prizeId })
 

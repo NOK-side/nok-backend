@@ -27,9 +27,9 @@ data class RegisterStoreResponse(
 data class FindStoreCondition(
     val name: String?,
     val category: StoreInformation.Category?,
-    val longitude: BigDecimal,
-    val latitude: BigDecimal,
-    val distance: Int
+    val longitude: BigDecimal = centerOfKoreaLongitude,
+    val latitude: BigDecimal = centerOfKoreaLatitude,
+    val distance: Int = defaultDistance
 )
 
 data class StoreResponse(

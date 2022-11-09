@@ -8,6 +8,7 @@ import com.example.nokbackend.domain.misson.Mission
 import com.example.nokbackend.domain.misson.MissionGroup
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.toHashmapByIdAsKey
+import java.math.BigDecimal
 
 data class MissionGroupInfoResponse(
     val id: Long,
@@ -56,3 +57,19 @@ data class MissionInfoResponse(
         status = memberMission?.status ?: MemberMission.Status.NOTHING
     )
 }
+
+data class FindMissionGroupCondition(
+    val city: String?,
+    val keyword: String?,
+    val longitude: BigDecimal = centerOfKoreaLongitude,
+    val latitude: BigDecimal = centerOfKoreaLatitude,
+    val distance: Int = defaultDistance
+)
+
+data class DistanceFromLocation(
+    val longitude: BigDecimal,
+    val latitude: BigDecimal,
+    val distance: Int
+)
+
+

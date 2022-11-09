@@ -1,6 +1,7 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.DistanceFromLocation
+import com.example.nokbackend.application.FindMissionGroupCondition
 import com.example.nokbackend.application.MissionService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
@@ -26,9 +27,9 @@ class MissionController(
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
     }
 
-    @GetMapping("/mission-group/by-distance")
-    fun findMissionGroupByDistance(@ApiIgnore @MemberClaim member: Member, distanceFromLocation: DistanceFromLocation): ResponseEntity<Any> {
-        val missionGroupInfos = missionService.findMissionGroupByDistance(member, distanceFromLocation)
+    @GetMapping("/mission-group")
+    fun findMissionGroupByCondition(@ApiIgnore @MemberClaim member: Member, findMissionGroupCondition: FindMissionGroupCondition): ResponseEntity<Any> {
+        val missionGroupInfos = missionService.findMissionGroupByCondition(member, findMissionGroupCondition)
         return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
     }
 
