@@ -184,8 +184,8 @@ class MissionService(
         }
     }
 
-    fun findCitiesOfMission(): List<Location> {
-        return missionGroupRepository.findAll()
+    fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): List<Location> {
+        return missionGroupRepository.findByCityName(findCitiesRequest.city)
             .map { it.location }
     }
 }

@@ -7,9 +7,13 @@ import java.math.BigDecimal
 
 fun MissionGroupRepository.findByIdCheck(id: Long): MissionGroup = findByIdOrNull(id) ?: throw RuntimeException("등록된 미션그룹이 없습니다")
 
-interface MissionGroupRepository: JpaRepository<MissionGroup, Long> {
+fun MissionGroupRepository.findByCityName(cityName: String): List<MissionGroup> = findByLocationLandNumberAddressContainingOrLocationRoadNameAddressContaining(cityName, cityName)
+
+interface MissionGroupRepository : JpaRepository<MissionGroup, Long> {
 
     fun findByTouristSpotId(id: Long): List<MissionGroup>
+
+    fun findByLocationLandNumberAddressContainingOrLocationRoadNameAddressContaining(landNumberAddress: String, roadNameAddress: String): List<MissionGroup>
 
     @Query(
         value = """

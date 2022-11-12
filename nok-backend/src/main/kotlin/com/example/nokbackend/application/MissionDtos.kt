@@ -72,4 +72,6 @@ data class DistanceFromLocation(
     val distance: Int
 )
 
-
+data class FindCitiesRequest(
+    val city: String
+)

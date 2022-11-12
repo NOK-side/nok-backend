@@ -1,6 +1,7 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.DistanceFromLocation
+import com.example.nokbackend.application.FindCitiesRequest
 import com.example.nokbackend.application.FindMissionGroupCondition
 import com.example.nokbackend.application.MissionService
 import com.example.nokbackend.domain.member.Member
@@ -40,8 +41,8 @@ class MissionController(
     }
 
     @GetMapping("/cities")
-    fun findCitiesOfMission(): ResponseEntity<Any> {
-        val locations = missionService.findCitiesOfMission()
+    fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): ResponseEntity<Any> {
+        val locations = missionService.findCitiesOfMission(findCitiesRequest)
         return ResponseEntity.ok(ApiResponse.success(locations))
     }
 
