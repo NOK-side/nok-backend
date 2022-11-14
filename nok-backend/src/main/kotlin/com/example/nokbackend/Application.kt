@@ -62,9 +62,11 @@ class InitService(
                     loginInformation = LoginInformation("", ""),
                     password = Password("1q2w3e4r"),
                     role = Member.Role.STORE,
-                    status = Member.Status.ACTIVE
+                    status = Member.Status.ACTIVE,
+                    1
                 )
-                em.persist(member)
+//                em.persist(member)
+                em.merge(member)
 
                 for (i in 0..20) {
                     val store2 = Store(
