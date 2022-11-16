@@ -7,7 +7,6 @@ import com.example.nokbackend.domain.membermission.MemberMissionGroup
 import com.example.nokbackend.domain.misson.Mission
 import com.example.nokbackend.domain.misson.MissionGroup
 import com.example.nokbackend.domain.store.Store
-import com.example.nokbackend.domain.toHashmapByIdAsKey
 import java.math.BigDecimal
 
 data class MissionGroupInfoResponse(
@@ -30,12 +29,19 @@ data class MissionGroupInfoResponse(
         imageUrl = missionGroup.imageUrl,
         location = missionGroup.location,
         missionInfoResponses = missions.map {
-            val memberMissionMap = toHashmapByIdAsKey(memberMissions)
+            val memberMissionMap = toHashmapByMissionIdAsKey(memberMissions)
             MissionInfoResponse(it, memberMissionMap[it.id])
         },
         status = memberMissionGroup?.status ?: MemberMissionGroup.Status.NOTHING
     )
+}
 
+private fun toHashmapByMissionIdAsKey(targets: List<MemberMission>): HashMap<Long, MemberMission> {
+    val entityMap = hashMapOf<Long, MemberMission>()
+
+    targets.forEach { entityMap[it.missionId] = it }
+
+    return entityMap
 }
 
 data class MissionInfoResponse(

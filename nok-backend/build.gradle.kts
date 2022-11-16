@@ -65,7 +65,7 @@ dependencies {
     implementation("io.rest-assured:rest-assured:4.4.0")
     testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
 
-    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.0.5.RELEASE")
+    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.0.6.RELEASE")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
