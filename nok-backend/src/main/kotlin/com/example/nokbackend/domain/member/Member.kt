@@ -3,6 +3,7 @@ package com.example.nokbackend.domain.member
 import com.example.nokbackend.application.UpdateMemberRequest
 import com.example.nokbackend.application.UpdatePasswordRequest
 import com.example.nokbackend.domain.BaseEntity
+import com.example.nokbackend.exception.UnidentifiedUserException
 import org.hibernate.annotations.DynamicUpdate
 import javax.persistence.*
 
@@ -43,11 +44,11 @@ class Member(
         get() = information.profileImage
 
     fun authenticate(password: Password) {
-        check(this.password == password) { "사용자 정보가 일치하지 않습니다." }
+        identify(this.password == password) { "사용자 정보가 일치하지 않습니다." }
     }
 
     fun checkActivation() {
-        check(status == Status.ACTIVE) { "활성화된 회원이 아닙니다 ($status)" }
+        identify(status == Status.ACTIVE) { "활성화된 회원이 아닙니다 ($status)" }
     }
 
     fun activate() {
@@ -74,8 +75,15 @@ class Member(
     }
 
     fun updatePassword(updatePasswordRequest: UpdatePasswordRequest) {
-        require(password == updatePasswordRequest.oldPassword) { "기존 비밀번호가 일치하지 않습니다" }
+        identify(password == updatePasswordRequest.oldPassword) { "기존 비밀번호가 일치하지 않습니다" }
         password = updatePasswordRequest.newPassword
+    }
+
+    private fun identify(value: Boolean, lazyMessage: () -> Any = {}) {
+        if (!value) {
+            val message = lazyMessage()
+            throw UnidentifiedUserException(message.toString())
+        }
     }
 
     enum class Role { USER, STORE, ADMIN, NOTHING, }

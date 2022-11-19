@@ -1,5 +1,7 @@
 package com.example.nokbackend.presentation.api
 
+import com.example.nokbackend.exception.LoginFailedException
+import com.example.nokbackend.exception.UnidentifiedUserException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.springframework.http.HttpHeaders
@@ -26,8 +28,8 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
             is InvalidFormatException -> "${exception.path.last().fieldName.orEmpty()}: 올바른 형식이어야 합니다"
             else -> exception?.message.orEmpty()
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ApiResponse.error(message))
+        return ResponseEntity.ok()
+            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, message))
     }
 
     override fun handleMethodArgumentNotValid(
@@ -37,25 +39,39 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         request: WebRequest
     ): ResponseEntity<Any> {
         logger.error("message", ex)
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ApiResponse.error(ex.messages()))
+        return ResponseEntity.ok()
+            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, ex.messages()))
     }
 
     private fun MethodArgumentNotValidException.messages(): String {
         return bindingResult.fieldErrors.joinToString(", ") { "${it.field}: ${it.defaultMessage.orEmpty()}" }
     }
 
-    @ExceptionHandler(RuntimeException::class)
+    @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
     fun handleBadRequestException(exception: RuntimeException): ResponseEntity<ApiResponse<EmptyBody>> {
         logger.error("message", exception)
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ApiResponse.error(exception.message))
+        return ResponseEntity.ok()
+            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, exception.message))
     }
 
-    @ExceptionHandler(Exception::class)
-    fun handleBadRequestException(exception: Exception): ResponseEntity<ApiResponse<EmptyBody>> {
+    @ExceptionHandler(LoginFailedException::class)
+    fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<ApiResponse<EmptyBody>> {
         logger.error("message", exception)
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ApiResponse.error(exception.message))
+        return ResponseEntity.ok()
+            .body(ApiResponse.error(HttpStatus.UNAUTHORIZED, exception.message))
+    }
+
+    @ExceptionHandler(UnidentifiedUserException::class)
+    fun handleForbiddenException(exception: UnidentifiedUserException): ResponseEntity<ApiResponse<EmptyBody>> {
+        logger.error("message", exception)
+        return ResponseEntity.ok()
+            .body(ApiResponse.error(HttpStatus.FORBIDDEN, exception.message))
+    }
+
+    @ExceptionHandler(RuntimeException::class, Exception::class)
+    fun handleInternalServerErrorException(exception: RuntimeException): ResponseEntity<ApiResponse<EmptyBody>> {
+        logger.error("message", exception)
+        return ResponseEntity.ok()
+            .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, exception.message))
     }
 }

@@ -1,5 +1,6 @@
 package com.example.nokbackend.security
 
+import com.example.nokbackend.exception.LoginFailedException
 import io.jsonwebtoken.*
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Component
@@ -42,7 +43,7 @@ class JwtTokenProvider(
 
     fun getEmail(token: String): String {
         if (isValidToken(token).not()) {
-            throw RuntimeException("유효한 토큰이 아닙니다")
+            throw LoginFailedException()
         }
 
         return getClaimsJws(token).body[claimEmail]

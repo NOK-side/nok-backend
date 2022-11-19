@@ -20,7 +20,7 @@ class StoreController(
     @PostMapping("/register")
     fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<Any> {
         val storeId = storeService.registerStore(registerStoreRequest)
-        return ResponseEntity.status(HttpStatus.CREATED).body(storeId)
+        return ResponseEntity.ok().body(storeId)
     }
 
     @GetMapping

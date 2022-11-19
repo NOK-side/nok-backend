@@ -23,7 +23,7 @@ class MemberController(
     @PostMapping("/register")
     fun register(@ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String,@Valid @RequestBody registerMemberRequest: RegisterMemberRequest): ResponseEntity<Any> {
         val token = sessionService.generateTokenWithRegister(userAgent, registerMemberRequest)
-        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(token))
+        return ResponseEntity.ok().body(ApiResponse.success(token))
     }
 
     @PostMapping("/login")

@@ -1,5 +1,6 @@
 package com.example.nokbackend.security
 
+import com.example.nokbackend.exception.LoginFailedException
 import com.example.nokbackend.util.http.HeaderHandler
 import org.springframework.http.HttpHeaders
 import org.springframework.web.method.HandlerMethod
@@ -17,14 +18,14 @@ class JwtInterceptor(private val jwtTokenProvider: JwtTokenProvider) : HandlerIn
             return true
         }
 
-        val authorization = request.getHeader(HttpHeaders.AUTHORIZATION) ?: throw IllegalAccessException("토큰이 존재하지 않습니다")
+        val authorization = request.getHeader(HttpHeaders.AUTHORIZATION) ?: throw LoginFailedException("토큰이 존재하지 않습니다")
 
         val token = HeaderHandler.extractBearerToken(authorization)
 
         val validToken = jwtTokenProvider.isValidToken(token)
 
         if (!validToken) {
-            throw IllegalAccessException("유효한 토큰이 아닙니다")
+            throw LoginFailedException()
         }
 
         return true
