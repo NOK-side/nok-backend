@@ -81,3 +81,8 @@ data class DistanceFromLocation(
 data class FindCitiesRequest(
     val city: String
 )
+
+data class FindCitiesResponse(
+    val location: Location,
+    val imageUrl: String
+)
