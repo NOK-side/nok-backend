@@ -20,19 +20,19 @@ class StoreController(
     @PostMapping("/register")
     fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<Any> {
         val storeId = storeService.registerStore(registerStoreRequest)
-        return ResponseEntity.ok().body(storeId)
+        return ResponseEntity.ok().body(ApiResponse.success(storeId))
     }
 
     @GetMapping
     fun findStores(findStoreCondition: FindStoreCondition): ResponseEntity<Any> {
         val stores = storeService.findByCondition(findStoreCondition)
-        return ResponseEntity.ok().body(stores)
+        return ResponseEntity.ok().body(ApiResponse.success(stores))
     }
 
     @GetMapping("/info/{storeId}")
     fun findStoreInformation(@PathVariable storeId: Long): ResponseEntity<Any> {
         val store = storeService.findStoreInformation(storeId)
-        return ResponseEntity.ok().body(store)
+        return ResponseEntity.ok().body(ApiResponse.success(store))
     }
 
     @PutMapping("/info/{storeId}")
