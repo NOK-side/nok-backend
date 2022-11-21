@@ -9,6 +9,7 @@ import javax.persistence.*
 
 @Entity
 @DynamicUpdate
+@Table(name = "members")
 class Member(
     @Embedded
     var information: MemberInformation,
