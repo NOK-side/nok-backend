@@ -2,7 +2,7 @@ package com.example.nokbackend.presentation.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-
+@NokDslMarker
 data class ApiResponse<T>(
     var status: Int = 0,
     var message: String? = "",
@@ -18,13 +18,13 @@ fun <T> responseEntity(block: ResponseEntityBuilder<T>.() -> Unit): ResponseEnti
     responseEntityBuilder.block()
     return responseEntityBuilder.build()
 }
-
 fun <T> apiResponse(block: ApiResponse<T>.() -> Unit): ApiResponse<T> {
     val apiResponse = ApiResponse<T>()
     apiResponse.block()
     return apiResponse
 }
 
+@NokDslMarker
 data class ResponseEntityBuilder<T>(
     var status: HttpStatus = HttpStatus.OK,
     var body: T? = null
@@ -33,3 +33,6 @@ data class ResponseEntityBuilder<T>(
 }
 
 object EmptyBody
+
+@DslMarker
+annotation class NokDslMarker
