@@ -1,12 +1,8 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.FindStoreCondition
-import com.example.nokbackend.application.RegisterStoreRequest
-import com.example.nokbackend.application.StoreService
-import com.example.nokbackend.application.UpdateStoreInformationRequest
+import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore
@@ -18,26 +14,42 @@ class StoreController(
 ) {
 
     @PostMapping("/register")
-    fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<Any> {
-        val storeId = storeService.registerStore(registerStoreRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(storeId))
+    fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<ApiResponse<RegisterStoreResponse>> {
+        val registerStoreResponse = storeService.registerStore(registerStoreRequest)
+        return responseEntity {
+            body = apiResponse {
+                data = registerStoreResponse
+            }
+        }
     }
 
     @GetMapping
-    fun findStores(findStoreCondition: FindStoreCondition): ResponseEntity<Any> {
+    fun findStores(findStoreCondition: FindStoreCondition): ResponseEntity<ApiResponse<List<StoreResponse>>> {
         val stores = storeService.findByCondition(findStoreCondition)
-        return ResponseEntity.ok().body(ApiResponse.success(stores))
+        return responseEntity {
+            body = apiResponse {
+                data = stores
+            }
+        }
     }
 
     @GetMapping("/info/{storeId}")
-    fun findStoreInformation(@PathVariable storeId: Long): ResponseEntity<Any> {
+    fun findStoreInformation(@PathVariable storeId: Long): ResponseEntity<ApiResponse<StoreDetailResponse>> {
         val store = storeService.findStoreInformation(storeId)
-        return ResponseEntity.ok().body(ApiResponse.success(store))
+        return responseEntity {
+            body = apiResponse {
+                data = store
+            }
+        }
     }
 
     @PutMapping("/info/{storeId}")
-    fun updateStoreInformation(@ApiIgnore @MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<Any> {
+    fun updateStoreInformation(@ApiIgnore @MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<ApiResponse<EmptyBody>> {
         storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 }

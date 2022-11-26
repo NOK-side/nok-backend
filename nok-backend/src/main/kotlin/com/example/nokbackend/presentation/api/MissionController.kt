@@ -1,9 +1,6 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.DistanceFromLocation
-import com.example.nokbackend.application.FindCitiesRequest
-import com.example.nokbackend.application.FindMissionGroupCondition
-import com.example.nokbackend.application.MissionService
+import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
@@ -17,44 +14,72 @@ class MissionController(
 ) {
 
     @GetMapping("/mission-group/{missionGroupId}")
-    fun findMissionGroupInfo(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
+    fun findMissionGroupInfo(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<MissionGroupInfoResponse>> {
         val missionGroupInfo = missionService.findMissionGroupInfo(member, missionGroupId)
-        return ResponseEntity.ok(ApiResponse.success(missionGroupInfo))
+        return responseEntity {
+            body = apiResponse {
+                data = missionGroupInfo
+            }
+        }
     }
 
     @GetMapping("/mission-group/tourist-spot/{touristSpotId}")
-    fun findMissionGroupOfTouristSpot(@ApiIgnore @MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<Any> {
+    fun findMissionGroupOfTouristSpot(@ApiIgnore @MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
         val missionGroupInfos = missionService.findMissionGroupOfTouristSpot(member, touristSpotId)
-        return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+        return responseEntity {
+            body = apiResponse {
+                data = missionGroupInfos
+            }
+        }
     }
 
     @GetMapping("/mission-group")
-    fun findMissionGroupByCondition(@ApiIgnore @MemberClaim member: Member, findMissionGroupCondition: FindMissionGroupCondition): ResponseEntity<Any> {
+    fun findMissionGroupByCondition(@ApiIgnore @MemberClaim member: Member, findMissionGroupCondition: FindMissionGroupCondition): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
         val missionGroupInfos = missionService.findMissionGroupByCondition(member, findMissionGroupCondition)
-        return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+        return responseEntity {
+            body = apiResponse {
+                data = missionGroupInfos
+            }
+        }
     }
 
     @GetMapping("/me/mission-group")
-    fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
+    fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
         val missionGroupInfos = missionService.findMyMission(member)
-        return ResponseEntity.ok(ApiResponse.success(missionGroupInfos))
+        return responseEntity {
+            body = apiResponse {
+                data = missionGroupInfos
+            }
+        }
     }
 
     @GetMapping("/cities")
-    fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): ResponseEntity<Any> {
+    fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): ResponseEntity<ApiResponse<List<FindCitiesResponse>>> {
         val locations = missionService.findCitiesOfMission(findCitiesRequest)
-        return ResponseEntity.ok(ApiResponse.success(locations))
+        return responseEntity {
+            body = apiResponse {
+                data = locations
+            }
+        }
     }
 
     @PostMapping("/start/mission-group/{missionGroupId}")
-    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<Any> {
+    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<EmptyBody>> {
         missionService.startMission(member, missionGroupId)
-        return ResponseEntity.ok(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 
     @PostMapping("/complete/current-user-location/{memberMissionId}")
-    fun completeMissionTypeOfCurrentUserLocation(@ApiIgnore @MemberClaim member: Member, @PathVariable memberMissionId: Long, @RequestBody currentLocation: DistanceFromLocation): ResponseEntity<Any> {
+    fun completeMissionTypeOfCurrentUserLocation(@ApiIgnore @MemberClaim member: Member, @PathVariable memberMissionId: Long, @RequestBody currentLocation: DistanceFromLocation): ResponseEntity<ApiResponse<EmptyBody>> {
         missionService.completeMissionTypeOfCurrentUserLocation(member, memberMissionId, currentLocation)
-        return ResponseEntity.ok(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 }

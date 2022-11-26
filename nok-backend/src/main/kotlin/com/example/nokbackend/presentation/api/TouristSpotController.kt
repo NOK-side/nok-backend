@@ -1,8 +1,6 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.FindTouristSpotByDistanceRequest
-import com.example.nokbackend.application.FindTouristSpotCondition
-import com.example.nokbackend.application.TouristSpotService
+import com.example.nokbackend.application.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -13,20 +11,32 @@ class TouristSpotController(
 ) {
 
     @GetMapping("/by-distance")
-    fun findByDistance(@RequestBody findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): ResponseEntity<Any> {
+    fun findByDistance(@RequestBody findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): ResponseEntity<ApiResponse<List<FindTouristSpotResponse>>> {
         val touristSpots = touristSpotService.findByDistance(findTouristSpotByDistanceRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(touristSpots))
+        return responseEntity {
+            body = apiResponse {
+                data = touristSpots
+            }
+        }
     }
 
     @GetMapping
-    fun findByCondition(@RequestBody findTouristSpotCondition: FindTouristSpotCondition): ResponseEntity<Any> {
+    fun findByCondition(@RequestBody findTouristSpotCondition: FindTouristSpotCondition): ResponseEntity<ApiResponse<List<FindTouristSpotResponse>>> {
         val touristSpots = touristSpotService.findByCondition(findTouristSpotCondition)
-        return ResponseEntity.ok().body(ApiResponse.success(touristSpots))
+        return responseEntity {
+            body = apiResponse {
+                data = touristSpots
+            }
+        }
     }
 
     @GetMapping("/info/{touristSpotId}")
-    fun findTouristSpotInfo(@PathVariable touristSpotId: Long): ResponseEntity<Any> {
+    fun findTouristSpotInfo(@PathVariable touristSpotId: Long): ResponseEntity<ApiResponse<TouristSpotDetailResponse>> {
         val touristSpotDetailResponse = touristSpotService.findTouristSpotInfo(touristSpotId)
-        return ResponseEntity.ok().body(ApiResponse.success(touristSpotDetailResponse))
+        return responseEntity {
+            body = apiResponse {
+                data = touristSpotDetailResponse
+            }
+        }
     }
 }

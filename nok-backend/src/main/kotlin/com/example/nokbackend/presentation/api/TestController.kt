@@ -15,14 +15,22 @@ class TestController(
 ) {
 
     @DeleteMapping("/member-mission")
-    fun deleteMemberMission(): ResponseEntity<Any> {
+    fun deleteMemberMission(): ResponseEntity<ApiResponse<EmptyBody>> {
         memberMissionRepository.deleteAll()
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 
     @DeleteMapping("/member-gifticon")
-    fun deleteMemberGifticon(): ResponseEntity<Any> {
+    fun deleteMemberGifticon(): ResponseEntity<ApiResponse<EmptyBody>> {
         memberGifticonRepository.deleteAll()
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 }

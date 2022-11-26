@@ -1,5 +1,6 @@
 package com.example.nokbackend.presentation.api
 
+import com.example.nokbackend.application.CartResponse
 import com.example.nokbackend.application.CartService
 import com.example.nokbackend.application.ChangeQuantityOfCartRequest
 import com.example.nokbackend.application.RegisterItemToCartRequest
@@ -18,36 +19,61 @@ class CartController(
 
     @Authenticated
     @GetMapping("/me")
-    fun findMyCarts(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
+    fun findMyCarts(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<CartResponse>>> {
         val carts = cartService.findMyCart(member)
-        return ResponseEntity.ok().body(ApiResponse.success(carts))
+
+        return responseEntity {
+            body = apiResponse {
+                data = carts
+            }
+        }
     }
 
     @Authenticated
     @PostMapping("/register")
-    fun registerItemToCart(@ApiIgnore @MemberClaim member: Member, @RequestBody registerItemToCartRequest: RegisterItemToCartRequest): ResponseEntity<Any> {
+    fun registerItemToCart(@ApiIgnore @MemberClaim member: Member, @RequestBody registerItemToCartRequest: RegisterItemToCartRequest): ResponseEntity<ApiResponse<EmptyBody>> {
         cartService.registerItemToCart(member, registerItemToCartRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 
     @Authenticated
     @PatchMapping("/update/quantity")
-    fun updateQuantityOfCart(@ApiIgnore @MemberClaim member: Member, @RequestBody updateQuantityOfCartRequest: ChangeQuantityOfCartRequest): ResponseEntity<Any> {
+    fun updateQuantityOfCart(@ApiIgnore @MemberClaim member: Member, @RequestBody updateQuantityOfCartRequest: ChangeQuantityOfCartRequest): ResponseEntity<ApiResponse<EmptyBody>> {
         cartService.changeQuantityOfCart(member, updateQuantityOfCartRequest)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 
     @Authenticated
     @DeleteMapping("/delete/{cartId}")
-    fun deleteItemFromCart(@ApiIgnore @MemberClaim member: Member, @PathVariable cartId: Long): ResponseEntity<Any> {
+    fun deleteItemFromCart(@ApiIgnore @MemberClaim member: Member, @PathVariable cartId: Long): ResponseEntity<ApiResponse<EmptyBody>> {
         cartService.deleteItemFromCart(member, cartId)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 
     @Authenticated
     @DeleteMapping("/flush")
-    fun flushCart(@ApiIgnore @MemberClaim member: Member): ResponseEntity<Any> {
+    fun flushCart(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<EmptyBody>> {
         cartService.flushCart(member)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 }

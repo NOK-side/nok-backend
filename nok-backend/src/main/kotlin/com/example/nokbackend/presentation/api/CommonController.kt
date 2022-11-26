@@ -11,14 +11,22 @@ class CommonController(
     private val imageService: ImageService,
 ) {
     @PostMapping("/upload/img")
-    fun uploadImage(@RequestParam images: List<MultipartFile>): ResponseEntity<Any> {
+    fun uploadImage(@RequestParam images: List<MultipartFile>): ResponseEntity<ApiResponse<List<UploadFileResponse>>> {
         val response = imageService.uploadFiles(images)
-        return ResponseEntity.ok().body(ApiResponse.success(response))
+        return responseEntity {
+            body = apiResponse {
+                data = response
+            }
+        }
     }
 
     @PostMapping("/delete/img")
-    fun deleteImage(@RequestBody deleteFileRequests: List<DeleteFileRequest>): ResponseEntity<Any> {
+    fun deleteImage(@RequestBody deleteFileRequests: List<DeleteFileRequest>): ResponseEntity<ApiResponse<EmptyBody>> {
         imageService.deleteFiles(deleteFileRequests)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 }

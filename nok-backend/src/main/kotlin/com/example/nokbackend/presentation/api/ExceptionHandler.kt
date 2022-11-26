@@ -60,11 +60,11 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
-    fun handleBadRequestException(exception: RuntimeException): ResponseEntity<Any> {
+    fun handleBadRequestException(exception: RuntimeException): ResponseEntity<ApiResponse<EmptyBody>> {
         logger.error("message", exception)
         return responseEntity {
             status = HttpStatus.OK
-            body = apiResponse<EmptyBody> {
+            body = apiResponse {
                 status = HttpStatus.BAD_REQUEST.value()
                 message = exception.message
                 data = EmptyBody
@@ -73,11 +73,11 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(LoginFailedException::class)
-    fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<Any> {
+    fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<ApiResponse<EmptyBody>> {
         logger.error("message", exception)
         return responseEntity {
             status = HttpStatus.OK
-            body = apiResponse<EmptyBody> {
+            body = apiResponse {
                 status = HttpStatus.UNAUTHORIZED.value()
                 message = exception.message
                 data = EmptyBody
@@ -86,11 +86,11 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(UnidentifiedUserException::class)
-    fun handleForbiddenException(exception: UnidentifiedUserException): ResponseEntity<Any> {
+    fun handleForbiddenException(exception: UnidentifiedUserException): ResponseEntity<ApiResponse<EmptyBody>> {
         logger.error("message", exception)
         return responseEntity {
             status = HttpStatus.OK
-            body = apiResponse<EmptyBody> {
+            body = apiResponse {
                 status = HttpStatus.FORBIDDEN.value()
                 message = exception.message
                 data = EmptyBody
@@ -99,11 +99,11 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(RuntimeException::class, Exception::class)
-    fun handleInternalServerErrorException(exception: RuntimeException): ResponseEntity<Any> {
+    fun handleInternalServerErrorException(exception: RuntimeException): ResponseEntity<ApiResponse<EmptyBody>> {
         logger.error("message", exception)
         return responseEntity {
             status = HttpStatus.OK
-            body = apiResponse<EmptyBody> {
+            body = apiResponse {
                 status = HttpStatus.INTERNAL_SERVER_ERROR.value()
                 message = exception.message
                 data = EmptyBody

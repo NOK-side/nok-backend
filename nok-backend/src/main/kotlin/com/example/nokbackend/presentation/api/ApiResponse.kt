@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 @NokDslMarker
 data class ApiResponse<T>(
-    var status: Int = 0,
+    var status: Int = 200,
     var message: String? = "",
     var data: T? = null
 ) {
