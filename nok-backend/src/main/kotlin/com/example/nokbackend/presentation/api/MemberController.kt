@@ -94,8 +94,14 @@ class MemberController(
     }
 
     @PostMapping("/check/memberId/duplication")
-    fun checkMemberIdDuplication(@RequestBody checkMemberIdDuplicationRequest: CheckMemberIdDuplicationRequest): ResponseEntity<Any> {
+    fun checkMemberIdDuplication(@RequestBody checkMemberIdDuplicationRequest: CheckMemberIdDuplicationRequest): ResponseEntity<ApiResponse<Any>> {
         memberService.checkMemberIdDuplication(checkMemberIdDuplicationRequest.memberId)
-        return ResponseEntity.ok().body(ApiResponse.success(EmptyBody))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse {
+                status = HttpStatus.OK.value()
+                data = EmptyBody
+            }
+        }
     }
 }

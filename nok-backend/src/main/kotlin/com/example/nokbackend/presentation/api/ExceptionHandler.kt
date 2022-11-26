@@ -18,29 +18,41 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 class ExceptionHandler : ResponseEntityExceptionHandler() {
     override fun handleHttpMessageNotReadable(
         ex: HttpMessageNotReadableException,
-        headers: HttpHeaders,
-        status: HttpStatus,
+        httpHeaders: HttpHeaders,
+        httpStatus: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
         logger.error("message", ex)
-        val message = when (val exception = ex.cause) {
+        val messages = when (val exception = ex.cause) {
             is MissingKotlinParameterException -> "${exception.parameter.name.orEmpty()}: 널이어서는 안됩니다"
             is InvalidFormatException -> "${exception.path.last().fieldName.orEmpty()}: 올바른 형식이어야 합니다"
             else -> exception?.message.orEmpty()
         }
-        return ResponseEntity.ok()
-            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, message))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse<EmptyBody> {
+                status = HttpStatus.BAD_REQUEST.value()
+                message = messages
+                data = EmptyBody
+            }
+        }
     }
 
     override fun handleMethodArgumentNotValid(
         ex: MethodArgumentNotValidException,
         headers: HttpHeaders,
-        status: HttpStatus,
+        httpStatus: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
         logger.error("message", ex)
-        return ResponseEntity.ok()
-            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, ex.messages()))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse<EmptyBody> {
+                status = HttpStatus.BAD_REQUEST.value()
+                message = ex.messages()
+                data = EmptyBody
+            }
+        }
     }
 
     private fun MethodArgumentNotValidException.messages(): String {
@@ -48,30 +60,54 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
-    fun handleBadRequestException(exception: RuntimeException): ResponseEntity<ApiResponse<EmptyBody>> {
+    fun handleBadRequestException(exception: RuntimeException): ResponseEntity<Any> {
         logger.error("message", exception)
-        return ResponseEntity.ok()
-            .body(ApiResponse.error(HttpStatus.BAD_REQUEST, exception.message))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse<EmptyBody> {
+                status = HttpStatus.BAD_REQUEST.value()
+                message = exception.message
+                data = EmptyBody
+            }
+        }
     }
 
     @ExceptionHandler(LoginFailedException::class)
-    fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<ApiResponse<EmptyBody>> {
+    fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<Any> {
         logger.error("message", exception)
-        return ResponseEntity.ok()
-            .body(ApiResponse.error(HttpStatus.UNAUTHORIZED, exception.message))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse<EmptyBody> {
+                status = HttpStatus.UNAUTHORIZED.value()
+                message = exception.message
+                data = EmptyBody
+            }
+        }
     }
 
     @ExceptionHandler(UnidentifiedUserException::class)
-    fun handleForbiddenException(exception: UnidentifiedUserException): ResponseEntity<ApiResponse<EmptyBody>> {
+    fun handleForbiddenException(exception: UnidentifiedUserException): ResponseEntity<Any> {
         logger.error("message", exception)
-        return ResponseEntity.ok()
-            .body(ApiResponse.error(HttpStatus.FORBIDDEN, exception.message))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse<EmptyBody> {
+                status = HttpStatus.FORBIDDEN.value()
+                message = exception.message
+                data = EmptyBody
+            }
+        }
     }
 
     @ExceptionHandler(RuntimeException::class, Exception::class)
-    fun handleInternalServerErrorException(exception: RuntimeException): ResponseEntity<ApiResponse<EmptyBody>> {
+    fun handleInternalServerErrorException(exception: RuntimeException): ResponseEntity<Any> {
         logger.error("message", exception)
-        return ResponseEntity.ok()
-            .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR, exception.message))
+        return responseEntity {
+            status = HttpStatus.OK
+            body = apiResponse<EmptyBody> {
+                status = HttpStatus.INTERNAL_SERVER_ERROR.value()
+                message = exception.message
+                data = EmptyBody
+            }
+        }
     }
 }
