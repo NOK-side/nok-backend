@@ -37,4 +37,7 @@ class Admin (
 
     val division : String
         get() = adminInfomation.division
+
+    val profileImage : String
+        get() = adminInfomation.profileImage
 }
