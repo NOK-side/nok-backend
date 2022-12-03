@@ -20,7 +20,7 @@ class StoreQueryRepository(
             from(entity(Store::class))
             associate(Store::class, StoreInformation::class, on(Store::storeInformation))
             whereAnd(
-                column(Store::id).`in`(storeIds),
+                column(Store::id).`in`(storeIds.queryTrim()),
                 category?.run { column(StoreInformation::category).equal(this) },
                 name?.run { column(StoreInformation::name).like("%${this.trim()}%") },
                 column(Store::status).equal(Store.Status.ACTIVE)
@@ -28,4 +28,6 @@ class StoreQueryRepository(
             orderBy(column(Store::id).desc())
         }
     }
+
+    private fun List<Long>.queryTrim() : List<Long> = this.ifEmpty { listOf(Long.MIN_VALUE) }
 }

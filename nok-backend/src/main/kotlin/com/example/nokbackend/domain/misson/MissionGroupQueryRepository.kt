@@ -20,7 +20,8 @@ class MissionGroupQueryRepository(
             from(entity(MissionGroup::class))
             associate(MissionGroup::class, Location::class, on(MissionGroup::location))
             whereAnd(
-                column(MissionGroup::id).`in`(missionGroupIds),
+
+                column(MissionGroup::id).`in`(missionGroupIds.queryTrim()),
                 city?.run { column(Location::landNumberAddress).like("%${this.trim()}%") },
                 city?.run { column(Location::roadNameAddress).like("%${this.trim()}%") },
                 keyword?.run { column(MissionGroup::title).like("%${this.trim()}%") },
@@ -30,4 +31,7 @@ class MissionGroupQueryRepository(
             orderBy(column(MissionGroup::id).desc())
         }
     }
+
+    private fun List<Long>.queryTrim() : List<Long> = this.ifEmpty { listOf(Long.MIN_VALUE) }
+
 }
