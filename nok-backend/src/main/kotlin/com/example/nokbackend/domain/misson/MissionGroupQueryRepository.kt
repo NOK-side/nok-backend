@@ -32,6 +32,6 @@ class MissionGroupQueryRepository(
         }
     }
 
-    private fun List<Long>.queryTrim() : List<Long> = this.ifEmpty { listOf(Long.MIN_VALUE) }
+    private fun List<Long>.queryTrim() : List<Long> = this.ifEmpty { listOf(0L) }
 
 }
