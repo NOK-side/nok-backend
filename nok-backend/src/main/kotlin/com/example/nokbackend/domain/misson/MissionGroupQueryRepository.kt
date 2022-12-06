@@ -20,7 +20,6 @@ class MissionGroupQueryRepository(
             from(entity(MissionGroup::class))
             associate(MissionGroup::class, Location::class, on(MissionGroup::location))
             whereAnd(
-
                 column(MissionGroup::id).`in`(missionGroupIds.queryTrim()),
                 city?.run { column(Location::landNumberAddress).like("%${this.trim()}%") },
                 city?.run { column(Location::roadNameAddress).like("%${this.trim()}%") },

@@ -10,6 +10,7 @@ import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import com.example.nokbackend.domain.store.StoreRepository
+import com.example.nokbackend.domain.store.findByIdCheck
 import com.example.nokbackend.domain.toHashmapByIdAsKey
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -41,6 +42,17 @@ class MemberGifticonService(
             val store = storeMap[gifticon.storeId]!!
             MemberGifticonResponse(gifticon, it, store)
         }
+    }
+
+    fun findMemberGifticonInfo(member: Member, memberGifticonId: Long): MemberGifticonResponse {
+        val memberGifticon = memberGifticonRepository.findByIdCheck(memberGifticonId)
+
+        check(memberGifticon.ownerId == member.id) { "본인의 기프티콘만 조회할 수 있습니다" }
+
+        val gifticon = gifticonRepository.findByIdCheck(memberGifticon.gifticonId)
+        val store = storeRepository.findByIdCheck(gifticon.storeId)
+
+        return MemberGifticonResponse(gifticon, memberGifticon, store)
     }
 
     fun buyGifticon(member: Member, buyGifticonRequest: BuyGifticonRequest) {

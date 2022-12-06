@@ -4,6 +4,7 @@ import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore
@@ -11,7 +12,8 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/member-gifticon")
 class MemberGifticonController(
-    private val memberGifticonService: MemberGifticonService
+    private val memberGifticonService: MemberGifticonService,
+    private val qrCodeService: QRCodeService
 ) {
 
     @Authenticated
@@ -66,6 +68,18 @@ class MemberGifticonController(
             body = apiResponse {
                 data = EmptyBody
             }
+        }
+    }
+
+    @Authenticated
+    @GetMapping("/info/qr/{memberGifticonId}")
+    fun test(@ApiIgnore @MemberClaim member: Member, @PathVariable memberGifticonId: Long): ResponseEntity<ByteArray> {
+        val memberGifticonInfo = memberGifticonService.findMemberGifticonInfo(member, memberGifticonId)
+        val bytes = qrCodeService.createQRCode(memberGifticonInfo)
+
+        return responseEntity {
+            contentType = MediaType.IMAGE_PNG
+            body = bytes
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.nokbackend.presentation.api
 
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+
 @NokDslMarker
 data class ApiResponse<T>(
     var status: Int = 200,
@@ -18,6 +20,7 @@ fun <T> responseEntity(block: ResponseEntityBuilder<T>.() -> Unit): ResponseEnti
     responseEntityBuilder.block()
     return responseEntityBuilder.build()
 }
+
 fun <T> apiResponse(block: ApiResponse<T>.() -> Unit): ApiResponse<T> {
     val apiResponse = ApiResponse<T>()
     apiResponse.block()
@@ -27,9 +30,12 @@ fun <T> apiResponse(block: ApiResponse<T>.() -> Unit): ApiResponse<T> {
 @NokDslMarker
 data class ResponseEntityBuilder<T>(
     var status: HttpStatus = HttpStatus.OK,
+    var contentType: MediaType = MediaType.APPLICATION_JSON,
     var body: T? = null
 ) {
-    fun build() = ResponseEntity.status(status).body(body)
+    fun build() = ResponseEntity.status(status)
+        .contentType(contentType)
+        .body(body)
 }
 
 object EmptyBody
