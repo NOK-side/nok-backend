@@ -186,6 +186,14 @@ class MissionService(
 
     fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): List<FindCitiesResponse> {
         return missionGroupRepository.findByCityName(findCitiesRequest.city)
-            .map { FindCitiesResponse(it.location, it.imageUrl) }
+            .map {
+                FindCitiesResponse(
+                    it.location.roadNameAddress
+                        .split(" ")
+                        .take(2)
+                        .reduce { acc: String, s: String -> "$acc $s" },
+                    it.imageUrl
+                )
+            }
     }
 }

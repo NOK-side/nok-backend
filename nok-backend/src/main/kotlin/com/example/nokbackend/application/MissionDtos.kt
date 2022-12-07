@@ -83,6 +83,6 @@ data class FindCitiesRequest(
 )
 
 data class FindCitiesResponse(
-    val location: Location,
+    val cityName: String,
     val imageUrl: String
 )
