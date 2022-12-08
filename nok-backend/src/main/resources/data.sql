@@ -65,9 +65,6 @@ INSERT INTO `nok-project`.example (id, example, question_id) VALUES (2, '두식'
 INSERT INTO `nok-project`.example (id, example, question_id) VALUES (3, '세식', 1);
 INSERT INTO `nok-project`.example (id, example, question_id) VALUES (4, '네식', 1);
 
-
-
-
 INSERT INTO `nok-project`.mission_group (id, description, image_url, land_number_address, latitude, longitude, road_name_address, prize_id, sub_title, title, tourist_spot_id) VALUES (2, '장사해수욕장에서 진행하는 미션들이랍니다', 'https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media', '경상북도 영덕군 남정면 장사리 74-1', 36.2824187049, 129.3755938472, '경상북도 영덕군 남정면 동해대로 3592', 1, '고래고래고래밥', '고래불 미션', 2);
 
 INSERT INTO `nok-project`.mission (id, description, image_url, land_number_address, latitude, longitude, road_name_address, qualification, sub_title, title, type, mission_group_id) VALUES (3, '첫번째 미션은 특정 위치에 도착하는것입니다', 'https://firebasestorage.googleapis.com/v0/b/nok-storage.appspot.com/o/1306fbf0-e800-4105-a?alt=media', '경상북도 영덕군 남정면 장사리 74-1', 36.2824187049, 129.3755938472, '경상북도 영덕군 남정면 동해대로 3592', 50, '첫번째일까?', '첫번째 미션', 'CURRENT_USER_LOCATION', 2);
