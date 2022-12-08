@@ -3,19 +3,17 @@ package com.example.nokbackend.domain.admin
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.member.LoginInformation
 import com.example.nokbackend.domain.member.Password
-import javax.persistence.AttributeOverride
-import javax.persistence.Column
-import javax.persistence.Embedded
-import javax.persistence.Entity
+import javax.persistence.*
 
 @Entity
+@Table(name = "admin_members")
 class Admin (
 
     @Embedded
     var loginInformation: LoginInformation,
 
     @Embedded
-    var adminInfomation: AdminInformation,
+    var adminInformation: AdminInformation,
 
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "password", nullable = false))
@@ -24,20 +22,20 @@ class Admin (
     id: Long = 0L
 ) : BaseEntity(id) {
     val adminId : String
-        get() = adminInfomation.adminId
+        get() = adminInformation.adminId
 
     val email : String
-        get() = adminInfomation.email
+        get() = adminInformation.email
 
     val name : String
-        get() = adminInfomation.name
+        get() = adminInformation.name
 
     val phoneNumber : String
-        get() = adminInfomation.phoneNumber
+        get() = adminInformation.phoneNumber
 
     val division : String
-        get() = adminInfomation.division
+        get() = adminInformation.division
 
     val profileImage : String
-        get() = adminInfomation.profileImage
+        get() = adminInformation.profileImage
 }
