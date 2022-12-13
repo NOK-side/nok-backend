@@ -1,6 +1,5 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.domain.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
@@ -28,7 +27,7 @@ class MissionService(
     private val storeRepository: StoreRepository,
     private val memberMissionGroupRepository: MemberMissionGroupRepository,
     private val memberMissionRepository: MemberMissionRepository,
-    private val distanceService: DistanceService
+    private val geometryService: GeometryService
 ) {
 
     fun findMissionGroupInfo(member: Member, id: Long): MissionGroupInfoResponse {
@@ -139,7 +138,7 @@ class MissionService(
         val memberMissionGroup = MemberMissionGroup(
             memberId = member.id,
             missionGroupId = missionGroup.id,
-            MemberMissionGroup.Status.PROCESS
+            status = MemberMissionGroup.Status.PROCESS
         )
 
         memberMissionGroupRepository.save(memberMissionGroup)
@@ -166,7 +165,7 @@ class MissionService(
 
         check(mission.type == Mission.Type.CURRENT_USER_LOCATION) { "미션 타입이 다릅니다" }
 
-        val distanceBetween = distanceService.getDistanceBetween(
+        val distanceBetween = geometryService.getDistanceBetween(
             longitude1 = currentLocation.longitude.toDouble(),
             latitude1 = currentLocation.latitude.toDouble(),
             longitude2 = mission.location.longitude.toDouble(),
@@ -194,6 +193,6 @@ class MissionService(
                         .reduce { acc: String, s: String -> "$acc $s" },
                     it.imageUrl
                 )
-            }
+            }.distinctBy { it.cityName }
     }
 }

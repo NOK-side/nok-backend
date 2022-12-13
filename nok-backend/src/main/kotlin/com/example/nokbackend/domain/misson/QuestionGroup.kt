@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.misson
 
-import com.example.nokbackend.Answer
+import com.example.nokbackend.application.Answer
 import com.example.nokbackend.domain.BaseEntity
 import org.hibernate.annotations.LazyToOne
 import org.hibernate.annotations.LazyToOneOption

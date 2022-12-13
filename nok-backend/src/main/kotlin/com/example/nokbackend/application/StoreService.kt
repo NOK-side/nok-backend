@@ -63,8 +63,11 @@ class StoreService(
             meterDistance = findStoreCondition.distance
         )
 
-        return storeQueryRepository.findByCondition(storeIds, findStoreCondition)
-            .map { StoreResponse(it) }
+        val stores = storeQueryRepository.findByCondition(storeIds, findStoreCondition)
+        val images = storeImageRepository.findByStoreInAndStatus(stores, StoreImage.Status.ACTIVE)
+        val imageMap = images.groupBy { it.store.id }
+
+        return stores.map { StoreResponse(it, imageMap[it.id]?.first()) }
     }
 
     fun findStoreInformation(storeId: Long): StoreDetailResponse {

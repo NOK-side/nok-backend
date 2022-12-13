@@ -35,12 +35,18 @@ data class FindStoreCondition(
 data class StoreResponse(
     val id: Long,
     val name: String,
-    val category: StoreInformation.Category
+    val category: StoreInformation.Category,
+    val keywords: List<String>,
+    val description: String,
+    val imageUrl: String
 ) {
-    constructor(store: Store) : this(
+    constructor(store: Store, storeImage: StoreImage?) : this(
         id = store.id,
         name = store.name,
-        category = store.category
+        category = store.category,
+        keywords = store.keyword.split("|"),
+        description = store.description,
+        imageUrl = storeImage?.imageUrl ?: ""
     )
 }
 
@@ -64,4 +70,9 @@ data class OwnerResponse(
 
 data class UpdateStoreInformationRequest(
     val storeInformation: StoreInformation
+)
+
+data class Answer(
+    val questionId: Long,
+    val answer: Int
 )

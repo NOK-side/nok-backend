@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import kotlin.math.*
 
 @Component
-class DistanceService {
+class GeometryService {
 
     fun getDistanceBetween(latitude1: Double, longitude1: Double, latitude2: Double, longitude2: Double): Int {
         val dLatitude = Math.toRadians(latitude2 - latitude1)
@@ -12,6 +12,16 @@ class DistanceService {
         val a = sin(dLatitude / 2).pow(2.0) + sin(dLongitude / 2).pow(2.0) * cos(Math.toRadians(latitude1)) * cos(Math.toRadians(latitude2))
         val c = 2 * asin(sqrt(a))
         return (R * c).toInt()
+    }
+
+    fun getCenterOfSpots(points: List<Point>): Point {
+        val size = points.size.toDouble()
+
+        val sum = points.reduce { acc, point ->
+            Point(acc.latitude + point.latitude, acc.longitude + point.longitude)
+        }
+
+        return Point(sum.longitude / size, sum.latitude / size)
     }
 
     companion object {

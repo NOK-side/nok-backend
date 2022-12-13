@@ -1,5 +1,7 @@
 package com.example.nokbackend
 
+import com.example.nokbackend.application.GeometryService
+import com.example.nokbackend.application.Point
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -32,5 +34,18 @@ class CoroutineTest {
         val pattern = DateTimeFormatter.ofPattern("yyyyMMdd")
         val take = LocalDate.now().format(pattern) + UUID.randomUUID().toString().take(8).uppercase()
         println(take)
+    }
+
+    @Test
+    fun test05() {
+        val longitude1 = 129.4105747991
+        val longitude2 = 129.3755938472
+        val latitude1 = 36.6003009541
+        val latitude2 = 36.2824187049
+
+        val (latitude3, longitude3) = GeometryService().getCenterOfSpots(listOf(Point(longitude1, latitude1), Point(longitude2, latitude2)))
+
+        println("$longitude3 $latitude3")
+
     }
 }
