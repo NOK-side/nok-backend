@@ -185,14 +185,17 @@ class MissionService(
 
     fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): List<FindCitiesResponse> {
         return missionGroupRepository.findByCityName(findCitiesRequest.city)
-            .map {
+            .map { LocationAbbreviationWithLength(it, 2) }
+            .groupBy { it.roadNameAddress }
+            .entries
+            .map { entry ->
+                val point = geometryService.getCenterOfSpots(entry.value.map { Point(it.longitude.toDouble(), it.latitude.toDouble()) })
                 FindCitiesResponse(
-                    it.location.roadNameAddress
-                        .split(" ")
-                        .take(2)
-                        .reduce { acc: String, s: String -> "$acc $s" },
-                    it.imageUrl
+                    cityName = entry.key,
+                    imageUrl = entry.value.random().imageUrl,
+                    latitude = point.latitude.toBigDecimal(),
+                    longitude = point.longitude.toBigDecimal()
                 )
-            }.distinctBy { it.cityName }
+            }
     }
 }

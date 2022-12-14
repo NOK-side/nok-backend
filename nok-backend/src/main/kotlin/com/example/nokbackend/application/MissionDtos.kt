@@ -82,7 +82,31 @@ data class FindCitiesRequest(
     val city: String
 )
 
+
+data class LocationAbbreviationWithLength(
+    val roadNameAddress: String,
+    val landNumberAddress: String,
+    val latitude: BigDecimal,
+    val longitude: BigDecimal,
+    val imageUrl: String
+) {
+    constructor(missionGroup: MissionGroup, length: Int) : this(
+        roadNameAddress = missionGroup.location.roadNameAddress
+            .split(" ")
+            .take(length)
+            .reduce { acc: String, s: String -> "$acc $s" },
+        landNumberAddress = missionGroup.location.landNumberAddress
+            .split(" ")
+            .take(length)
+            .reduce { acc: String, s: String -> "$acc $s" },
+        latitude = missionGroup.location.latitude,
+        longitude = missionGroup.location.longitude,
+        imageUrl = missionGroup.imageUrl
+    )
+}
 data class FindCitiesResponse(
     val cityName: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val latitude: BigDecimal,
+    val longitude: BigDecimal,
 )
