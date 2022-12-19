@@ -82,4 +82,9 @@ class MissionController(
             }
         }
     }
+
+    @PostMapping("/submit/answer")
+    fun submitAnswer(@RequestBody data: Any) {
+        println(data)
+    }
 }
