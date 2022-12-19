@@ -1,29 +1,10 @@
 package com.example.nokbackend
 
-import com.example.nokbackend.domain.Location
-import com.example.nokbackend.domain.gifticon.Gifticon
-import com.example.nokbackend.domain.member.LoginInformation
-import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.member.MemberInformation
-import com.example.nokbackend.domain.member.Password
-import com.example.nokbackend.domain.misson.*
-import com.example.nokbackend.domain.store.BusinessHour
-import com.example.nokbackend.domain.store.Store
-import com.example.nokbackend.domain.store.StoreImage
-import com.example.nokbackend.domain.store.StoreInformation
-import com.example.nokbackend.domain.touristspot.Facility
-import com.example.nokbackend.domain.touristspot.TouristSpot
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import org.springframework.scheduling.annotation.EnableAsync
-import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
-import java.time.LocalDate
-import javax.annotation.PostConstruct
-import javax.persistence.EntityManager
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
