@@ -18,7 +18,7 @@ class GeometryService {
         val size = points.size.toDouble()
 
         val sum = points.reduce { acc, point ->
-            Point(acc.latitude + point.latitude, acc.longitude + point.longitude)
+            Point(acc.longitude + point.longitude, acc.latitude + point.latitude)
         }
 
         return Point(sum.longitude / size, sum.latitude / size)
