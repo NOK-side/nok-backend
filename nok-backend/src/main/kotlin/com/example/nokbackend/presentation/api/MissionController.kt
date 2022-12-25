@@ -84,7 +84,13 @@ class MissionController(
     }
 
     @PostMapping("/submit/answer")
-    fun submitFromResult(@RequestBody formResult: FromResult) {
+    fun submitFromResult(@RequestBody formResult: FromResult): ResponseEntity<ApiResponse<EmptyBody>> {
+        println(formResult)
         missionService.submitFromResult(formResult)
+        return responseEntity {
+            body = apiResponse {
+                data = EmptyBody
+            }
+        }
     }
 }
