@@ -2,6 +2,7 @@ package com.example.nokbackend.domain.misson
 
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.Location
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -26,6 +27,9 @@ class Mission(
     var qualification: Int,
 
     var imageUrl: String,
+
+    @Column(unique = true)
+    var formTitle: String,
 
     id: Long = 0L
 ) : BaseEntity(id) {

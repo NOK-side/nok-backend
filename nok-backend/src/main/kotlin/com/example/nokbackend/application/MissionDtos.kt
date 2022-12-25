@@ -104,9 +104,25 @@ data class LocationAbbreviationWithLength(
         imageUrl = missionGroup.imageUrl
     )
 }
+
 data class FindCitiesResponse(
     val cityName: String,
     val imageUrl: String,
     val latitude: BigDecimal,
     val longitude: BigDecimal,
+)
+
+data class FromResult(
+    val formId: String,
+    val formTitle: String,
+    val email: String,
+    val results: List<AnswerResult>
+)
+
+data class AnswerResult(
+    val id: String,
+    val type: String,
+    val title: String,
+    val response: String,
+    val score: Int
 )

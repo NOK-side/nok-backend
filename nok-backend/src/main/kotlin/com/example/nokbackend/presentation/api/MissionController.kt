@@ -84,7 +84,7 @@ class MissionController(
     }
 
     @PostMapping("/submit/answer")
-    fun submitAnswer(@RequestBody data: Any) {
-        println(data)
+    fun submitFromResult(@RequestBody formResult: FromResult) {
+        missionService.submitFromResult(formResult)
     }
 }

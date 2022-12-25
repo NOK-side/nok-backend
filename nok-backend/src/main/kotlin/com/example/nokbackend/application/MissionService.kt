@@ -4,6 +4,8 @@ import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.member.MemberRepository
+import com.example.nokbackend.domain.member.findByEmailCheck
 import com.example.nokbackend.domain.membermission.*
 import com.example.nokbackend.domain.misson.*
 import com.example.nokbackend.domain.store.Store
@@ -20,14 +22,13 @@ class MissionService(
     private val missionGroupRepository: MissionGroupRepository,
     private val missionGroupQueryRepository: MissionGroupQueryRepository,
     private val missionRepository: MissionRepository,
-    private val questionGroupRepository: QuestionGroupRepository,
-    private val questionRepository: QuestionRepository,
-    private val exampleRepository: ExampleRepository,
     private val gifticonRepository: GifticonRepository,
     private val storeRepository: StoreRepository,
     private val memberMissionGroupRepository: MemberMissionGroupRepository,
     private val memberMissionRepository: MemberMissionRepository,
-    private val geometryService: GeometryService
+    private val geometryService: GeometryService,
+    private val memberRepository: MemberRepository,
+    private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository
 ) {
 
     fun findMissionGroupInfo(member: Member, id: Long): MissionGroupInfoResponse {
@@ -197,5 +198,33 @@ class MissionService(
                     longitude = point.longitude.toBigDecimal()
                 )
             }
+    }
+
+    fun submitFromResult(formResult: FromResult) {
+        val member = memberRepository.findByEmailCheck(formResult.email)
+        val mission = missionRepository.finByFormTitleCheck(formResult.formTitle)
+        val memberMission = memberMissionRepository.findByMissionIdAndMemberMissionGroup_MemberIdCheck(mission.id, member.id)
+
+        val score = formResult.results
+            .map { it.score }
+            .reduce { x, y -> x + y }
+
+        val result = formResult.results
+            .map { it.response }
+            .reduce { x, y -> "$x | $y" }
+
+        resultOfMemberMissionQuestionRepository.save(
+            ResultOfMemberMissionQuestion(
+                memberMission = memberMission,
+                formTitle = formResult.formTitle,
+                respondent = member.email,
+                score = score,
+                results = result
+            )
+        )
+
+        if (score >= mission.qualification) {
+            memberMission.complete()
+        }
     }
 }
