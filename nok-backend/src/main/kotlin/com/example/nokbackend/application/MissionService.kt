@@ -202,7 +202,7 @@ class MissionService(
 
     fun submitFromResult(formResult: FromResult) {
         val member = memberRepository.findByEmailCheck(formResult.email)
-        val mission = missionRepository.finByFormTitleCheck(formResult.formTitle)
+        val mission = missionRepository.finByFormIdCheck(formResult.formId)
         val memberMission = memberMissionRepository.findByMissionIdAndMemberMissionGroup_MemberIdCheck(mission.id, member.id)
 
         val score = formResult.results
@@ -216,7 +216,7 @@ class MissionService(
         resultOfMemberMissionQuestionRepository.save(
             ResultOfMemberMissionQuestion(
                 memberMission = memberMission,
-                formTitle = formResult.formTitle,
+                fromId = formResult.formId,
                 respondent = member.email,
                 score = score,
                 results = result

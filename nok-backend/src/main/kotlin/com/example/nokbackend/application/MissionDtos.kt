@@ -114,7 +114,6 @@ data class FindCitiesResponse(
 
 data class FromResult(
     val formId: String,
-    val formTitle: String,
     val email: String,
     val results: List<AnswerResult>
 )

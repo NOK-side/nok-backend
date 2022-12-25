@@ -6,7 +6,7 @@ import org.springframework.data.repository.findByIdOrNull
 import java.math.BigDecimal
 
 fun MissionRepository.findByIdCheck(id: Long): Mission = findByIdOrNull(id) ?: throw RuntimeException("미션이 존재하지 않습니다")
-fun MissionRepository.finByFormTitleCheck(formId: String): Mission = findByFormTitle(formId) ?: throw RuntimeException("미션이 존재하지 않습니다")
+fun MissionRepository.finByFormIdCheck(formId: String): Mission = findByFormId(formId) ?: throw RuntimeException("미션이 존재하지 않습니다")
 
 interface MissionRepository: JpaRepository<Mission, Long> {
 
@@ -14,7 +14,7 @@ interface MissionRepository: JpaRepository<Mission, Long> {
 
     fun findByMissionGroupIn(missionGroups: List<MissionGroup>): List<Mission>
 
-    fun findByFormTitle(formId: String): Mission?
+    fun findByFormId(formId: String): Mission?
 
     @Query(
         value = """

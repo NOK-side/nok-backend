@@ -29,7 +29,7 @@ class Mission(
     var imageUrl: String,
 
     @Column(unique = true)
-    var formTitle: String,
+    var formId: String,
 
     id: Long = 0L
 ) : BaseEntity(id) {
