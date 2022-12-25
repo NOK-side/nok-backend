@@ -28,7 +28,8 @@ class MissionService(
     private val memberMissionRepository: MemberMissionRepository,
     private val geometryService: GeometryService,
     private val memberRepository: MemberRepository,
-    private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository
+    private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
+    private val qrCodeService: QRCodeService
 ) {
 
     fun findMissionGroupInfo(member: Member, id: Long): MissionGroupInfoResponse {
@@ -226,5 +227,14 @@ class MissionService(
         if (score >= mission.qualification) {
             memberMission.complete()
         }
+    }
+
+    fun getQRCodeFromQuestion(member: Member, missionId: Long): ByteArray {
+        val mission = missionRepository.findByIdCheck(missionId)
+        val exists = memberMissionGroupRepository.existsByMemberIdAndMissionGroupId(member.id, mission.missionGroup.id)
+
+        check(exists) { "진행중인 미션이 존재하지 않습니다" }
+
+        return qrCodeService.createQRCode(mission.questionUrl)
     }
 }

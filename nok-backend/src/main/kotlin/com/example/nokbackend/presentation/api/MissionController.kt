@@ -3,6 +3,7 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.MemberClaim
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore
@@ -85,12 +86,20 @@ class MissionController(
 
     @PostMapping("/submit/answer")
     fun submitFromResult(@RequestBody formResult: FromResult): ResponseEntity<ApiResponse<EmptyBody>> {
-        println(formResult)
         missionService.submitFromResult(formResult)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
             }
+        }
+    }
+
+    @GetMapping("/qr/question-form/{missionId}")
+    fun getQRCodeFromQuestion(@ApiIgnore @MemberClaim member: Member, @PathVariable missionId: Long): ResponseEntity<ByteArray> {
+        val qrCodeByteArray = missionService.getQRCodeFromQuestion(member, missionId)
+        return responseEntity {
+            contentType = MediaType.IMAGE_PNG
+            body = qrCodeByteArray
         }
     }
 }

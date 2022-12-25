@@ -31,6 +31,8 @@ class Mission(
     @Column(unique = true)
     var formId: String,
 
+    var questionUrl: String,
+
     id: Long = 0L
 ) : BaseEntity(id) {
 
