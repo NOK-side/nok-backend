@@ -12,7 +12,7 @@ class ResultOfMemberMissionQuestion(
     @ManyToOne
     val memberMission: MemberMission,
 
-    val fromId: String,
+    val formId: String,
 
     val respondent: String,
 

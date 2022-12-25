@@ -216,7 +216,7 @@ class MissionService(
         resultOfMemberMissionQuestionRepository.save(
             ResultOfMemberMissionQuestion(
                 memberMission = memberMission,
-                fromId = formResult.formId,
+                formId = formResult.formId,
                 respondent = member.email,
                 score = score,
                 results = result
