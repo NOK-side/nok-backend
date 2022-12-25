@@ -28,7 +28,6 @@ class Mission(
 
     var imageUrl: String,
 
-    @Column(unique = true)
     var formId: String,
 
     var questionUrl: String,
