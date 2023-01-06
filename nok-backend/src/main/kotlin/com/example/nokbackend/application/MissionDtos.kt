@@ -8,6 +8,7 @@ import com.example.nokbackend.domain.misson.Mission
 import com.example.nokbackend.domain.misson.MissionGroup
 import com.example.nokbackend.domain.store.Store
 import java.math.BigDecimal
+import java.time.LocalDate
 
 data class MissionGroupInfoResponse(
     val id: Long,
@@ -50,8 +51,10 @@ data class MissionInfoResponse(
     val subTitle: String,
     val description: String,
     val imageUrl: String,
+    val type: Mission.Type,
     val memberMissionId: Long,
-    val status: MemberMission.Status
+    val status: MemberMission.Status,
+    val dueDate: LocalDate
 ) {
     constructor(mission: Mission, memberMission: MemberMission?) : this(
         missionId = mission.id,
@@ -59,8 +62,10 @@ data class MissionInfoResponse(
         subTitle = mission.subTitle,
         description = mission.description,
         imageUrl = mission.imageUrl,
+        type = mission.type,
         memberMissionId = memberMission?.id ?: 0L,
-        status = memberMission?.status ?: MemberMission.Status.NOTHING
+        status = memberMission?.status ?: MemberMission.Status.NOTHING,
+        dueDate = memberMission?.dueDate ?: LocalDate.MAX
     )
 }
 

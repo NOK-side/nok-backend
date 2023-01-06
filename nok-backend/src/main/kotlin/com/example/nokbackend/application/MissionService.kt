@@ -14,6 +14,7 @@ import com.example.nokbackend.domain.store.findByIdCheck
 import com.example.nokbackend.domain.toHashmapByIdAsKey
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import kotlin.math.abs
 
 @Service
@@ -151,7 +152,8 @@ class MissionService(
             MemberMission(
                 memberMissionGroup = memberMissionGroup,
                 missionId = it.id,
-                status = MemberMission.Status.PROGRESSING
+                status = MemberMission.Status.PROGRESSING,
+                dueDate = LocalDate.now().plusDays(7)
             )
         }
 
