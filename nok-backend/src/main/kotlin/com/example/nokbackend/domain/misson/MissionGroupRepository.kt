@@ -11,8 +11,6 @@ fun MissionGroupRepository.findByCityName(cityName: String): List<MissionGroup> 
 
 interface MissionGroupRepository : JpaRepository<MissionGroup, Long> {
 
-    fun findByTouristSpotId(id: Long): List<MissionGroup>
-
     fun findByLocationLandNumberAddressContainingOrLocationRoadNameAddressContaining(landNumberAddress: String, roadNameAddress: String): List<MissionGroup>
 
     @Query(

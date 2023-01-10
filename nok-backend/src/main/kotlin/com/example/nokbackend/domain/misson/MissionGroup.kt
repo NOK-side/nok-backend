@@ -6,8 +6,6 @@ import javax.persistence.Entity
 
 @Entity
 class MissionGroup(
-    var touristSpotId: Long,
-
     var subTitle: String,
 
     var title: String,

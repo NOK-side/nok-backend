@@ -12,6 +12,8 @@ import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreRepository
 import com.example.nokbackend.domain.store.findByIdCheck
 import com.example.nokbackend.domain.toHashmapByIdAsKey
+import com.example.nokbackend.domain.touristspot.TouristSpotRepository
+import com.example.nokbackend.domain.touristspot.findByIdCheck
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -30,7 +32,8 @@ class MissionService(
     private val geometryService: GeometryService,
     private val memberRepository: MemberRepository,
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
-    private val qrCodeService: QRCodeService
+    private val qrCodeService: QRCodeService,
+    private val touristSpotRepository: TouristSpotRepository
 ) {
 
     fun findMissionGroupInfo(member: Member, id: Long): MissionGroupInfoResponse {
@@ -57,22 +60,24 @@ class MissionService(
     }
 
     fun findMissionGroupOfTouristSpot(member: Member, id: Long): List<MissionGroupInfoResponse> {
-        val missionGroups = missionGroupRepository.findByTouristSpotId(id)
+        val touristSpot = touristSpotRepository.findByIdCheck(id)
 
-        val gifticons = gifticonRepository.findAllById(missionGroups.map { it.prizeId })
+        val findMissionGroupCondition = FindMissionGroupCondition(
+            city = touristSpot.location.roadNameAddress
+                .split(" ")
+                .take(3)
+                .reduce { acc, s -> "$acc $s" },
+            keyword = null
+        )
 
-        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
-
-        val missions = missionRepository.findByMissionGroupIn(missionGroups)
-
-        val memberMissionGroups = memberMissionGroupRepository.findByMissionGroupIdIn(missionGroups.map { it.id })
-
-        val memberMissions = memberMissionRepository.findByMemberMissionGroupIn(memberMissionGroups)
-
-        return createMissionGroupInfoResponses(missionGroups, gifticons, stores, memberMissionGroups, missions, memberMissions)
+        return findMissionGroupInfoResponses(findMissionGroupCondition)
     }
 
     fun findMissionGroupByCondition(member: Member, findMissionGroupCondition: FindMissionGroupCondition): List<MissionGroupInfoResponse> {
+        return findMissionGroupInfoResponses(findMissionGroupCondition)
+    }
+
+    private fun findMissionGroupInfoResponses(findMissionGroupCondition: FindMissionGroupCondition): List<MissionGroupInfoResponse> {
         val missionGroupIds = missionGroupRepository.findIdByDistance(
             longitude = findMissionGroupCondition.longitude,
             latitude = findMissionGroupCondition.latitude,
