@@ -17,8 +17,6 @@ class MemberMission(
     @Enumerated(value = EnumType.STRING)
     var status: Status,
 
-    val dueDate: LocalDate,
-
     id: Long = 0L
 ) : BaseEntity(id) {
 

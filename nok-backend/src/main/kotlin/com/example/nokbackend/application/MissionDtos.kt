@@ -19,7 +19,8 @@ data class MissionGroupInfoResponse(
     val imageUrl: String,
     val location: Location,
     val missionInfoResponses: List<MissionInfoResponse>,
-    val status: MemberMissionGroup.Status
+    val status: MemberMissionGroup.Status,
+    val dueDate: LocalDate
 ) {
     constructor(missionGroup: MissionGroup, gifticon: Gifticon, store: Store, missions: List<Mission>, memberMissionGroup: MemberMissionGroup?, memberMissions: List<MemberMission>) : this(
         id = missionGroup.id,
@@ -33,7 +34,8 @@ data class MissionGroupInfoResponse(
             val memberMissionMap = toHashmapByMissionIdAsKey(memberMissions)
             MissionInfoResponse(it, memberMissionMap[it.id])
         },
-        status = memberMissionGroup?.status ?: MemberMissionGroup.Status.NOTHING
+        status = memberMissionGroup?.status ?: MemberMissionGroup.Status.NOTHING,
+        dueDate = memberMissionGroup?.dueDate ?: LocalDate.MAX
     )
 }
 
@@ -53,8 +55,7 @@ data class MissionInfoResponse(
     val imageUrl: String,
     val type: Mission.Type,
     val memberMissionId: Long,
-    val status: MemberMission.Status,
-    val dueDate: LocalDate
+    val status: MemberMission.Status
 ) {
     constructor(mission: Mission, memberMission: MemberMission?) : this(
         missionId = mission.id,
@@ -64,8 +65,7 @@ data class MissionInfoResponse(
         imageUrl = mission.imageUrl,
         type = mission.type,
         memberMissionId = memberMission?.id ?: 0L,
-        status = memberMission?.status ?: MemberMission.Status.NOTHING,
-        dueDate = memberMission?.dueDate ?: LocalDate.MAX
+        status = memberMission?.status ?: MemberMission.Status.NOTHING
     )
 }
 

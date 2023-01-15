@@ -146,7 +146,8 @@ class MissionService(
         val memberMissionGroup = MemberMissionGroup(
             memberId = member.id,
             missionGroupId = missionGroup.id,
-            status = MemberMissionGroup.Status.PROCESS
+            status = MemberMissionGroup.Status.PROCESS,
+            dueDate = LocalDate.now().plusDays(7)
         )
 
         memberMissionGroupRepository.save(memberMissionGroup)
@@ -158,7 +159,6 @@ class MissionService(
                 memberMissionGroup = memberMissionGroup,
                 missionId = it.id,
                 status = MemberMission.Status.PROGRESSING,
-                dueDate = LocalDate.now().plusDays(7)
             )
         }
 
