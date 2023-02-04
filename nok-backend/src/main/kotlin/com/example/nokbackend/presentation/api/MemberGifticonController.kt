@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore
 @RequestMapping("/member-gifticon")
 class MemberGifticonController(
     private val memberGifticonService: MemberGifticonService,
-    private val qrCodeService: QRCodeService
+    private val codeService: CodeService
 ) {
 
     @Authenticated
@@ -75,7 +75,7 @@ class MemberGifticonController(
     @GetMapping("/info/qr/{memberGifticonId}")
     fun test(@ApiIgnore @MemberClaim member: Member, @PathVariable memberGifticonId: Long): ResponseEntity<ByteArray> {
         val memberGifticonInfo = memberGifticonService.findMemberGifticonInfo(member, memberGifticonId)
-        val bytes = qrCodeService.createQRCode(memberGifticonInfo)
+        val bytes = codeService.createCodeImage(memberGifticonInfo.orderId, CodeService.CodeType.BARCODE)
 
         return responseEntity {
             contentType = MediaType.IMAGE_PNG

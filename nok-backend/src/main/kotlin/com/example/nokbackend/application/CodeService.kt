@@ -10,9 +10,9 @@ import java.io.ByteArrayOutputStream
 
 
 @Component
-class QRCodeService {
-    fun createQRCode(data: Any): ByteArray {
-        val matrix: BitMatrix = MultiFormatWriter().encode(data.toJsonString(), BarcodeFormat.QR_CODE, width, height)
+class CodeService {
+    fun createCodeImage(data: Any, codeType: CodeType): ByteArray {
+        val matrix: BitMatrix = MultiFormatWriter().encode(data.toJsonString(), codeType.format, codeType.width, codeType.height)
 
         return ByteArrayOutputStream().use { out ->
             MatrixToImageWriter.writeToStream(matrix, "PNG", out)
@@ -20,8 +20,11 @@ class QRCodeService {
         }
     }
 
-    companion object {
-        private const val width = 200
-        private const val height = 200
+    enum class CodeType(
+        val width: Int,
+        val height: Int,
+        val format: BarcodeFormat
+    ) {
+        QRCODE(200, 200, BarcodeFormat.QR_CODE), BARCODE(200, 100, BarcodeFormat.CODE_128)
     }
 }

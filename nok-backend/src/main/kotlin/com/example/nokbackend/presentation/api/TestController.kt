@@ -1,6 +1,6 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.QRCodeService
+import com.example.nokbackend.application.CodeService
 import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.membermission.MemberMissionRepository
 import org.springframework.http.MediaType
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 class TestController(
     private val memberMissionRepository: MemberMissionRepository,
     private val memberGifticonRepository: MemberGifticonRepository,
-    private val qrCodeService: QRCodeService
+    private val codeService: CodeService
 ) {
 
     @DeleteMapping("/member-mission")
@@ -34,16 +34,6 @@ class TestController(
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
-            }
-        }
-    }
-
-    @GetMapping("/qr")
-    fun getQRCode(): ResponseEntity<ApiResponse<ByteArray>> {
-        return responseEntity {
-            contentType = MediaType.IMAGE_PNG
-            body = apiResponse {
-                data = qrCodeService.createQRCode("www.naver.com")
             }
         }
     }

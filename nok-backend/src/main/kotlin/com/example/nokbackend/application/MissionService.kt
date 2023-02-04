@@ -32,7 +32,7 @@ class MissionService(
     private val geometryService: GeometryService,
     private val memberRepository: MemberRepository,
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
-    private val qrCodeService: QRCodeService,
+    private val codeService: CodeService,
     private val touristSpotRepository: TouristSpotRepository
 ) {
 
@@ -242,6 +242,6 @@ class MissionService(
 
         check(exists) { "진행중인 미션이 존재하지 않습니다" }
 
-        return qrCodeService.createQRCode(mission.questionUrl)
+        return codeService.createCodeImage(mission.questionUrl, CodeService.CodeType.QRCODE)
     }
 }
