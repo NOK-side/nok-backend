@@ -140,7 +140,7 @@ class MissionService(
     fun startMission(member: Member, missionGroupId: Long) {
         val missionGroup = missionGroupRepository.findByIdCheck(missionGroupId)
 
-        val isStartedMission = memberMissionGroupRepository.existsByMissionGroupId(missionGroupId)
+        val isStartedMission = memberMissionGroupRepository.existsByMissionGroupIdAndMemberId(missionGroupId, member.id)
         check(!isStartedMission) { "이미 시작한 미션입니다" }
 
         val memberMissionGroup = MemberMissionGroup(
