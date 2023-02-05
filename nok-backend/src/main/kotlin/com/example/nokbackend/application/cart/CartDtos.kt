@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.cart
 
 import com.example.nokbackend.domain.cart.Cart
 import com.example.nokbackend.domain.gifticon.Gifticon

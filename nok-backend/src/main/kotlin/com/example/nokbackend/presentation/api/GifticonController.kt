@@ -1,9 +1,9 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.GifticonDetailResponse
-import com.example.nokbackend.application.GifticonResponse
-import com.example.nokbackend.application.GifticonService
-import com.example.nokbackend.application.RegisterGifticonRequest
+import com.example.nokbackend.application.gifticon.GifticonDetailResponse
+import com.example.nokbackend.application.gifticon.GifticonResponse
+import com.example.nokbackend.application.gifticon.GifticonService
+import com.example.nokbackend.application.gifticon.RegisterGifticonRequest
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim

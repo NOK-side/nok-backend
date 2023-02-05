@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.touristspot
 
-import com.example.nokbackend.application.FindTouristSpotCondition
+import com.example.nokbackend.application.touristspot.FindTouristSpotCondition
 import com.example.nokbackend.domain.Location
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory

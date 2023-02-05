@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.geometry
 
 import org.springframework.stereotype.Component
 import kotlin.math.*

@@ -1,9 +1,9 @@
 package com.example.nokbackend.infrastructure.firebase
 
-import com.example.nokbackend.application.DeleteFileRequest
+import com.example.nokbackend.application.image.DeleteFileRequest
 import com.example.nokbackend.domain.firebase.Firebase
-import com.example.nokbackend.application.UploadFileResponse
-import com.example.nokbackend.application.UploadFileRequest
+import com.example.nokbackend.application.image.UploadFileResponse
+import com.example.nokbackend.application.image.UploadFileRequest
 import org.springframework.stereotype.Component
 
 @Component

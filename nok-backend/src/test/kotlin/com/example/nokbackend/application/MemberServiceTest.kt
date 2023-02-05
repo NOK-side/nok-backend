@@ -1,8 +1,13 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.application.authentication.AuthenticationService
+import com.example.nokbackend.application.mail.MailEvent
+import com.example.nokbackend.application.member.MemberService
+import com.example.nokbackend.application.member.UpdateMemberRequest
+import com.example.nokbackend.application.member.UpdatePasswordRequest
+import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.Password
-import com.example.nokbackend.domain.member.findByEmailCheck
 import com.example.nokbackend.fixture.*
 import io.mockk.*
 import io.mockk.impl.annotations.MockK

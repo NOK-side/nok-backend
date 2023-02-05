@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.member
 
-import com.example.nokbackend.application.UpdateMemberRequest
-import com.example.nokbackend.application.UpdatePasswordRequest
+import com.example.nokbackend.application.member.UpdateMemberRequest
+import com.example.nokbackend.application.member.UpdatePasswordRequest
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.exception.UnidentifiedUserException
 import org.hibernate.annotations.DynamicUpdate

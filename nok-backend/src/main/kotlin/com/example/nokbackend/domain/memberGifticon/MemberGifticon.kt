@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.memberGifticon
 
-import com.example.nokbackend.application.TransferGifticonRequest
+import com.example.nokbackend.application.gifticon.TransferGifticonRequest
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.member.Member
 import org.springframework.data.annotation.CreatedDate

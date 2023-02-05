@@ -1,10 +1,11 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.application.authentication.AuthenticationService
+import com.example.nokbackend.application.member.RefreshTokenRequest
+import com.example.nokbackend.application.member.SessionService
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByEmailCheck
-import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.fixture.aMember
-import com.example.nokbackend.fixture.memberId
 import com.example.nokbackend.fixture.refreshToken
 import com.example.nokbackend.security.JwtTokenProvider
 import io.mockk.every

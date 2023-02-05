@@ -1,5 +1,7 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.authentication
 
+import com.example.nokbackend.application.mail.MailEvent
+import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.authentication.AuthenticationRepository
 import com.example.nokbackend.domain.authentication.findByIdAndTargetAndTypeCheck

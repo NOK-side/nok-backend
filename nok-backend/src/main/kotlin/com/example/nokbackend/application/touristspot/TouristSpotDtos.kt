@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.touristspot
 
 import com.example.nokbackend.domain.touristspot.Facility
 import com.example.nokbackend.domain.Location

@@ -1,12 +1,15 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
+import com.example.nokbackend.application.authentication.AuthenticationResponse
+import com.example.nokbackend.application.authentication.AuthenticationService
+import com.example.nokbackend.application.authentication.ConfirmAuthenticationRequest
+import com.example.nokbackend.application.member.*
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.HeaderClaim
 import com.example.nokbackend.security.MemberClaim
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import springfox.documentation.annotations.ApiIgnore

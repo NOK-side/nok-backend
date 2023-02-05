@@ -1,5 +1,8 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.member
 
+import com.example.nokbackend.application.authentication.AuthenticationService
+import com.example.nokbackend.application.authentication.ConfirmAuthenticationRequest
+import com.example.nokbackend.application.member.*
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.*
 import com.example.nokbackend.security.JwtTokenProvider

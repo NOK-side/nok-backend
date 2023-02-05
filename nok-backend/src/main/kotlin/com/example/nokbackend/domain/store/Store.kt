@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.store
 
-import com.example.nokbackend.application.UpdateStoreInformationRequest
+import com.example.nokbackend.application.store.UpdateStoreInformationRequest
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.Location
 import javax.persistence.Embedded

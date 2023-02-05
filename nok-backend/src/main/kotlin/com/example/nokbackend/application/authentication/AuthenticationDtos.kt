@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.authentication
 
 import com.example.nokbackend.domain.authentication.Authentication
 

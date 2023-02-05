@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.gifticon
 
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon

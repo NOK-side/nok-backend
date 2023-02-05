@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.util
 
 import com.example.nokbackend.util.toJsonString
 import com.google.zxing.BarcodeFormat

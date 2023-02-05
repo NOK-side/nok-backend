@@ -1,6 +1,9 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
+import com.example.nokbackend.application.image.DeleteFileRequest
+import com.example.nokbackend.application.image.ImageService
+import com.example.nokbackend.application.image.UploadFileResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile

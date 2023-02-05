@@ -2,9 +2,9 @@ package com.example.nokbackend.acceptance.member
 
 import com.example.nokbackend.AcceptanceTest
 import com.example.nokbackend.DatabaseCleanup
-import com.example.nokbackend.application.ConfirmAuthenticationRequest
-import com.example.nokbackend.application.RegisterMemberRequest
-import com.example.nokbackend.application.VerifyEmailRequest
+import com.example.nokbackend.application.authentication.ConfirmAuthenticationRequest
+import com.example.nokbackend.application.member.RegisterMemberRequest
+import com.example.nokbackend.application.member.VerifyEmailRequest
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.fixture.*
@@ -14,7 +14,6 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import io.restassured.response.Response
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

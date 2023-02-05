@@ -1,8 +1,8 @@
 package com.example.nokbackend.domain.firebase
 
-import com.example.nokbackend.application.DeleteFileRequest
-import com.example.nokbackend.application.UploadFileRequest
-import com.example.nokbackend.application.UploadFileResponse
+import com.example.nokbackend.application.image.DeleteFileRequest
+import com.example.nokbackend.application.image.UploadFileRequest
+import com.example.nokbackend.application.image.UploadFileResponse
 
 interface Firebase {
 

@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.image
 
 import org.springframework.web.multipart.MultipartFile
 

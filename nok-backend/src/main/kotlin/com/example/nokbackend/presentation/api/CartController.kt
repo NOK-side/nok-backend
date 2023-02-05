@@ -1,9 +1,9 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.CartResponse
-import com.example.nokbackend.application.CartService
-import com.example.nokbackend.application.ChangeQuantityOfCartRequest
-import com.example.nokbackend.application.RegisterItemToCartRequest
+import com.example.nokbackend.application.cart.CartResponse
+import com.example.nokbackend.application.cart.CartService
+import com.example.nokbackend.application.cart.ChangeQuantityOfCartRequest
+import com.example.nokbackend.application.cart.RegisterItemToCartRequest
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim

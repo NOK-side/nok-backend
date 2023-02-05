@@ -1,10 +1,11 @@
 package com.example.nokbackend.application.mission
 
-import com.example.nokbackend.application.CodeService
-import com.example.nokbackend.application.GeometryService
-import com.example.nokbackend.application.Point
+import com.example.nokbackend.application.util.CodeService
+import com.example.nokbackend.application.geometry.GeometryService
+import com.example.nokbackend.application.geometry.Point
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
+import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.membermission.MemberMissionGroupRepository
 import com.example.nokbackend.domain.membermission.MemberMissionRepository

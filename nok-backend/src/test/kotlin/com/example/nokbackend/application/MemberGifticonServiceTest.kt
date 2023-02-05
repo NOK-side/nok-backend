@@ -1,15 +1,20 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.application.gifticon.BuyGifticonRequest
+import com.example.nokbackend.application.gifticon.MemberGifticonService
+import com.example.nokbackend.application.gifticon.SendGifticonRequest
+import com.example.nokbackend.application.gifticon.UseGifticonRequest
+import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
+import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.domain.memberGifticon.MemberGifticon
 import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
-import com.example.nokbackend.domain.memberGifticon.findByIdCheck
 import com.example.nokbackend.domain.store.StoreRepository
 import com.example.nokbackend.fixture.*
 import io.mockk.every

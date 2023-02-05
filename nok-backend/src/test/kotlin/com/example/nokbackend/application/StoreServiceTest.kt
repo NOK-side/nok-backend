@@ -1,5 +1,10 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.application.authentication.AuthenticationService
+import com.example.nokbackend.application.member.RegisterMemberRequest
+import com.example.nokbackend.application.store.RegisterStoreRequest
+import com.example.nokbackend.application.store.StoreService
+import com.example.nokbackend.application.store.UpdateStoreInformationRequest
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.store.*

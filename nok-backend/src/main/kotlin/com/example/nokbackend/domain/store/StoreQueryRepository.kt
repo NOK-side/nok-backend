@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.store
 
-import com.example.nokbackend.application.FindStoreCondition
+import com.example.nokbackend.application.store.FindStoreCondition
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.listQuery

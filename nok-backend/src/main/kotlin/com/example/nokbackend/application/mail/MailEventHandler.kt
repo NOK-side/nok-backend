@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.mail
 
 import com.example.nokbackend.domain.mail.Mail
 import org.springframework.context.event.EventListener

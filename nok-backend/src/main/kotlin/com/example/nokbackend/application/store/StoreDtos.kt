@@ -1,5 +1,9 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.store
 
+import com.example.nokbackend.application.util.centerOfKoreaLatitude
+import com.example.nokbackend.application.util.centerOfKoreaLongitude
+import com.example.nokbackend.application.util.defaultDistance
+import com.example.nokbackend.application.member.RegisterMemberRequest
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage

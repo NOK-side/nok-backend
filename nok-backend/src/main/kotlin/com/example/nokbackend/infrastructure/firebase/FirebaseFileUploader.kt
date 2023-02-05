@@ -2,9 +2,9 @@ package com.example.nokbackend.infrastructure.firebase
 
 import arrow.core.Either
 import arrow.core.getOrElse
-import com.example.nokbackend.application.DeleteFileRequest
-import com.example.nokbackend.application.UploadFileRequest
-import com.example.nokbackend.application.UploadFileResponse
+import com.example.nokbackend.application.image.DeleteFileRequest
+import com.example.nokbackend.application.image.UploadFileRequest
+import com.example.nokbackend.application.image.UploadFileResponse
 import com.google.cloud.storage.Bucket
 import com.google.firebase.cloud.StorageClient
 import kotlinx.coroutines.launch

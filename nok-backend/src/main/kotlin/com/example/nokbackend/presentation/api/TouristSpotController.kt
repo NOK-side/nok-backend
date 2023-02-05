@@ -1,6 +1,7 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.*
+import com.example.nokbackend.application.touristspot.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

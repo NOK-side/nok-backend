@@ -1,6 +1,6 @@
 package com.example.nokbackend.application.mission
 
-import com.example.nokbackend.application.GeometryService
+import com.example.nokbackend.application.geometry.GeometryService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByEmailCheck

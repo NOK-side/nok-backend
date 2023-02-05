@@ -1,6 +1,6 @@
 package com.example.nokbackend.mapper
 
-import com.example.nokbackend.application.GifticonResponse
+import com.example.nokbackend.application.gifticon.GifticonResponse
 import com.example.nokbackend.application.mission.MissionGroupInfoResponse
 import com.example.nokbackend.application.mission.MissionInfoResponse
 import com.example.nokbackend.domain.gifticon.Gifticon

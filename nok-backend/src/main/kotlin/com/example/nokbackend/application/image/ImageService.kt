@@ -1,5 +1,6 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.image
 
+import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.firebase.Firebase
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile

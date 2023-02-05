@@ -1,8 +1,8 @@
 //package com.example.nokbackend.domain.authentication
 //
-//import com.example.nokbackend.application.AuthenticationService
-//import com.example.nokbackend.application.ConfirmAuthenticationRequest
-//import com.example.nokbackend.application.UUIDGenerator
+//import com.example.nokbackend.application.authentication.AuthenticationService
+//import com.example.nokbackend.application.authentication.ConfirmAuthenticationRequest
+//import com.example.nokbackend.application.util.UUIDGenerator
 //import org.junit.jupiter.api.Assertions.assertEquals
 //import org.junit.jupiter.api.Assertions.fail
 //import org.junit.jupiter.api.Test

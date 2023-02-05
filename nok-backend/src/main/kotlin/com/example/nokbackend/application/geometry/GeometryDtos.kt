@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.geometry
 
 data class Point(
     val longitude: Double,

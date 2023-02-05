@@ -1,4 +1,4 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.touristspot
 
 import com.example.nokbackend.domain.touristspot.TouristSpotQueryRepository
 import com.example.nokbackend.domain.touristspot.TouristSpotRepository

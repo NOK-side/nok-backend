@@ -1,7 +1,7 @@
 package com.example.nokbackend
 
-import com.example.nokbackend.application.GeometryService
-import com.example.nokbackend.application.Point
+import com.example.nokbackend.application.geometry.GeometryService
+import com.example.nokbackend.application.geometry.Point
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking

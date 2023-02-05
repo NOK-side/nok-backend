@@ -1,6 +1,8 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.member
 
-import com.example.nokbackend.domain.authentication.Authentication
+import com.example.nokbackend.application.mail.MailEvent
+import com.example.nokbackend.application.util.UUIDGenerator
+import com.example.nokbackend.application.authentication.AuthenticationService
 import com.example.nokbackend.domain.member.*
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
