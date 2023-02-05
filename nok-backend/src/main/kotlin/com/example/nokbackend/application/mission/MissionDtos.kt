@@ -1,5 +1,9 @@
-package com.example.nokbackend.application
+package com.example.nokbackend.application.mission
 
+import com.example.nokbackend.application.GifticonResponse
+import com.example.nokbackend.application.centerOfKoreaLatitude
+import com.example.nokbackend.application.centerOfKoreaLongitude
+import com.example.nokbackend.application.defaultDistance
 import com.example.nokbackend.domain.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.membermission.MemberMission

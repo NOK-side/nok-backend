@@ -4,9 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberMissionGroupRepository : JpaRepository<MemberMissionGroup, Long> {
 
-    fun findByMissionGroupId(missionGroupId: Long): MemberMissionGroup?
+    fun findByMissionGroupIdAndMemberId(missionGroupId: Long, memberId: Long): MemberMissionGroup?
 
-    fun findByMissionGroupIdIn(missionGroupIds: List<Long>): List<MemberMissionGroup>
+    fun findByMissionGroupIdInAndMemberId(missionGroupIds: List<Long>, memberId: Long): List<MemberMissionGroup>
 
     fun findByMemberId(memberId: Long): List<MemberMissionGroup>
 

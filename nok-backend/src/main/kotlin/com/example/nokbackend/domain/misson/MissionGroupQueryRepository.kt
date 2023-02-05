@@ -1,6 +1,6 @@
 package com.example.nokbackend.domain.misson
 
-import com.example.nokbackend.application.FindMissionGroupCondition
+import com.example.nokbackend.application.mission.FindMissionGroupCondition
 import com.example.nokbackend.domain.Location
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory
