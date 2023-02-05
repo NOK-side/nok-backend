@@ -117,7 +117,7 @@ data class FindCitiesResponse(
     val longitude: BigDecimal,
 )
 
-data class FromResult(
+data class FormResult(
     val formId: String,
     val email: String,
     val results: List<AnswerResult>

@@ -208,7 +208,8 @@ class MissionService(
             }
     }
 
-    fun submitFromResult(formResult: FromResult) {
+    fun submitFromResult(formResult: FormResult) {
+        println(formResult)
         val member = memberRepository.findByEmailCheck(formResult.email)
         val mission = missionRepository.finByFormIdCheck(formResult.formId)
         val memberMission = memberMissionRepository.findByMissionIdAndMemberMissionGroup_MemberIdCheck(mission.id, member.id)
