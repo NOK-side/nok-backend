@@ -26,6 +26,7 @@ data class MemberGifticonResponse(
     val status: MemberGifticon.Status,
     val createDate: LocalDate,
     val modifiedDate: LocalDate,
+    val storeId: Long,
     val storeName: String
 ) {
     constructor(gifticon: Gifticon, memberGifticon: MemberGifticon, store: Store) : this(
@@ -39,6 +40,7 @@ data class MemberGifticonResponse(
         memberGifticon.status,
         memberGifticon.createDate,
         memberGifticon.modifiedDate,
+        store.id,
         store.name
     )
 }
