@@ -3,9 +3,6 @@ package com.example.nokbackend.application.gifticon
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.store.Store
 import java.math.BigDecimal
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Lob
 
 data class FindGifticonCondition(
     val name: String
