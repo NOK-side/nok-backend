@@ -9,6 +9,7 @@ const val gifticonRefundAndExchangeInstruction = "test refundAndExchangeInstruct
 const val period = 30L
 const val orderCancellationPeriod = 30L
 val gifticonPrice = BigDecimal(1000)
+const val gifticonId = "test gifticon id"
 
 fun aGifticon(): Gifticon = Gifticon(
     storeId = aStore().id,
@@ -20,5 +21,6 @@ fun aGifticon(): Gifticon = Gifticon(
     category = Gifticon.Category.CAFE,
     status = Gifticon.Status.ACTIVE,
     imageUrl = "",
-    orderCancellationPeriod = orderCancellationPeriod
+    orderCancellationPeriod = orderCancellationPeriod,
+    gifticonId = gifticonId
 )

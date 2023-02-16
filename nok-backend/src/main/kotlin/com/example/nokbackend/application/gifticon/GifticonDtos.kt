@@ -19,8 +19,8 @@ data class RegisterGifticonRequest(
     val imageUrl: String,
     val orderCancellationPeriod: Long
 ) {
-    fun toEntity(storeId: Long): Gifticon {
-        return Gifticon(storeId, productName, period, notice, refundAndExchangeInstruction, price, category, status, imageUrl, orderCancellationPeriod)
+    fun toEntity(storeId: Long, gifticonId: String): Gifticon {
+        return Gifticon(storeId, productName, period, notice, refundAndExchangeInstruction, price, category, status, imageUrl, orderCancellationPeriod, gifticonId)
     }
 }
 

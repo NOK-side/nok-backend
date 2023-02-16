@@ -33,6 +33,8 @@ class Gifticon(
 
     var orderCancellationPeriod: Long,
 
+    val gifticonId: String,
+
     id: Long = 0L
 ) : BaseEntity(id) {
 
