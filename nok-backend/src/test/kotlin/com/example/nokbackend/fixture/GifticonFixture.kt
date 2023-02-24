@@ -24,3 +24,5 @@ fun aGifticon(): Gifticon = Gifticon(
     orderCancellationPeriod = orderCancellationPeriod,
     gifticonId = gifticonId
 )
+
+

@@ -30,6 +30,17 @@ class MemberGifticonController(
     }
 
     @Authenticated
+    @GetMapping("/me/used")
+    fun findMyUsedGifticon(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MemberGifticonResponse>>> {
+        val myGifticons = memberGifticonService.findMyUsedGifticon(member)
+        return responseEntity {
+            body = apiResponse {
+                data = myGifticons
+            }
+        }
+    }
+
+    @Authenticated
     @PostMapping("/buy")
     fun buyGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody buyGifticonRequest: BuyGifticonRequest): ResponseEntity<ApiResponse<EmptyBody>> {
         memberGifticonService.buyGifticon(member, buyGifticonRequest)

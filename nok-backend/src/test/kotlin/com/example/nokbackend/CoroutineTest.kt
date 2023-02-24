@@ -2,6 +2,7 @@ package com.example.nokbackend
 
 import com.example.nokbackend.application.geometry.GeometryService
 import com.example.nokbackend.application.geometry.Point
+import com.example.nokbackend.application.gifticon.GifticonService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -47,5 +48,13 @@ class CoroutineTest {
 
         println("$longitude3 $latitude3")
 
+    }
+
+    @Test
+    fun test06() {
+        val storeId = 1
+        val pattern = DateTimeFormatter.ofPattern("yyyyMMdd")
+        val s = "${storeId.toString().padStart(5, '0')}_${LocalDate.now().format(pattern)}_${UUID.randomUUID().toString().take(8).uppercase()}"
+        println(s)
     }
 }

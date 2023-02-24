@@ -45,6 +45,22 @@ class MemberGifticonService(
         }
     }
 
+    fun findMyUsedGifticon(member: Member): List<MemberGifticonResponse> {
+        val memberGifticons = memberGifticonRepository.findByOwnerIdAndStatus(member.id, MemberGifticon.Status.USED)
+
+        val gifticons = gifticonRepository.findAllById(memberGifticons.map { it.gifticonId })
+        val gifticonMap = toHashmapByIdAsKey(gifticons)
+
+        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
+        val storeMap = toHashmapByIdAsKey(stores)
+
+        return memberGifticons.map {
+            val gifticon = gifticonMap[it.gifticonId]!!
+            val store = storeMap[gifticon.storeId]!!
+            MemberGifticonResponse(gifticon, it, store)
+        }
+    }
+
     fun findMemberGifticonInfo(member: Member, memberGifticonId: Long): MemberGifticonResponse {
         val memberGifticon = memberGifticonRepository.findByIdCheck(memberGifticonId)
 
