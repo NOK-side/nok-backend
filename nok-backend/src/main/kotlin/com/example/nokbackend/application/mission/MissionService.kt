@@ -1,15 +1,21 @@
 package com.example.nokbackend.application.mission
 
+import com.example.nokbackend.application.util.CodeService
 import com.example.nokbackend.application.geometry.GeometryService
+import com.example.nokbackend.application.geometry.Point
+import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.member.MemberRepository
-import com.example.nokbackend.domain.member.findByEmailCheck
-import com.example.nokbackend.domain.membermission.*
+import com.example.nokbackend.domain.membermission.MemberMissionGroupRepository
+import com.example.nokbackend.domain.membermission.MemberMissionRepository
 import com.example.nokbackend.domain.misson.*
+import com.example.nokbackend.domain.store.StoreRepository
+import com.example.nokbackend.domain.store.findByIdCheck
+import com.example.nokbackend.domain.touristspot.TouristSpotRepository
+import com.example.nokbackend.domain.touristspot.findByIdCheck
+import com.example.nokbackend.mapper.MissionMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
-import kotlin.math.abs
 
 @Service
 @Transactional
@@ -17,96 +23,97 @@ class MissionService(
     private val missionGroupRepository: MissionGroupRepository,
     private val missionGroupQueryRepository: MissionGroupQueryRepository,
     private val missionRepository: MissionRepository,
+    private val gifticonRepository: GifticonRepository,
+    private val storeRepository: StoreRepository,
     private val memberMissionGroupRepository: MemberMissionGroupRepository,
     private val memberMissionRepository: MemberMissionRepository,
     private val geometryService: GeometryService,
-    private val memberRepository: MemberRepository,
-    private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
+    private val codeService: CodeService,
+    private val touristSpotRepository: TouristSpotRepository,
+    private val missionMapper: MissionMapper
 ) {
 
+    fun findMissionGroupInfo(member: Member, id: Long): MissionGroupInfoResponse {
+        val missionGroup = missionGroupRepository.findByIdCheck(id)
 
-    fun startMission(member: Member, missionGroupId: Long) {
-        val missionGroup = missionGroupRepository.findByIdCheck(missionGroupId)
+        val gifticon = gifticonRepository.findByIdCheck(missionGroup.prizeId)
 
-        val isStartedMission = memberMissionGroupRepository.existsByMissionGroupIdAndMemberId(missionGroupId, member.id)
-        check(!isStartedMission) { "이미 시작한 미션입니다" }
-
-        val memberMissionGroup = MemberMissionGroup(
-            memberId = member.id,
-            missionGroupId = missionGroup.id,
-            status = MemberMissionGroup.Status.PROCESS,
-            dueDate = LocalDate.now().plusDays(7)
-        )
-
-        memberMissionGroupRepository.save(memberMissionGroup)
+        val store = storeRepository.findByIdCheck(gifticon.storeId)
 
         val missions = missionRepository.findByMissionGroup(missionGroup)
 
-        val memberMissions = missions.map {
-            MemberMission(
-                memberMissionGroup = memberMissionGroup,
-                missionId = it.id,
-                status = MemberMission.Status.PROGRESSING,
-            )
-        }
+        val memberMissionGroup = memberMissionGroupRepository.findByMissionGroupIdAndMemberId(missionGroup.id, member.id)
 
-        memberMissionRepository.saveAll(memberMissions)
+        val memberMissions = memberMissionGroup?.let { memberMissionRepository.findByMemberMissionGroup(it) } ?: listOf()
+
+        return missionMapper.toMissionGroupInfoResponse(
+            missionGroup = missionGroup,
+            gifticon = gifticon,
+            store = store,
+            missions = missions,
+            memberMissionGroup = memberMissionGroup,
+            memberMissions = memberMissions
+        )
     }
 
-    fun completeMissionTypeOfCurrentUserLocation(member: Member, memberMissionId: Long, currentLocation: DistanceFromLocation) {
-        val memberMission = memberMissionRepository.findByIdCheck(memberMissionId)
-
-        check(memberMission.memberMissionGroup.memberId == member.id) { "본인의 미션만 수행할 수 있습니다" }
-
-        val mission = missionRepository.findByIdCheck(memberMission.missionId)
-
-        check(mission.type == Mission.Type.CURRENT_USER_LOCATION) { "미션 타입이 다릅니다" }
-
-        val distanceBetween = geometryService.getDistanceBetween(
-            longitude1 = currentLocation.longitude.toDouble(),
-            latitude1 = currentLocation.latitude.toDouble(),
-            longitude2 = mission.location.longitude.toDouble(),
-            latitude2 = mission.location.latitude.toDouble()
+    fun findMissionGroupByCondition(member: Member, findMissionGroupCondition: FindMissionGroupCondition): List<MissionGroupInfoResponse> {
+        val missionGroupIds = missionGroupRepository.findIdByDistance(
+            longitude = findMissionGroupCondition.longitude,
+            latitude = findMissionGroupCondition.latitude,
+            meterDistance = findMissionGroupCondition.distance
         )
 
-        check(distanceBetween <= mission.qualification) { "목표한 위치에 도달하지 못하였습니다 : ${abs(distanceBetween - mission.qualification)}미터 차이" }
+        val missionGroups = missionGroupQueryRepository.findByCondition(missionGroupIds, findMissionGroupCondition)
 
-        memberMission.complete()
+        val gifticons = gifticonRepository.findAllById(missionGroups.map { it.prizeId })
 
-        val memberMissions = memberMissionRepository.findByMemberMissionGroup(memberMission.memberMissionGroup)
+        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
 
-        if (!memberMissions.any { it.status != MemberMission.Status.FINISHED }) {
-            memberMission.memberMissionGroup.complete()
-        }
+        val missions = missionRepository.findByMissionGroupIn(missionGroups)
+
+        val memberMissionGroups = memberMissionGroupRepository.findByMissionGroupIdInAndMemberId(missionGroups.map { it.id }, member.id)
+
+        val memberMissions = memberMissionRepository.findByMemberMissionGroupIn(memberMissionGroups)
+
+        return missionMapper.toMissionGroupInfoResponses(missionGroups, gifticons, stores, memberMissionGroups, missions, memberMissions)
     }
 
+    fun findMissionGroupOfTouristSpot(member: Member, id: Long): List<MissionGroupInfoResponse> {
+        val touristSpot = touristSpotRepository.findByIdCheck(id)
 
-    fun submitFromResult(formResult: FormResult) {
-        println(formResult)
-        val member = memberRepository.findByEmailCheck(formResult.email)
-        val mission = missionRepository.findByFormIdCheck(formResult.formId)
-        val memberMission = memberMissionRepository.findByMissionIdAndMemberMissionGroup_MemberIdCheck(mission.id, member.id)
-
-        val score = formResult.results
-            .map { it.score }
-            .reduce { x, y -> x + y }
-
-        val result = formResult.results
-            .map { it.response }
-            .reduce { x, y -> "$x | $y" }
-
-        resultOfMemberMissionQuestionRepository.save(
-            ResultOfMemberMissionQuestion(
-                memberMission = memberMission,
-                formId = formResult.formId,
-                respondent = member.email,
-                score = score,
-                results = result
-            )
+        val findMissionGroupCondition = FindMissionGroupCondition(
+            city = touristSpot.location.roadNameAddress
+                .split(" ")
+                .take(3)
+                .reduce { acc, s -> "$acc $s" },
+            keyword = null
         )
 
-        if (score >= mission.qualification) {
-            memberMission.complete()
-        }
+        return findMissionGroupByCondition(member, findMissionGroupCondition)
+    }
+
+    fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): List<FindCitiesResponse> {
+        return missionGroupRepository.findByCityName(findCitiesRequest.city)
+            .map { LocationAbbreviationWithLength(it, 2) }
+            .groupBy { it.roadNameAddress }
+            .entries
+            .map { entry ->
+                val point = geometryService.getCenterOfSpots(entry.value.map { Point(it.longitude.toDouble(), it.latitude.toDouble()) })
+                FindCitiesResponse(
+                    cityName = entry.key,
+                    imageUrl = entry.value.random().imageUrl,
+                    latitude = point.latitude.toBigDecimal(),
+                    longitude = point.longitude.toBigDecimal()
+                )
+            }
+    }
+
+    fun getQRCodeFromQuestion(member: Member, missionId: Long): ByteArray {
+        val mission = missionRepository.findByIdCheck(missionId)
+        val exists = memberMissionGroupRepository.existsByMemberIdAndMissionGroupId(member.id, mission.missionGroup.id)
+
+        check(exists) { "진행중인 미션이 존재하지 않습니다" }
+
+        return codeService.createCodeImage(mission.questionUrl, CodeService.CodeType.QRCODE)
     }
 }
