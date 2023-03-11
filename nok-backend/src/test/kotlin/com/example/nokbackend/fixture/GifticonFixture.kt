@@ -22,7 +22,8 @@ fun aGifticon(): Gifticon = Gifticon(
     status = Gifticon.Status.ACTIVE,
     imageUrl = "",
     orderCancellationPeriod = orderCancellationPeriod,
-    gifticonId = gifticonId
+    gifticonId = gifticonId,
+    recommend = false
 )
 
 

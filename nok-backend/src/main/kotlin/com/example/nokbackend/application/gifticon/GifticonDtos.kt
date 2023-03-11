@@ -17,10 +17,11 @@ data class RegisterGifticonRequest(
     val category: Gifticon.Category = Gifticon.Category.NOTHING,
     val status: Gifticon.Status = Gifticon.Status.ACTIVE,
     val imageUrl: String,
-    val orderCancellationPeriod: Long
+    val orderCancellationPeriod: Long,
+    val recommend: Boolean
 ) {
     fun toEntity(storeId: Long, gifticonId: String): Gifticon {
-        return Gifticon(storeId, productName, period, notice, refundAndExchangeInstruction, price, category, status, imageUrl, orderCancellationPeriod, gifticonId)
+        return Gifticon(storeId, productName, period, notice, refundAndExchangeInstruction, price, category, status, imageUrl, orderCancellationPeriod, gifticonId, recommend)
     }
 }
 
@@ -32,7 +33,8 @@ data class GifticonResponse(
     val category: Gifticon.Category,
     val imageUrl: String,
     val period: Long,
-    val storeName: String
+    val storeName: String,
+    val recommend: Boolean
 ) {
     constructor(gifticon: Gifticon, store: Store) : this(
         gifticon.id,
@@ -42,7 +44,8 @@ data class GifticonResponse(
         gifticon.category,
         gifticon.imageUrl,
         gifticon.period,
-        store.name
+        store.name,
+        gifticon.recommend
     )
 }
 
@@ -57,7 +60,8 @@ data class GifticonDetailResponse(
     val imageUrl: String,
     val orderCancellationPeriod: Long,
     val storeId: Long,
-    val storeName: String
+    val storeName: String,
+    val recommend: Boolean
 ) {
     constructor(gifticon: Gifticon, store: Store) : this(
         productName = gifticon.productName,
@@ -70,6 +74,7 @@ data class GifticonDetailResponse(
         imageUrl = gifticon.imageUrl,
         orderCancellationPeriod = gifticon.orderCancellationPeriod,
         storeId = store.id,
-        storeName = store.name
+        storeName = store.name,
+        gifticon.recommend
     )
 }

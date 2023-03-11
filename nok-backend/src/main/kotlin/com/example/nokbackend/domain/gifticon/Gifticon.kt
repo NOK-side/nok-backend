@@ -35,6 +35,8 @@ class Gifticon(
 
     val gifticonId: String,
 
+    var recommend: Boolean,
+
     id: Long = 0L
 ) : BaseEntity(id) {
 
