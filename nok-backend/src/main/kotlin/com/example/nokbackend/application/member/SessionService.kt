@@ -2,7 +2,6 @@ package com.example.nokbackend.application.member
 
 import com.example.nokbackend.application.authentication.AuthenticationService
 import com.example.nokbackend.application.authentication.ConfirmAuthenticationRequest
-import com.example.nokbackend.application.member.*
 import com.example.nokbackend.domain.authentication.Authentication
 import com.example.nokbackend.domain.member.*
 import com.example.nokbackend.security.JwtTokenProvider
@@ -35,7 +34,7 @@ class SessionService(
         val accessToken = jwtTokenProvider.createAccessToken(member.email)
         val refreshToken = jwtTokenProvider.createRefreshToken(member.email)
 
-        member.loginInformation = LoginInformation(userAgent, refreshToken)
+        member.loginInformation = LoginInformation(userAgent, refreshToken, registerMemberRequest.fcmCode)
 
         memberRepository.save(member)
 
@@ -50,7 +49,7 @@ class SessionService(
         val accessToken = jwtTokenProvider.createAccessToken(member.email)
         val refreshToken = jwtTokenProvider.createRefreshToken(member.email)
 
-        member.loginInformation = LoginInformation(userAgent, refreshToken)
+        member.loginInformation = LoginInformation(userAgent, refreshToken, loginRequest.fcmCode)
 
         return LoginResponse(member, TokenResponse(accessToken, refreshToken))
     }
@@ -66,7 +65,7 @@ class SessionService(
         val accessToken = jwtTokenProvider.createAccessToken(member.email)
         val refreshToken = jwtTokenProvider.createRefreshToken(member.email)
 
-        member.loginInformation = LoginInformation(userAgent, refreshToken)
+        member.loginInformation = LoginInformation(userAgent, refreshToken, refreshTokenRequest.fcmCode)
 
         return TokenResponse(accessToken, refreshToken)
     }

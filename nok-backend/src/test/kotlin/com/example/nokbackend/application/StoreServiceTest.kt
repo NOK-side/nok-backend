@@ -68,7 +68,8 @@ class StoreServiceTest {
             password = password,
             role = Member.Role.STORE,
             authenticationId = 1L,
-            authenticationCode = ""
+            authenticationCode = "",
+            fcmCode = ""
         )
 
         val storeInformation = aStoreInformation()

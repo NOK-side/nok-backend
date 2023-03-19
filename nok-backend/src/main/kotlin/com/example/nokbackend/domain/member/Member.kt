@@ -93,7 +93,7 @@ class Member(
 
     companion object {
         val DUMMY: Member
-            get() = Member(MemberInformation("", "", "", "", ""), LoginInformation("", ""), Password(""), Role.USER, Status.ACTIVE)
+            get() = Member(MemberInformation("", "", "", "", ""), LoginInformation("", "", ""), Password(""), Role.USER, Status.ACTIVE)
     }
 }
 

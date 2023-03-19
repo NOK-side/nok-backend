@@ -11,11 +11,12 @@ const val name: String = "tester"
 const val phoneNumber: String = "010-0000-0000"
 const val userAgent: String = "IPHONE"
 const val refreshToken: String = "vaild refresh token"
+const val device: String = "device fcm code"
 val password: Password = Password("password")
 
 fun aMember(
     information: MemberInformation = MemberInformation(memberId, email, name, phoneNumber, ""),
-    loginInformation: LoginInformation = LoginInformation(userAgent, refreshToken),
+    loginInformation: LoginInformation = LoginInformation(userAgent, refreshToken, device),
     password: Password = Password("password"),
     role: Member.Role = Member.Role.USER,
     status: Member.Status = Member.Status.ACTIVE,

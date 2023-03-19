@@ -47,7 +47,7 @@ class SessionServiceTest {
         @Test
         fun 유효한_리프레시_토큰을_보내면_성공한다() {
             userAgent = "user agent"
-            refreshTokenRequest = RefreshTokenRequest(refreshToken)
+            refreshTokenRequest = RefreshTokenRequest(refreshToken, "")
 
             every { memberRepository.findByEmailCheck(any()) } returns aMember()
             every { jwtTokenProvider.isValidToken(any()) } returns true
@@ -61,7 +61,7 @@ class SessionServiceTest {
         @Test
         fun 만료된_리프레시_토큰을_보내면_실패한다() {
             userAgent = "user agent"
-            refreshTokenRequest = RefreshTokenRequest(refreshToken)
+            refreshTokenRequest = RefreshTokenRequest(refreshToken, "")
 
             every { memberRepository.findByEmailCheck(any()) } returns aMember()
             every { jwtTokenProvider.isValidToken(any()) } returns false
@@ -77,7 +77,7 @@ class SessionServiceTest {
         @Test
         fun 보유한_리프레시_토큰과_일치하지_않으면_실패한다() {
             userAgent = "user agent"
-            refreshTokenRequest = RefreshTokenRequest("not same refresh token with member")
+            refreshTokenRequest = RefreshTokenRequest("not same refresh token with member", "")
 
             every { memberRepository.findByEmailCheck(any()) } returns aMember()
             every { jwtTokenProvider.isValidToken(any()) } returns false

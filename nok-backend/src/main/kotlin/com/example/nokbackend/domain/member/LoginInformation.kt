@@ -9,6 +9,9 @@ data class LoginInformation(
     val userAgent: String,
 
     @Column
-    val refreshToken: String
+    val refreshToken: String,
+
+    @Column
+    val fcmCode: String
 ) {
 }

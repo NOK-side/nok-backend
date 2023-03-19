@@ -18,9 +18,10 @@ data class RegisterMemberRequest(
     val role: Member.Role = Member.Role.NOTHING,
     val status: Member.Status = Member.Status.ACTIVE,
     val authenticationId: Long,
-    val authenticationCode: String
+    val authenticationCode: String,
+    val fcmCode: String,
 ) {
-    fun toEntity(loginInformation: LoginInformation = LoginInformation("", "")) = Member(
+    fun toEntity(loginInformation: LoginInformation = LoginInformation("", "", "")) = Member(
         MemberInformation(
             memberId = memberId,
             email = email,
@@ -37,39 +38,40 @@ data class RegisterMemberRequest(
 
 data class UpdateMemberRequest(
     val name: String?,
-    val phoneNumber: String?
+    val phoneNumber: String?,
 )
 
 data class UpdateMemberResponse(
-    val message: String
+    val message: String,
 )
 
 data class UpdatePasswordRequest(
     val oldPassword: Password,
-    val newPassword: Password
+    val newPassword: Password,
 )
 
 data class UpdatePasswordResponse(
-    val message: String
+    val message: String,
 )
 
 data class WithdrawMemberRequest(
-    val password: Password
+    val password: Password,
 )
 
 data class WithdrawMemberResponse(
-    val message: String
+    val message: String,
 )
 
 data class LoginRequest(
     val memberId: String,
-    val password: Password
+    val password: Password,
+    val fcmCode: String,
 )
 
 data class MemberInfoResponse(
     val memberInformation: MemberInformation,
     val role: Member.Role,
-    val status: Member.Status
+    val status: Member.Status,
 ) {
     constructor(member: Member) : this(
         member.information,
@@ -86,7 +88,7 @@ data class FindMemberIdRequest(
 data class FindMemberIdResponse(
 //    val email: String,
     //FIXME: 임시 - 메일 보내기 비활성화 떄문에 ㅠㅠ
-    val memberId: String
+    val memberId: String,
 )
 
 data class FindMemberPasswordRequest(
@@ -94,17 +96,17 @@ data class FindMemberPasswordRequest(
 )
 
 data class FindMemberPasswordResponse(
-    val email: String
+    val email: String,
 )
 
 data class VerifyEmailRequest(
     @field:Email
     val email: String,
-    val type: Authentication.Type
+    val type: Authentication.Type,
 )
 
 data class CheckMemberIdDuplicationRequest(
-    val memberId: String
+    val memberId: String,
 )
 
 data class LoginResponse(
@@ -113,7 +115,7 @@ data class LoginResponse(
     val name: String,
     var profileImage: String,
     var role: Member.Role,
-    val tokenResponse: TokenResponse
+    val tokenResponse: TokenResponse,
 ) {
     constructor(member: Member, tokenResponse: TokenResponse) : this(
         member.memberId,
@@ -126,10 +128,11 @@ data class LoginResponse(
 }
 
 data class RefreshTokenRequest(
-    val refreshToken: String
+    val refreshToken: String,
+    val fcmCode: String
 )
 
 data class TokenResponse(
     val accessToken: String,
-    val refreshToken: String
+    val refreshToken: String,
 )
