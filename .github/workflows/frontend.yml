@@ -1,0 +1,16 @@
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: [ self-hosted ]
+
+    steps:
+    - name: Docker run
+      run: |
+        cd kb-jobtraining
+        git pull
+        cd frontend
+        npm run build
+        pm2 stop index && pm2 delete index && pm2 start build/index.js
