@@ -9,6 +9,7 @@ jobs:
     steps:
     - name: Docker run
       run: |
+        ls
         cd kb-jobtraining
         git pull
         cd frontend
