@@ -1,14 +1,10 @@
 package com.example.nokbackend.infrastructure.firebase
 
-import arrow.core.Either
-import arrow.core.getOrElse
 import com.example.nokbackend.application.image.DeleteFileRequest
 import com.example.nokbackend.application.image.UploadFileRequest
 import com.example.nokbackend.application.image.UploadFileResponse
 import com.google.cloud.storage.Bucket
 import com.google.firebase.cloud.StorageClient
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.io.ByteArrayInputStream
@@ -23,21 +19,9 @@ class FirebaseFileUploader {
         val bucket = StorageClient.getInstance().bucket(firebaseBucket)
         val uploadFileResponse: MutableList<UploadFileResponse> = mutableListOf()
 
-        Either.catch {
-            runBlocking {
-                uploadFileRequests.forEachIndexed { index, uploadFileRequest ->
-                    launch {
-                        val fileUrl = uploadFile(uploadFileRequest, bucket)
-                        uploadFileResponse.add(UploadFileResponse(index, fileUrl))
-                    }
-                }
-            }
-        }.getOrElse {
-            uploadFileResponse.forEach {
-                deleteFile(it.url, bucket)
-            }
-
-            throw RuntimeException("파일 업로드에 실패하였습니다")
+        uploadFileRequests.forEachIndexed { index, uploadFileRequest ->
+            val fileUrl = uploadFile(uploadFileRequest, bucket)
+            uploadFileResponse.add(UploadFileResponse(index, fileUrl))
         }
 
         return uploadFileResponse
@@ -46,16 +30,8 @@ class FirebaseFileUploader {
     fun deleteFiles(deleteFileRequests: List<DeleteFileRequest>) {
         val bucket = StorageClient.getInstance().bucket(firebaseBucket)
 
-        Either.catch {
-            runBlocking {
-                deleteFileRequests.forEach {
-                    launch {
-                        deleteFile(getFilenameFromUrl(it.url), bucket)
-                    }
-                }
-            }
-        }.getOrElse {
-            throw RuntimeException("파일 삭제에 실패하였습니다")
+        deleteFileRequests.forEach {
+            deleteFile(getFilenameFromUrl(it.url), bucket)
         }
     }
 

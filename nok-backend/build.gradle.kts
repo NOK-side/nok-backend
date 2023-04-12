@@ -61,24 +61,12 @@ dependencies {
     implementation("com.google.firebase:firebase-admin:9.0.0")
     implementation("com.google.cloud:google-cloud-storage:2.10.0")
 
-    // rest-assured
-    implementation("io.rest-assured:rest-assured:4.4.0")
-    testImplementation("io.rest-assured:kotlin-extensions:4.4.0")
-
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.0.6.RELEASE")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
     implementation("io.springfox:springfox-boot-starter:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:1.6.4")
-    implementation(kotlin("stdlib"))
-    implementation("io.arrow-kt:arrow-core:1.1.2")
-    implementation("io.arrow-kt:arrow-fx-coroutines:1.1.2")
-    implementation("io.arrow-kt:arrow-fx-stm:1.1.2")
 
     implementation("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3")
 
