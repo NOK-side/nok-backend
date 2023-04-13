@@ -58,7 +58,7 @@ class TestController(
                             .build()
                     )
                     .build()
-            ).setToken("APA91bGnfJm9kOxh-2nJB3dYTs-U317PZa57nopf9EELtJUJ52E9Unw7OAHnCtrNcUVzXJexNb7ZDqQa47K_Ted47NK_Z9X5aB60yVeB5SKWTf7uE2Eu3m1eN2V9wpjZcXDDeyl8e5ye")
+            ).setToken("APA91bGkiUstAQ0UywfWTx7XZEBI5BoFnSkLJckwkoO6oBQjdn9EWyFWLGT20WINfoc-ABYpxtLDvOp9dNbzuzYYHwVAggodN73EXcVyPZjHcLROh_BiSf5ZnJkL8_HbCm4MQrYsYVON")
             .build()
 
         val firebaseApps = FirebaseApp.getApps()
