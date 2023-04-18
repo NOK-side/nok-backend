@@ -1,6 +1,7 @@
 package com.example.nokbackend.application.mission
 
 import com.example.nokbackend.application.geometry.GeometryService
+import com.example.nokbackend.domain.firebase.Firebase
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
@@ -26,7 +27,8 @@ class MemberMissionService(
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
     private val storeRepository: StoreRepository,
     private val gifticonRepository: GifticonRepository,
-    private val missionMapper: MissionMapper
+    private val missionMapper: MissionMapper,
+    private val firebase: Firebase
 ) {
 
     fun findMyMission(member: Member): List<MissionGroupInfoResponse> {
@@ -128,5 +130,11 @@ class MemberMissionService(
         if (score >= mission.qualification) {
             memberMission.complete()
         }
+
+        firebase.sendAppPush(
+            title = "정답 제출 완료",
+            body = "결과를 확인하세요",
+            targetToken = member.loginInformation.fcmCode
+        )
     }
 }

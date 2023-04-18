@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class FirebaseAdaptor(
-    private val firebaseFileUploader: FirebaseFileUploader
+    private val firebaseFileUploader: FirebaseFileUploader,
+    private val firebaseMessageSender: FirebaseMessageSender
 ): Firebase {
     override fun uploadFile(uploadFileRequests: List<UploadFileRequest>): List<UploadFileResponse> {
         return firebaseFileUploader.uploadFiles(uploadFileRequests)
@@ -16,5 +17,9 @@ class FirebaseAdaptor(
 
     override fun deleteFile(deleteFileRequests: List<DeleteFileRequest>) {
         firebaseFileUploader.deleteFiles(deleteFileRequests)
+    }
+
+    override fun sendAppPush(title: String, body: String, targetToken: String) {
+        firebaseMessageSender.sendAppPush(title, body, targetToken)
     }
 }

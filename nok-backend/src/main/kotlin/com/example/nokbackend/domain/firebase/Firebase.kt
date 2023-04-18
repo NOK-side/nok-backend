@@ -9,4 +9,6 @@ interface Firebase {
     fun uploadFile(uploadFileRequests: List<UploadFileRequest>): List<UploadFileResponse>
 
     fun deleteFile(deleteFileRequests: List<DeleteFileRequest>)
+
+    fun sendAppPush(title: String, body: String, targetToken: String)
 }

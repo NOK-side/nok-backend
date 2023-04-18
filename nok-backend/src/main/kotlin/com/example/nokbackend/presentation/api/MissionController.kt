@@ -13,7 +13,7 @@ import springfox.documentation.annotations.ApiIgnore
 @RequestMapping("/mission")
 class MissionController(
     private val memberMissionService: MemberMissionService,
-    private val missionService: MissionService
+    private val missionService: MissionService,
 ) {
 
     @GetMapping("/mission-group/{missionGroupId}")
