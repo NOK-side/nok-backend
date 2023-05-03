@@ -31,7 +31,8 @@ data class CartResponse(
     val gifticonName: String,
     val price: BigDecimal,
     val category: Gifticon.Category,
-    val quantity: Int
+    val quantity: Int,
+    val imageUrl: String
 ) {
     constructor(gifticon: Gifticon, cart: Cart) : this(
         cart.id,
@@ -40,6 +41,7 @@ data class CartResponse(
         gifticon.productName,
         gifticon.price,
         gifticon.category,
-        cart.quantity
+        cart.quantity,
+        gifticon.imageUrl
     )
 }
