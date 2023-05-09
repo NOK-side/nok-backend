@@ -3,6 +3,7 @@ package com.example.nokbackend.application.cart
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.cart.findByIdCheck
 import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.toHashmapByIdAsKey
 import com.example.nokbackend.domain.member.Member
 import org.springframework.stereotype.Service
@@ -26,6 +27,8 @@ class CartService(
     }
 
     fun registerItemToCart(member: Member, registerItemToCartRequest: RegisterItemToCartRequest) {
+        gifticonRepository.findByIdCheck(registerItemToCartRequest.gifticonId)
+
         val cart = registerItemToCartRequest.toEntity(member)
         cartRepository.save(cart)
     }
