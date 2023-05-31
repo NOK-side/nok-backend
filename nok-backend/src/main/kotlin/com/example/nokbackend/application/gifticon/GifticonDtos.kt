@@ -50,6 +50,7 @@ data class GifticonResponse(
 }
 
 data class GifticonDetailResponse(
+    val id: Long,
     val productName: String,
     val period: Long,
     val notice: String,
@@ -64,6 +65,7 @@ data class GifticonDetailResponse(
     val recommend: Boolean
 ) {
     constructor(gifticon: Gifticon, store: Store) : this(
+        id = gifticon.id,
         productName = gifticon.productName,
         period = gifticon.period,
         notice = gifticon.notice,
@@ -75,6 +77,6 @@ data class GifticonDetailResponse(
         orderCancellationPeriod = gifticon.orderCancellationPeriod,
         storeId = store.id,
         storeName = store.name,
-        gifticon.recommend
+        recommend = gifticon.recommend
     )
 }
