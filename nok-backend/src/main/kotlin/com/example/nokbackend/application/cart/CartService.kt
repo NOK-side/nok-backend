@@ -29,8 +29,15 @@ class CartService(
     fun registerItemToCart(member: Member, registerItemToCartRequest: RegisterItemToCartRequest) {
         gifticonRepository.findByIdCheck(registerItemToCartRequest.gifticonId)
 
-        val cart = registerItemToCartRequest.toEntity(member)
-        cartRepository.save(cart)
+        val cart = cartRepository.findByOwnerIdAndGifticonId(registerItemToCartRequest.gifticonId, member.id)
+
+        if (cart == null) {
+            val newCart = registerItemToCartRequest.toEntity(member)
+            cartRepository.save(newCart)
+            return
+        }
+
+        cart.quantity += registerItemToCartRequest.quantity
     }
 
     fun changeQuantityOfCart(member: Member, changeQuantityOfCartRequest: ChangeQuantityOfCartRequest) {

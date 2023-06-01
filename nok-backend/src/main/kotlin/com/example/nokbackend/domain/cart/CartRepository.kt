@@ -9,4 +9,6 @@ fun CartRepository.findByIdCheck(id: Long): Cart = findByIdOrNull(id) ?: throw R
 interface CartRepository : JpaRepository<Cart, Long> {
 
     fun findByOwnerId(ownerId: Long): List<Cart>
+
+    fun findByOwnerIdAndGifticonId(ownerId: Long, gifticonId: Long): Cart?
 }
