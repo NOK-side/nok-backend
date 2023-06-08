@@ -7,21 +7,25 @@ import java.math.BigDecimal
 
 data class RegisterItemToCartRequest(
     val gifticonId: Long,
-    val quantity: Int
+    val quantity: Int,
 ) {
     fun toEntity(member: Member): Cart {
-        return Cart(member.id, gifticonId, quantity)
+        return Cart(
+            ownerId = member.id,
+            gifticonId = gifticonId,
+            quantity = quantity
+        )
     }
 }
 
 data class ChangeQuantityOfCartRequest(
     val cartId: Long,
-    val quantity: Int
+    val quantity: Int,
 )
 
 data class DeleteItemFromCartRequest(
     val cartId: Long,
-    val quantity: Int
+    val quantity: Int,
 )
 
 data class CartResponse(
@@ -32,7 +36,7 @@ data class CartResponse(
     val price: BigDecimal,
     val category: Gifticon.Category,
     val quantity: Int,
-    val imageUrl: String
+    val imageUrl: String,
 ) {
     constructor(gifticon: Gifticon, cart: Cart) : this(
         cart.id,

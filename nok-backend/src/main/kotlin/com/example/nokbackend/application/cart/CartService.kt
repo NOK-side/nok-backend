@@ -4,8 +4,8 @@ import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.cart.findByIdCheck
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.toHashmapByIdAsKey
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.toHashmapByIdAsKey
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class CartService(
     private val cartRepository: CartRepository,
-    private val gifticonRepository: GifticonRepository
+    private val gifticonRepository: GifticonRepository,
 ) {
 
     fun findMyCart(member: Member): List<CartResponse> {
@@ -29,7 +29,7 @@ class CartService(
     fun registerItemToCart(member: Member, registerItemToCartRequest: RegisterItemToCartRequest) {
         gifticonRepository.findByIdCheck(registerItemToCartRequest.gifticonId)
 
-        val cart = cartRepository.findByOwnerIdAndGifticonId(registerItemToCartRequest.gifticonId, member.id)
+        val cart = cartRepository.findByOwnerIdAndGifticonId(member.id, registerItemToCartRequest.gifticonId)
 
         if (cart == null) {
             val newCart = registerItemToCartRequest.toEntity(member)
