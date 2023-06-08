@@ -50,7 +50,7 @@ class MissionMapper {
         memberMissions: List<MemberMission>
     ) = missionGroups.map {
         val gifticon = toHashmapByIdAsKey(gifticons)[it.prizeId]!!
-        val store = toHashmapByIdAsKey(stores)[gifticon.id]!!
+        val store = toHashmapByIdAsKey(stores)[gifticon.storeId]!!
         val memberMissionGroup = memberMissionGroups.firstOrNull { memberMissionGroup -> memberMissionGroup.missionGroupId == it.id }
 
         MissionGroupInfoResponse(
