@@ -1,16 +1,14 @@
 package com.example.nokbackend.domain.store
 
 import com.example.nokbackend.domain.BaseEntity
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.ManyToOne
+import javax.persistence.*
 
 @Entity
 class StoreImage(
     @ManyToOne
     var store: Store,
 
+    @Column
     var imageUrl: String,
 
     @Enumerated(value = EnumType.STRING)

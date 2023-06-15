@@ -1,7 +1,7 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.util.CodeService
-import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
+import com.example.nokbackend.domain.membergifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.membermission.MemberMissionRepository
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.AndroidConfig

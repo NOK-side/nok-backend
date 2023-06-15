@@ -2,17 +2,17 @@ package com.example.nokbackend.domain.gifticon
 
 import com.example.nokbackend.domain.BaseEntity
 import java.math.BigDecimal
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Lob
+import javax.persistence.*
 
 @Entity
 class Gifticon(
+    @Column
     val storeId: Long,
 
+    @Column
     var productName: String,
 
+    @Column
     var period: Long,
 
     @Lob
@@ -21,6 +21,7 @@ class Gifticon(
     @Lob
     var refundAndExchangeInstruction: String,
 
+    @Column
     var price: BigDecimal,
 
     @Enumerated(value = EnumType.STRING)
@@ -29,12 +30,16 @@ class Gifticon(
     @Enumerated(value = EnumType.STRING)
     var status: Status = Status.INACTIVE,
 
+    @Column
     var imageUrl: String,
 
+    @Column
     var orderCancellationPeriod: Long,
 
+    @Column
     val gifticonId: String,
 
+    @Column
     var recommend: Boolean,
 
     id: Long = 0L

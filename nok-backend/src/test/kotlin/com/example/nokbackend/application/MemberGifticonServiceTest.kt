@@ -8,13 +8,13 @@ import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.memberGifticon.findByIdCheck
+import com.example.nokbackend.domain.membergifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByMemberIdCheck
-import com.example.nokbackend.domain.memberGifticon.MemberGifticon
-import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
+import com.example.nokbackend.domain.membergifticon.MemberGifticon
+import com.example.nokbackend.domain.membergifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.store.StoreRepository
 import com.example.nokbackend.fixture.*
 import io.mockk.every
@@ -85,7 +85,7 @@ class MemberGifticonServiceTest {
             }
         }
 
-        memberGifticonService.buyGifticon(member, buyGifticonRequest)
+        memberGifticonService.registerMemberGifticon(member, buyGifticonRequest)
     }
 
     @DisplayName("기프티콘 선물은")

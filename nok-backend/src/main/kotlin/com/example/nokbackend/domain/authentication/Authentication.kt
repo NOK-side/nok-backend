@@ -1,20 +1,26 @@
 package com.example.nokbackend.domain.authentication
 
 import com.example.nokbackend.domain.BaseEntity
+import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 import java.time.LocalDateTime.now
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 
 @Entity
 class Authentication(
+    @Column
     val target: String,
 
+    @Column
     val code: String,
 
+    @CreatedDate
     val createDate: LocalDateTime = now(),
 
+    @Column
     var expireDate: LocalDateTime,
 
     @Enumerated(value = EnumType.STRING)

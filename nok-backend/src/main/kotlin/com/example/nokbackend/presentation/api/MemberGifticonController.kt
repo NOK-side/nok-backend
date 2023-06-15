@@ -43,7 +43,7 @@ class MemberGifticonController(
     @Authenticated
     @PostMapping("/buy")
     fun buyGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody buyGifticonRequest: BuyGifticonRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberGifticonService.buyGifticon(member, buyGifticonRequest)
+        memberGifticonService.registerMemberGifticon(member, buyGifticonRequest)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody

@@ -4,12 +4,12 @@ import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.memberGifticon.findByIdCheck
+import com.example.nokbackend.domain.membergifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByMemberIdCheck
-import com.example.nokbackend.domain.memberGifticon.MemberGifticon
-import com.example.nokbackend.domain.memberGifticon.MemberGifticonRepository
+import com.example.nokbackend.domain.membergifticon.MemberGifticon
+import com.example.nokbackend.domain.membergifticon.MemberGifticonRepository
 import com.example.nokbackend.domain.store.StoreRepository
 import com.example.nokbackend.domain.store.findByIdCheck
 import com.example.nokbackend.domain.toHashmapByIdAsKey
@@ -72,8 +72,7 @@ class MemberGifticonService(
         return MemberGifticonResponse(gifticon, memberGifticon, store)
     }
 
-    fun buyGifticon(member: Member, buyGifticonRequest: BuyGifticonRequest) {
-        // todo : 돈에 대한 로직 추가
+    fun registerMemberGifticon(member: Member, buyGifticonRequest: BuyGifticonRequest) {
         val gifticon = gifticonRepository.findByIdCheck(buyGifticonRequest.gifticonId)
 
         val memberGifticons = List(buyGifticonRequest.quantity) {
@@ -96,7 +95,7 @@ class MemberGifticonService(
             check(it.ownerId == member.id) { "본인 카트의 상품만 구매할 수 있습니다" }
 
             val buyGifticonRequest = BuyGifticonRequest(it.gifticonId, it.quantity)
-            buyGifticon(member, buyGifticonRequest)
+            registerMemberGifticon(member, buyGifticonRequest)
         }
 
         cartRepository.deleteAllByIdInBatch(carts.map { it.id })

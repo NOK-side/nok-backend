@@ -3,13 +3,11 @@ package com.example.nokbackend.domain.store
 import com.example.nokbackend.application.store.UpdateStoreInformationRequest
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.Location
-import javax.persistence.Embedded
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import javax.persistence.*
 
 @Entity
 class Store(
+    @Column
     val ownerId: Long,
 
     @Embedded
