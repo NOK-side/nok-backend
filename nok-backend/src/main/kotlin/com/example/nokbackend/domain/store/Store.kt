@@ -2,7 +2,7 @@ package com.example.nokbackend.domain.store
 
 import com.example.nokbackend.application.store.UpdateStoreInformationRequest
 import com.example.nokbackend.domain.BaseEntity
-import com.example.nokbackend.domain.Location
+import com.example.nokbackend.domain.infra.Location
 import javax.persistence.*
 
 @Entity

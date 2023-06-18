@@ -1,7 +1,7 @@
 package com.example.nokbackend.application.touristspot
 
 import com.example.nokbackend.domain.touristspot.Facility
-import com.example.nokbackend.domain.Location
+import com.example.nokbackend.domain.infra.Location
 import com.example.nokbackend.domain.touristspot.TouristSpot
 import java.math.BigDecimal
 

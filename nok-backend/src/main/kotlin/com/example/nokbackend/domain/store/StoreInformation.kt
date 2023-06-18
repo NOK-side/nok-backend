@@ -1,12 +1,7 @@
 package com.example.nokbackend.domain.store
 
-import com.example.nokbackend.domain.Location
-import javax.persistence.Column
-import javax.persistence.Embeddable
-import javax.persistence.Embedded
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.Lob
+import com.example.nokbackend.domain.infra.Location
+import javax.persistence.*
 
 @Embeddable
 class StoreInformation(

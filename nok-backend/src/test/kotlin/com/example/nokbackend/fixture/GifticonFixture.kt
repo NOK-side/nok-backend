@@ -1,14 +1,14 @@
 package com.example.nokbackend.fixture
 
 import com.example.nokbackend.domain.gifticon.Gifticon
-import java.math.BigDecimal
+import com.example.nokbackend.domain.infra.Point
 
 const val gifticonName = "test gifticon"
 const val gifticonNotice = "test notice"
 const val gifticonRefundAndExchangeInstruction = "test refundAndExchangeInstruction"
 const val period = 30L
 const val orderCancellationPeriod = 30L
-val gifticonPrice = BigDecimal(1000)
+val gifticonPrice = Point(1000)
 const val gifticonId = "test gifticon id"
 
 fun aGifticon(): Gifticon = Gifticon(

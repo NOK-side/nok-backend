@@ -1,8 +1,8 @@
 package com.example.nokbackend.domain.memberpoint
 
 import com.example.nokbackend.domain.BaseEntity
+import com.example.nokbackend.domain.infra.Point
 import org.springframework.data.annotation.CreatedDate
-import java.math.BigDecimal
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -21,7 +21,7 @@ class MemberPointCharge(
     var createDate: LocalDate = LocalDate.now(),
 
     @Column
-    val point: BigDecimal,
+    val point: Point,
 
     @Enumerated(value = EnumType.STRING)
     val payMethod: PayMethod,
@@ -29,7 +29,7 @@ class MemberPointCharge(
     @Column
     val payInfo: String,
 
-    id: Long = 0L
+    id: Long = 0L,
 ) : BaseEntity(id) {
 
     enum class PayMethod {

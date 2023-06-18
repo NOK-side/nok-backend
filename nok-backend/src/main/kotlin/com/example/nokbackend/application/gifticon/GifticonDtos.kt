@@ -1,11 +1,11 @@
 package com.example.nokbackend.application.gifticon
 
 import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.store.Store
-import java.math.BigDecimal
 
 data class FindGifticonCondition(
-    val name: String
+    val name: String,
 )
 
 data class RegisterGifticonRequest(
@@ -13,12 +13,12 @@ data class RegisterGifticonRequest(
     val period: Long,
     val notice: String,
     val refundAndExchangeInstruction: String,
-    val price: BigDecimal,
+    val price: Point,
     val category: Gifticon.Category = Gifticon.Category.NOTHING,
     val status: Gifticon.Status = Gifticon.Status.ACTIVE,
     val imageUrl: String,
     val orderCancellationPeriod: Long,
-    val recommend: Boolean
+    val recommend: Boolean,
 ) {
     fun toEntity(storeId: Long, gifticonId: String): Gifticon {
         return Gifticon(storeId, productName, period, notice, refundAndExchangeInstruction, price, category, status, imageUrl, orderCancellationPeriod, gifticonId, recommend)
@@ -28,13 +28,13 @@ data class RegisterGifticonRequest(
 data class GifticonResponse(
     val id: Long,
     val productName: String,
-    val price: BigDecimal,
+    val price: Point,
     val notice: String,
     val category: Gifticon.Category,
     val imageUrl: String,
     val period: Long,
     val storeName: String,
-    val recommend: Boolean
+    val recommend: Boolean,
 ) {
     constructor(gifticon: Gifticon, store: Store) : this(
         gifticon.id,
@@ -55,14 +55,14 @@ data class GifticonDetailResponse(
     val period: Long,
     val notice: String,
     val refundAndExchangeInstruction: String,
-    val price: BigDecimal,
+    val price: Point,
     val category: Gifticon.Category = Gifticon.Category.NOTHING,
     val status: Gifticon.Status = Gifticon.Status.INACTIVE,
     val imageUrl: String,
     val orderCancellationPeriod: Long,
     val storeId: Long,
     val storeName: String,
-    val recommend: Boolean
+    val recommend: Boolean,
 ) {
     constructor(gifticon: Gifticon, store: Store) : this(
         id = gifticon.id,

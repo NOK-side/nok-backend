@@ -4,6 +4,7 @@ import com.example.nokbackend.application.gifticon.BuyGifticonRequest
 import com.example.nokbackend.application.gifticon.MemberGifticonService
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.memberpoint.MemberPoint
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
@@ -13,7 +14,6 @@ import com.example.nokbackend.domain.order.OrderRepository
 import com.example.nokbackend.domain.order.Orders
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
 
 @Service
 @Transactional
@@ -44,17 +44,17 @@ class OrderService(
     fun validate(member: Member, orderRequest: OrderRequest) {
         val orderLines = orderRequest.orderLines
 
-        val totalPrice = orderLines.map { it.price.multiply(BigDecimal.valueOf(it.quantity.toLong())) }
+        val totalPrice = orderLines.map { it.price * it.quantity }
             .reduce { x, y -> x + y }
-        check(orderRequest.totalPrice.compareTo(totalPrice) == 0) { "요청 금액이 일치하지 않습니다" }
+        check(orderRequest.totalPrice == totalPrice) { "요청 금액이 일치하지 않습니다" }
 
         val memberPoint = memberPointRepository.findByMemberId(member.id)
-            ?: memberPointRepository.save(MemberPoint(member.id, BigDecimal.ZERO))
+            ?: memberPointRepository.save(MemberPoint(member.id, Point(0)))
         check(memberPoint.point >= totalPrice) { "보유 포인트가 부족합니다" }
 
         val gifticons = gifticonRepository.findAllById(orderLines.map { it.gifticonId })
         orderLines.forEach {
-            check(it.price.compareTo(gifticons.getById(it.gifticonId).price) == 0) { "상품 금액이 일치하지 않습니다" }
+            check(it.price == gifticons.getById(it.gifticonId).price) { "상품 금액이 일치하지 않습니다" }
         }
 
         memberPoint.point -= totalPrice

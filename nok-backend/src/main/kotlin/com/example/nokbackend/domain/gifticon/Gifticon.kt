@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.gifticon
 
 import com.example.nokbackend.domain.BaseEntity
-import java.math.BigDecimal
+import com.example.nokbackend.domain.infra.Point
 import javax.persistence.*
 
 @Entity
@@ -21,8 +21,9 @@ class Gifticon(
     @Lob
     var refundAndExchangeInstruction: String,
 
-    @Column
-    var price: BigDecimal,
+    @Embedded
+    @AttributeOverride(name = "value", column = Column(name = "price"))
+    var price: Point,
 
     @Enumerated(value = EnumType.STRING)
     var category: Category = Category.NOTHING,

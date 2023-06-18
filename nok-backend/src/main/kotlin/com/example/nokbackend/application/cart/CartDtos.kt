@@ -2,8 +2,8 @@ package com.example.nokbackend.application.cart
 
 import com.example.nokbackend.domain.cart.Cart
 import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
-import java.math.BigDecimal
 
 data class RegisterItemToCartRequest(
     val gifticonId: Long,
@@ -33,7 +33,7 @@ data class CartResponse(
     val gifticonId: Long,
     val ownerId: Long,
     val gifticonName: String,
-    val price: BigDecimal,
+    val price: Point,
     val category: Gifticon.Category,
     val quantity: Int,
     val imageUrl: String,

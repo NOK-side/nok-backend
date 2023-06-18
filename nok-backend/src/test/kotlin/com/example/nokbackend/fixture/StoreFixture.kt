@@ -1,6 +1,6 @@
 package com.example.nokbackend.fixture
 
-import com.example.nokbackend.domain.Location
+import com.example.nokbackend.domain.infra.Location
 import com.example.nokbackend.domain.store.BusinessHour
 import com.example.nokbackend.domain.store.Store
 import com.example.nokbackend.domain.store.StoreImage

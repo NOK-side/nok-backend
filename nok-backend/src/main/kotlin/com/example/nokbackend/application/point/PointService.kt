@@ -1,5 +1,6 @@
 package com.example.nokbackend.application.point
 
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.memberpoint.MemberPoint
 import com.example.nokbackend.domain.memberpoint.MemberPointCharge
@@ -7,7 +8,6 @@ import com.example.nokbackend.domain.memberpoint.MemberPointChargeRepository
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigDecimal
 
 @Service
 @Transactional
@@ -18,7 +18,7 @@ class PointService(
 
     fun chargePoint(member: Member, chargePointRequest: ChargePointRequest) {
         val memberPoint = memberPointRepository.findByMemberId(member.id)
-            ?: memberPointRepository.save(MemberPoint(member.id, BigDecimal.ZERO))
+            ?: memberPointRepository.save(MemberPoint(member.id, Point(0)))
 
         val memberPointCharge = MemberPointCharge(
             memberPoint = memberPoint,

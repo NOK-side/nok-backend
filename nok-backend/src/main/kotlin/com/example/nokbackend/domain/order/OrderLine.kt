@@ -1,12 +1,8 @@
 package com.example.nokbackend.domain.order
 
 import com.example.nokbackend.domain.BaseEntity
-import java.math.BigDecimal
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.ManyToOne
+import com.example.nokbackend.domain.infra.Point
+import javax.persistence.*
 
 @Entity
 class OrderLine(
@@ -20,7 +16,7 @@ class OrderLine(
     val quantity: Int,
 
     @Column
-    val price: BigDecimal,
+    val price: Point,
 
     @Enumerated(value = EnumType.STRING)
     var status: Status,

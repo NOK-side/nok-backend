@@ -1,4 +1,4 @@
-package com.example.nokbackend.domain
+package com.example.nokbackend.domain.infra
 
 import java.math.BigDecimal
 import javax.persistence.Column

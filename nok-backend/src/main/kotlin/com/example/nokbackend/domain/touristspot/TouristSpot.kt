@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.touristspot
 
 import com.example.nokbackend.domain.BaseEntity
-import com.example.nokbackend.domain.Location
+import com.example.nokbackend.domain.infra.Location
 import java.time.LocalDate
 import javax.persistence.Column
 import javax.persistence.Embedded

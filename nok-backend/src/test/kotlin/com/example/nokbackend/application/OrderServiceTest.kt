@@ -4,6 +4,7 @@ import com.example.nokbackend.application.gifticon.MemberGifticonService
 import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.application.order.OrderService
 import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
 import com.example.nokbackend.domain.order.OrderLineRepository
@@ -16,8 +17,6 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.just
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
-import java.lang.RuntimeException
-import java.math.BigDecimal
 
 @ExtendWith(MockKExtension::class)
 class OrderServiceTest {
@@ -73,7 +72,7 @@ class OrderServiceTest {
         @Test
         fun 총_금액이_일치하지_않으면_실패한다() {
             member = aMember()
-            orderRequest = aOrderRequest(totalPrice = BigDecimal.ZERO)
+            orderRequest = aOrderRequest(totalPrice = Point(0))
 
             every { gifticonRepository.findAllById(listOf(aGifticon().id)) } returns listOf(aGifticon())
             every { memberPointRepository.findByMemberId(member.id) } returns aMemberPoint()
@@ -105,7 +104,7 @@ class OrderServiceTest {
 
         @Test
         fun 기프티콘_금액이_일치하지_않으면_실패한다() {
-            val price = BigDecimal.valueOf(333)
+            val price = Point(333)
             member = aMember()
             orderRequest = aOrderRequest(orderLineRequests = listOf(aOrderLineRequest(price = price)))
 

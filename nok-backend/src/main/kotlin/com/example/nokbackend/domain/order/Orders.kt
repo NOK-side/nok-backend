@@ -1,8 +1,8 @@
 package com.example.nokbackend.domain.order
 
 import com.example.nokbackend.domain.BaseEntity
+import com.example.nokbackend.domain.infra.Point
 import org.springframework.data.annotation.CreatedDate
-import java.math.BigDecimal
 import java.time.LocalDate
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -13,7 +13,7 @@ class Orders(
     val orderMemberId: Long,
 
     @Column
-    val totalPoint: BigDecimal,
+    val totalPoint: Point,
 
     @CreatedDate
     var createDate: LocalDate = LocalDate.now(),

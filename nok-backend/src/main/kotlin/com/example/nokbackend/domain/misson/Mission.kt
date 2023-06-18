@@ -1,7 +1,7 @@
 package com.example.nokbackend.domain.misson
 
 import com.example.nokbackend.domain.BaseEntity
-import com.example.nokbackend.domain.Location
+import com.example.nokbackend.domain.infra.Location
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType

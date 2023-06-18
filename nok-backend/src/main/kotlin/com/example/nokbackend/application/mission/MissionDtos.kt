@@ -4,7 +4,7 @@ import com.example.nokbackend.application.gifticon.GifticonResponse
 import com.example.nokbackend.application.util.centerOfKoreaLatitude
 import com.example.nokbackend.application.util.centerOfKoreaLongitude
 import com.example.nokbackend.application.util.defaultDistance
-import com.example.nokbackend.domain.Location
+import com.example.nokbackend.domain.infra.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.membermission.MemberMission
 import com.example.nokbackend.domain.membermission.MemberMissionGroup

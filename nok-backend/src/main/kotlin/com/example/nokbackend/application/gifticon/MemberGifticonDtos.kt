@@ -1,25 +1,25 @@
 package com.example.nokbackend.application.gifticon
 
 import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.membergifticon.MemberGifticon
 import com.example.nokbackend.domain.store.Store
-import java.math.BigDecimal
 import java.time.LocalDate
 
 data class BuyGifticonRequest(
     val gifticonId: Long,
-    val quantity: Int
+    val quantity: Int,
 )
 
 data class BuyGifticonInCartRequest(
-    val cartIds: List<Long>
+    val cartIds: List<Long>,
 )
 
 data class MemberGifticonResponse(
     val memberGifticonId: Long,
     val gifticonId: Long,
     val gifticonName: String,
-    val price: BigDecimal,
+    val price: Point,
     val category: Gifticon.Category,
     val imageUrl: String,
     val orderId: String,
@@ -28,7 +28,7 @@ data class MemberGifticonResponse(
     val createDate: LocalDate,
     val modifiedDate: LocalDate,
     val storeId: Long,
-    val storeName: String
+    val storeName: String,
 ) {
     constructor(gifticon: Gifticon, memberGifticon: MemberGifticon, store: Store) : this(
         memberGifticon.id,
@@ -49,16 +49,16 @@ data class MemberGifticonResponse(
 
 data class SendGifticonRequest(
     val targetMemberId: String,
-    val memberGifticonId: Long
+    val memberGifticonId: Long,
 )
 
 data class UseGifticonRequest(
-    val memberGifticonId: Long
+    val memberGifticonId: Long,
 )
 
 data class TransferGifticonRequest(
     val targetId: Long,
     val targetDueDate: LocalDate,
     val newOrderId: String,
-    val orderCancellationDueDate: LocalDate
+    val orderCancellationDueDate: LocalDate,
 )

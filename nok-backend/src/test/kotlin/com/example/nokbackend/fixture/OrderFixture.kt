@@ -2,12 +2,13 @@ package com.example.nokbackend.fixture
 
 import com.example.nokbackend.application.order.OrderLineRequest
 import com.example.nokbackend.application.order.OrderRequest
+import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.order.OrderLine
 import com.example.nokbackend.domain.order.Orders
 import java.math.BigDecimal
 
 fun aOrderRequest(
-    totalPrice: BigDecimal = aGifticon().price,
+    totalPrice: Point = aGifticon().price,
     orderLineRequests: List<OrderLineRequest> = listOf(aOrderLineRequest()),
 ): OrderRequest = OrderRequest(
     totalPrice = totalPrice,
@@ -17,7 +18,7 @@ fun aOrderRequest(
 fun aOrderLineRequest(
     gifticonId: Long = aGifticon().id,
     quantity: Int = 1,
-    price: BigDecimal = aGifticon().price,
+    price: Point = aGifticon().price,
 ): OrderLineRequest = OrderLineRequest(
     gifticonId = gifticonId,
     quantity = quantity,
@@ -26,7 +27,7 @@ fun aOrderLineRequest(
 
 fun aOrder(
     orderMemberId: Long = aMember().id,
-    totalPrice: BigDecimal = aOrderRequest().totalPrice
+    totalPrice: Point = aOrderRequest().totalPrice
 ): Orders = Orders(
     orderMemberId = orderMemberId,
     totalPoint = totalPrice
@@ -36,7 +37,7 @@ fun aOrderLine(
     orders: Orders = aOrder(),
     gifticonId: Long = aGifticon().id,
     quantity: Int = aOrderLineRequest().quantity,
-    price: BigDecimal = aOrderLineRequest().price,
+    price: Point = aOrderLineRequest().price,
     status: OrderLine.Status = OrderLine.Status.ORDER
 ): OrderLine = OrderLine(
     orders = orders,
