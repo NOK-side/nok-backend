@@ -1,11 +1,13 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.point.ChargePointRequest
+import com.example.nokbackend.application.point.MyPointResponse
 import com.example.nokbackend.application.point.PointService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,6 +28,18 @@ class MemberPointController(
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
+            }
+        }
+    }
+
+    @Authenticated
+    @GetMapping("/me")
+    fun findMyPoint(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<MyPointResponse>> {
+        val point = pointService.findMyPoint(member)
+
+        return responseEntity {
+            body = apiResponse {
+                data = point
             }
         }
     }

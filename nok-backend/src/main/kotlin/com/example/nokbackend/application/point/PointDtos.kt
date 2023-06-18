@@ -10,3 +10,7 @@ data class ChargePointRequest(
     val payMethod: MemberPointCharge.PayMethod,
     val payInfo: String,
 )
+
+data class MyPointResponse(
+    val point: Point
+)

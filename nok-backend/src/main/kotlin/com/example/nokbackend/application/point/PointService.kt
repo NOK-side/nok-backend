@@ -1,11 +1,10 @@
 package com.example.nokbackend.application.point
 
-import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.memberpoint.MemberPoint
 import com.example.nokbackend.domain.memberpoint.MemberPointCharge
 import com.example.nokbackend.domain.memberpoint.MemberPointChargeRepository
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
+import com.example.nokbackend.domain.memberpoint.findByMemberIdCheck
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,8 +16,7 @@ class PointService(
 ) {
 
     fun chargePoint(member: Member, chargePointRequest: ChargePointRequest) {
-        val memberPoint = memberPointRepository.findByMemberId(member.id)
-            ?: memberPointRepository.save(MemberPoint(member.id, Point(0)))
+        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
 
         val memberPointCharge = MemberPointCharge(
             memberPoint = memberPoint,
@@ -31,5 +29,10 @@ class PointService(
         memberPointChargeRepository.save(memberPointCharge)
 
         memberPoint.point += chargePointRequest.point
+    }
+
+    fun findMyPoint(member: Member): MyPointResponse {
+        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
+        return MyPointResponse(memberPoint.point)
     }
 }

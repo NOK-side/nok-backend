@@ -4,10 +4,9 @@ import com.example.nokbackend.application.gifticon.BuyGifticonRequest
 import com.example.nokbackend.application.gifticon.MemberGifticonService
 import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.gifticon.GifticonRepository
-import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.domain.memberpoint.MemberPoint
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
+import com.example.nokbackend.domain.memberpoint.findByMemberIdCheck
 import com.example.nokbackend.domain.order.OrderLine
 import com.example.nokbackend.domain.order.OrderLineRepository
 import com.example.nokbackend.domain.order.OrderRepository
@@ -48,8 +47,7 @@ class OrderService(
             .reduce { x, y -> x + y }
         check(orderRequest.totalPrice == totalPrice) { "요청 금액이 일치하지 않습니다" }
 
-        val memberPoint = memberPointRepository.findByMemberId(member.id)
-            ?: memberPointRepository.save(MemberPoint(member.id, Point(0)))
+        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
         check(memberPoint.point >= totalPrice) { "보유 포인트가 부족합니다" }
 
         val gifticons = gifticonRepository.findAllById(orderLines.map { it.gifticonId })

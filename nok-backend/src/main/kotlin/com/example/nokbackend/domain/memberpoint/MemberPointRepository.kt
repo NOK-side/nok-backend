@@ -1,8 +1,11 @@
 package com.example.nokbackend.domain.memberpoint
 
+import com.example.nokbackend.domain.infra.Point
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface MemberPointRepository : JpaRepository<MemberPoint, Long> {
+fun MemberPointRepository.findByMemberIdCheck(memberId: Long): MemberPoint = findByMemberId(memberId)
+    ?: save(MemberPoint(memberId, Point(0)))
 
-    fun findByMemberId(memberId: Long) : MemberPoint?
+interface MemberPointRepository : JpaRepository<MemberPoint, Long> {
+    fun findByMemberId(memberId: Long): MemberPoint?
 }
