@@ -20,7 +20,8 @@ class MemberPointCharge(
     @CreatedDate
     var createDate: LocalDate = LocalDate.now(),
 
-    @Column
+    @Embedded
+    @AttributeOverride(name = "value", column = Column(name = "point"))
     val point: Point,
 
     @Enumerated(value = EnumType.STRING)
