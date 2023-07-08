@@ -51,14 +51,10 @@ class JwtTokenProvider(
     }
 
     fun isValidToken(token: String): Boolean {
-        return try {
+        return runCatching {
             getClaimsJws(token)
             true
-        } catch (e: JwtException) {
-            false
-        } catch (e: IllegalArgumentException) {
-            false
-        } catch (e: ExpiredJwtException) {
+        }.getOrElse {
             false
         }
     }
