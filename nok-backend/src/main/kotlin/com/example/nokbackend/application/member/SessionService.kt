@@ -55,12 +55,12 @@ class SessionService(
     }
 
     fun refreshToken(userAgent: String, refreshTokenRequest: RefreshTokenRequest): TokenResponse {
-        check(jwtTokenProvider.isValidToken(refreshTokenRequest.refreshToken)) { "리스테리 토큰이 만료되었습니다" }
+        check(jwtTokenProvider.isValidToken(refreshTokenRequest.refreshToken)) { "로그인 정보가 유효하지 않습니다" }
 
         val email = jwtTokenProvider.getEmail(refreshTokenRequest.refreshToken)
         val member = memberRepository.findByEmailCheck(email)
 
-        check(refreshTokenRequest.refreshToken == member.loginInformation.refreshToken) { "리프레시 토큰 정보가 일치하지 않습니다" }
+        check(refreshTokenRequest.refreshToken == member.loginInformation.refreshToken) { "로그인 정보가 유효하지 않습니다" }
 
         val accessToken = jwtTokenProvider.createAccessToken(member.email)
         val refreshToken = jwtTokenProvider.createRefreshToken(member.email)
