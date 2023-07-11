@@ -72,6 +72,7 @@ class MissionController(
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
+                message = "미션이 시작되었습니다"
             }
         }
     }
