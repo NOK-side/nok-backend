@@ -4,13 +4,14 @@ import com.example.nokbackend.application.gifticon.GifticonResponse
 import com.example.nokbackend.application.util.centerOfKoreaLatitude
 import com.example.nokbackend.application.util.centerOfKoreaLongitude
 import com.example.nokbackend.application.util.defaultDistance
-import com.example.nokbackend.domain.infra.Location
 import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.domain.infra.Location
 import com.example.nokbackend.domain.membermission.MemberMission
 import com.example.nokbackend.domain.membermission.MemberMissionGroup
 import com.example.nokbackend.domain.misson.Mission
 import com.example.nokbackend.domain.misson.MissionGroup
 import com.example.nokbackend.domain.store.Store
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -24,6 +25,7 @@ data class MissionGroupInfoResponse(
     val location: Location,
     val missionInfoResponses: List<MissionInfoResponse>,
     val status: MemberMissionGroup.Status,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     val dueDate: LocalDate
 ) {
     constructor(missionGroup: MissionGroup, gifticon: Gifticon, store: Store, missions: List<Mission>, memberMissionGroup: MemberMissionGroup?, memberMissions: List<MemberMission>) : this(

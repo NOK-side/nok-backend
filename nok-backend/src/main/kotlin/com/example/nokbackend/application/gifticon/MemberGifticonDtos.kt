@@ -4,6 +4,7 @@ import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.membergifticon.MemberGifticon
 import com.example.nokbackend.domain.store.Store
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDate
 
 data class BuyGifticonRequest(
@@ -23,9 +24,12 @@ data class MemberGifticonResponse(
     val category: Gifticon.Category,
     val imageUrl: String,
     val orderId: String,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     val dueDate: LocalDate,
     val status: MemberGifticon.Status,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     val createDate: LocalDate,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     val modifiedDate: LocalDate,
     val storeId: Long,
     val storeName: String,
