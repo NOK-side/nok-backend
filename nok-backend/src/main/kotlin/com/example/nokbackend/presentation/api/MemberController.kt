@@ -98,7 +98,7 @@ class MemberController(
     }
 
     @GetMapping("/find/id")
-    fun findMemberEmail(@RequestBody findMemberIdRequest: FindMemberIdRequest): ResponseEntity<ApiResponse<FindMemberIdResponse>> {
+    fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): ResponseEntity<ApiResponse<FindMemberIdResponse>> {
         val findMemberIdResponse = memberService.findMemberEmail(findMemberIdRequest)
         return responseEntity {
             body = apiResponse {

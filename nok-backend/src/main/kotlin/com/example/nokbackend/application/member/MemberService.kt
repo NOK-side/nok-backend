@@ -2,7 +2,6 @@ package com.example.nokbackend.application.member
 
 import com.example.nokbackend.application.mail.MailEvent
 import com.example.nokbackend.application.util.UUIDGenerator
-import com.example.nokbackend.application.authentication.AuthenticationService
 import com.example.nokbackend.domain.member.*
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class MemberService(
     private val memberRepository: MemberRepository,
-    private val authenticationService: AuthenticationService,
     private val uuidGenerator: UUIDGenerator,
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {
@@ -34,27 +32,19 @@ class MemberService(
     }
 
     fun findMemberEmail(findMemberIdRequest: FindMemberIdRequest): FindMemberIdResponse {
-        val reqNumber = findMemberIdRequest.phoneNumber
+        check(memberRepository.existByPhoneNumber(findMemberIdRequest.phoneNumber)) { "등록되지 않은 전화번호입니다" }
 
-        check(memberRepository.existByPhoneNumber(reqNumber)) {
-            "등록되지 않은 전화번호입니다"
-        }
+        val member = memberRepository.findByPhoneNumber(findMemberIdRequest.phoneNumber)
 
-        val member = memberRepository.findByPhoneNumber(
-            reqNumber
-        )
+        applicationEventPublisher.publishEvent(MailEvent(member.email, "회원 아이디 찾기", member.memberId))
 
-//        applicationEventPublisher.publishEvent(MailEvent(member.email, "회원 아이디 찾기", member.memberId))
-
-        return FindMemberIdResponse(memberId = member.memberId )
+        return FindMemberIdResponse(memberId = member.memberId)
     }
 
     fun findMemberPassword(findMemberPasswordRequest: FindMemberPasswordRequest): FindMemberPasswordResponse {
-        val reqId = findMemberPasswordRequest.memberId
+        check(memberRepository.existByMemberId(findMemberPasswordRequest.memberId)) { "등록되지 않은 아이디입니다." }
 
-        check(memberRepository.existByMemberId(reqId)) { "등록되지 않은 아이디입니다." }
-
-        val member = memberRepository.findByMemberIdCheck(reqId)
+        val member = memberRepository.findByMemberIdCheck(findMemberPasswordRequest.memberId)
 
         val randomPassword = uuidGenerator.generate(8)
 
@@ -62,7 +52,7 @@ class MemberService(
 
         applicationEventPublisher.publishEvent(MailEvent(member.email, "비밀번호 초기화", randomPassword))
 
-        return FindMemberPasswordResponse("등록된 이메일 ( "+ member.email + " ) 로 임시 비밀번호를 발송하였습니다.")
+        return FindMemberPasswordResponse("등록된 이메일 ( " + member.email + " ) 로 임시 비밀번호를 발송하였습니다.")
     }
 
 
