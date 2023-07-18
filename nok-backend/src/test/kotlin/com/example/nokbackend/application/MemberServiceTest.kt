@@ -1,6 +1,5 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.application.authentication.AuthenticationService
 import com.example.nokbackend.application.mail.MailEvent
 import com.example.nokbackend.application.member.MemberService
 import com.example.nokbackend.application.member.UpdateMemberRequest
@@ -24,9 +23,6 @@ class MemberServiceTest {
     private lateinit var memberRepository: MemberRepository
 
     @MockK
-    private lateinit var authenticationService: AuthenticationService
-
-    @MockK
     private lateinit var uuidGenerator: UUIDGenerator
 
     @MockK
@@ -37,7 +33,7 @@ class MemberServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        memberService = MemberService(memberRepository, authenticationService, uuidGenerator, applicationEventPublisher)
+        memberService = MemberService(memberRepository, uuidGenerator, applicationEventPublisher)
         every { applicationEventPublisher.publishEvent(any<MailEvent>()) } just Runs
     }
 
