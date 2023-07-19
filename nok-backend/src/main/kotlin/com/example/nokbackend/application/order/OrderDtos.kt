@@ -11,4 +11,5 @@ data class OrderLineRequest(
     val gifticonId: Long,
     val quantity: Int,
     val price: Point,
+    val cartId: Long,
 )

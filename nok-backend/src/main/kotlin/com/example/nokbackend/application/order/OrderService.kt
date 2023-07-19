@@ -1,5 +1,6 @@
 package com.example.nokbackend.application.order
 
+import com.example.nokbackend.application.cart.CartService
 import com.example.nokbackend.application.gifticon.BuyGifticonRequest
 import com.example.nokbackend.application.gifticon.MemberGifticonService
 import com.example.nokbackend.domain.gifticon.Gifticon
@@ -22,6 +23,7 @@ class OrderService(
     private val gifticonRepository: GifticonRepository,
     private val memberPointRepository: MemberPointRepository,
     private val memberGifticonService: MemberGifticonService,
+    private val cartService: CartService,
 ) {
 
     fun registerOrder(member: Member, orderRequest: OrderRequest) {
@@ -37,6 +39,9 @@ class OrderService(
 
         orderRequest.orderLines.forEach {
             memberGifticonService.registerMemberGifticon(member, BuyGifticonRequest(it.gifticonId, it.quantity))
+            if (it.cartId != 0L) {
+                cartService.deleteItemFromCart(member, it.cartId)
+            }
         }
     }
 

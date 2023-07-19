@@ -5,7 +5,6 @@ import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.order.OrderLine
 import com.example.nokbackend.domain.order.Orders
-import java.math.BigDecimal
 
 fun aOrderRequest(
     totalPrice: Point = aGifticon().price,
@@ -19,10 +18,12 @@ fun aOrderLineRequest(
     gifticonId: Long = aGifticon().id,
     quantity: Int = 1,
     price: Point = aGifticon().price,
+    cartId: Long = 0L
 ): OrderLineRequest = OrderLineRequest(
     gifticonId = gifticonId,
     quantity = quantity,
-    price = price
+    price = price,
+    cartId = cartId
 )
 
 fun aOrder(

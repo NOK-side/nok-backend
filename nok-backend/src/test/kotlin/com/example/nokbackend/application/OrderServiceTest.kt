@@ -1,5 +1,6 @@
 package com.example.nokbackend.application
 
+import com.example.nokbackend.application.cart.CartService
 import com.example.nokbackend.application.gifticon.MemberGifticonService
 import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.application.order.OrderService
@@ -38,10 +39,13 @@ class OrderServiceTest {
     @MockK
     private lateinit var memberGifticonService: MemberGifticonService
 
+    @MockK
+    private lateinit var cartService: CartService
+
 
     @BeforeEach
     internal fun setUp() {
-        orderService = OrderService(orderRepository, orderLineRepository, gifticonRepository, memberPointRepository, memberGifticonService)
+        orderService = OrderService(orderRepository, orderLineRepository, gifticonRepository, memberPointRepository, memberGifticonService, cartService)
     }
 
     @DisplayName("상품을 구매할 때")
@@ -65,6 +69,7 @@ class OrderServiceTest {
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
             every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
+            every { cartService.deleteItemFromCart(member, any()) } just Runs
 
             subject()
         }
@@ -79,6 +84,7 @@ class OrderServiceTest {
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
             every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
+            every { cartService.deleteItemFromCart(member, any()) } just Runs
 
             assertThrows<IllegalStateException> {
                 subject()
@@ -96,6 +102,7 @@ class OrderServiceTest {
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
             every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
+            every { cartService.deleteItemFromCart(member, any()) } just Runs
 
             assertThrows<RuntimeException> {
                 subject()
