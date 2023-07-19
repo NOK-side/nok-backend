@@ -22,4 +22,17 @@ data class Point(
     operator fun div(next: Point): Point = Point(value / next.value)
 
     operator fun compareTo(next: Point) = value.compareTo(next.value)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Point
+
+        return this.compareTo(other) == 0
+    }
+
+    override fun hashCode(): Int {
+        return value.hashCode()
+    }
 }
