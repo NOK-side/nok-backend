@@ -26,6 +26,7 @@ class OrderController(
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
+                message = "구매에 성공하였습니다"
             }
         }
     }
