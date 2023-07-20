@@ -3,6 +3,7 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.*
 import com.example.nokbackend.application.mission.*
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -46,6 +47,7 @@ class MissionController(
         }
     }
 
+    @Authenticated
     @GetMapping("/me/mission-group")
     fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
         val missionGroupInfos = memberMissionService.findMyMission(member)
@@ -66,6 +68,7 @@ class MissionController(
         }
     }
 
+    @Authenticated
     @PostMapping("/start/mission-group/{missionGroupId}")
     fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<EmptyBody>> {
         memberMissionService.startMission(member, missionGroupId)
@@ -77,6 +80,7 @@ class MissionController(
         }
     }
 
+    @Authenticated
     @PostMapping("/complete/current-user-location/{memberMissionId}")
     fun completeMissionTypeOfCurrentUserLocation(@ApiIgnore @MemberClaim member: Member, @PathVariable memberMissionId: Long, @RequestBody currentLocation: DistanceFromLocation): ResponseEntity<ApiResponse<EmptyBody>> {
         memberMissionService.completeMissionTypeOfCurrentUserLocation(member, memberMissionId, currentLocation)
