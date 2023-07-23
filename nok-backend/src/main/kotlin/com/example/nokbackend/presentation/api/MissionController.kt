@@ -58,6 +58,17 @@ class MissionController(
         }
     }
 
+    @Authenticated
+    @GetMapping("/me/mission-group/completed")
+    fun findMyCompletedMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
+        val missionGroupInfos = memberMissionService.findMyCompletedMission(member)
+        return responseEntity {
+            body = apiResponse {
+                data = missionGroupInfos
+            }
+        }
+    }
+
     @GetMapping("/cities")
     fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): ResponseEntity<ApiResponse<List<FindCitiesResponse>>> {
         val locations = missionService.findCitiesOfMission(findCitiesRequest)

@@ -27,5 +27,5 @@ class MemberMissionGroup(
         status = Status.FINISHED
     }
 
-    enum class Status { NOTHING, PROCESS, FINISHED, FAILED }
+    enum class Status { NOTHING, ONGOING, FINISHED, FAILED }
 }

@@ -21,5 +21,5 @@ class MemberMission(
         this.status = Status.FINISHED
     }
 
-    enum class Status { NOTHING, PROGRESSING, FINISHED, FAILED }
+    enum class Status { NOTHING, ONGOING, FINISHED, FAILED }
 }
