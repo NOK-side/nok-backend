@@ -1,7 +1,8 @@
 package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.point.ChargePointRequest
-import com.example.nokbackend.application.point.MyPointResponse
+import com.example.nokbackend.application.point.MemberPointChargeResponse
+import com.example.nokbackend.application.point.MemberPointResponse
 import com.example.nokbackend.application.point.PointService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
@@ -34,12 +35,24 @@ class MemberPointController(
 
     @Authenticated
     @GetMapping("/me")
-    fun findMyPoint(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<MyPointResponse>> {
+    fun findMyPoint(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<MemberPointResponse>> {
         val point = pointService.findMyPoint(member)
 
         return responseEntity {
             body = apiResponse {
                 data = point
+            }
+        }
+    }
+
+    @Authenticated
+    @GetMapping("/me/charge")
+    fun findMyPointCharge(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MemberPointChargeResponse>>> {
+        val memberPointChargeResponses = pointService.findMyPointCharge(member)
+
+        return responseEntity {
+            body = apiResponse {
+                data = memberPointChargeResponses
             }
         }
     }

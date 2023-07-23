@@ -31,8 +31,15 @@ class PointService(
         memberPoint.point += chargePointRequest.point
     }
 
-    fun findMyPoint(member: Member): MyPointResponse {
+    fun findMyPoint(member: Member): MemberPointResponse {
         val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
-        return MyPointResponse(memberPoint.point)
+        return MemberPointResponse(memberPoint.point)
+    }
+
+    fun findMyPointCharge(member: Member): List<MemberPointChargeResponse> {
+        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
+        return memberPointChargeRepository.findByMemberPoint(memberPoint)
+            .map { MemberPointChargeResponse(it) }
+
     }
 }

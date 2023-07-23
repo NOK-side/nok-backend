@@ -3,7 +3,7 @@ package com.example.nokbackend.domain.memberpoint
 import com.example.nokbackend.domain.BaseEntity
 import com.example.nokbackend.domain.infra.Point
 import org.springframework.data.annotation.CreatedDate
-import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -18,7 +18,7 @@ class MemberPointCharge(
     val googleOrderId: String,
 
     @CreatedDate
-    var createDate: LocalDate = LocalDate.now(),
+    var createDate: LocalDateTime = LocalDateTime.now(),
 
     @Embedded
     @AttributeOverride(name = "value", column = Column(name = "point"))
