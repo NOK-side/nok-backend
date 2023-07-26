@@ -11,7 +11,7 @@ import com.example.nokbackend.domain.memberpoint.findByMemberIdCheck
 import com.example.nokbackend.domain.order.OrderLine
 import com.example.nokbackend.domain.order.OrderLineRepository
 import com.example.nokbackend.domain.order.OrderRepository
-import com.example.nokbackend.domain.order.Orders
+import com.example.nokbackend.domain.order.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -29,11 +29,11 @@ class OrderService(
     fun registerOrder(member: Member, orderRequest: OrderRequest) {
         validate(member, orderRequest)
 
-        val orders = Orders(member.id, orderRequest.totalPrice)
-        orderRepository.save(orders)
+        val order = Order(member.id, orderRequest.totalPrice)
+        orderRepository.save(order)
 
         orderRequest.orderLines.forEach {
-            val orderLine = OrderLine(orders, it.gifticonId, it.quantity, it.price, OrderLine.Status.ORDER)
+            val orderLine = OrderLine(order, it.gifticonId, it.quantity, it.price, OrderLine.Status.ORDER)
             orderLineRepository.save(orderLine)
         }
 
@@ -65,5 +65,13 @@ class OrderService(
 
     private fun List<Gifticon>.getById(id: Long): Gifticon {
         return find { it.id == id } ?: throw RuntimeException("기프티콘이 존재하지 않습니다.")
+    }
+
+    fun findMyOrder(member: Member): List<OrderResponse> {
+        val orders = orderRepository.findByOrderMemberId(member.id)
+        val orderLinesMap = orderLineRepository.findAllByOrderIn(orders)
+            .groupBy { it.order.id }
+
+        return orders.map { OrderResponse(it, orderLinesMap[it.id] ?: emptyList()) }
     }
 }

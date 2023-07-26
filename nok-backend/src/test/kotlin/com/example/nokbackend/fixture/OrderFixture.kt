@@ -4,7 +4,7 @@ import com.example.nokbackend.application.order.OrderLineRequest
 import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.order.OrderLine
-import com.example.nokbackend.domain.order.Orders
+import com.example.nokbackend.domain.order.Order
 
 fun aOrderRequest(
     totalPrice: Point = aGifticon().price,
@@ -29,19 +29,19 @@ fun aOrderLineRequest(
 fun aOrder(
     orderMemberId: Long = aMember().id,
     totalPrice: Point = aOrderRequest().totalPrice
-): Orders = Orders(
+): Order = Order(
     orderMemberId = orderMemberId,
     totalPoint = totalPrice
 )
 
 fun aOrderLine(
-    orders: Orders = aOrder(),
+    order: Order = aOrder(),
     gifticonId: Long = aGifticon().id,
     quantity: Int = aOrderLineRequest().quantity,
     price: Point = aOrderLineRequest().price,
     status: OrderLine.Status = OrderLine.Status.ORDER
 ): OrderLine = OrderLine(
-    orders = orders,
+    order = order,
     gifticonId = gifticonId,
     quantity = quantity,
     price = price,

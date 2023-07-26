@@ -7,7 +7,7 @@ import javax.persistence.*
 @Entity
 class OrderLine(
     @ManyToOne
-    val orders: Orders,
+    val order: Order,
 
     @Column
     val gifticonId: Long,
