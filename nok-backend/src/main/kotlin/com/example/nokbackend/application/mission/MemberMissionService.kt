@@ -63,7 +63,7 @@ class MemberMissionService(
         return missionMapper.toMissionGroupInfoResponses(missionGroups, gifticons, stores, memberMissionGroups, missions, memberMissions)
     }
 
-    fun startMission(member: Member, missionGroupId: Long) {
+    fun startMission(member: Member, missionGroupId: Long): StartMissionResponse {
         val missionGroup = missionGroupRepository.findByIdCheck(missionGroupId)
 
         val isStartedMission = memberMissionGroupRepository.existsByMissionGroupIdAndMemberId(missionGroupId, member.id)
@@ -89,6 +89,8 @@ class MemberMissionService(
         }
 
         memberMissionRepository.saveAll(memberMissions)
+
+        return StartMissionResponse(memberMissionGroup.id)
     }
 
     fun completeMissionTypeOfCurrentUserLocation(member: Member, memberMissionId: Long, currentLocation: DistanceFromLocation) {

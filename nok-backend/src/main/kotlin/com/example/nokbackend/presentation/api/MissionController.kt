@@ -81,11 +81,11 @@ class MissionController(
 
     @Authenticated
     @PostMapping("/start/mission-group/{missionGroupId}")
-    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberMissionService.startMission(member, missionGroupId)
+    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<StartMissionResponse>> {
+        val startMissionResponse = memberMissionService.startMission(member, missionGroupId)
         return responseEntity {
             body = apiResponse {
-                data = EmptyBody
+                data = startMissionResponse
                 message = "미션이 시작되었습니다"
             }
         }

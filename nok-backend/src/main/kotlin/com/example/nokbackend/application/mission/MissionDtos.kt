@@ -136,3 +136,7 @@ data class AnswerResult(
     val response: String,
     val score: Int
 )
+
+data class StartMissionResponse(
+    val memberMissionGroupId: Long
+)
