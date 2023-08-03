@@ -55,9 +55,12 @@ class OrderService(
         val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
         check(memberPoint.point >= totalPrice) { "보유 포인트가 부족합니다" }
 
-        val gifticons = gifticonRepository.findAllById(orderLines.map { it.gifticonId })
+        val gifticonMap = gifticonRepository.findAllById(orderLines.map { it.gifticonId })
+            .associateBy { it.id }
+
         orderLines.forEach {
-            check(it.price == gifticons.getById(it.gifticonId).price) { "상품 금액이 일치하지 않습니다" }
+            val gifticon = gifticonMap[it.gifticonId] ?: throw RuntimeException("기프티콘이 존재하지 않습니다.")
+            check(it.price == gifticon.price) { "상품 금액이 일치하지 않습니다" }
         }
 
         memberPoint.point -= totalPrice
