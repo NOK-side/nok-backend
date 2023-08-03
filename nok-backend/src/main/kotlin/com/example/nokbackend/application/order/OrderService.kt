@@ -8,10 +8,10 @@ import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
 import com.example.nokbackend.domain.memberpoint.findByMemberIdCheck
+import com.example.nokbackend.domain.order.Order
 import com.example.nokbackend.domain.order.OrderLine
 import com.example.nokbackend.domain.order.OrderLineRepository
 import com.example.nokbackend.domain.order.OrderRepository
-import com.example.nokbackend.domain.order.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -69,9 +69,14 @@ class OrderService(
 
     fun findMyOrder(member: Member): List<OrderResponse> {
         val orders = orderRepository.findByOrderMemberId(member.id)
-        val orderLinesMap = orderLineRepository.findAllByOrderIn(orders)
-            .groupBy { it.order.id }
+        val orderLines = orderLineRepository.findAllByOrderIn(orders)
+        val orderLinesMap = orderLines.groupBy { it.order.id }
 
-        return orders.map { OrderResponse(it, orderLinesMap[it.id] ?: emptyList()) }
+        val gifticonMap = gifticonRepository.findAllById(orderLines.map { it.gifticonId })
+            .associateBy { it.id }
+
+        return orders.map {
+            OrderResponse(it, orderLinesMap[it.id] ?: emptyList(), gifticonMap)
+        }
     }
 }

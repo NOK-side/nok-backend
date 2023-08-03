@@ -1,5 +1,6 @@
 package com.example.nokbackend.application.order
 
+import com.example.nokbackend.domain.gifticon.Gifticon
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.order.Order
 import com.example.nokbackend.domain.order.OrderLine
@@ -26,25 +27,29 @@ data class OrderResponse(
     val createDate: LocalDateTime,
     val orderLines: List<OrderLineResponse>
 ) {
-    constructor(order: Order, orderLines: List<OrderLine>) : this(
+    constructor(order: Order, orderLines: List<OrderLine>, gifticonMap: Map<Long, Gifticon>) : this(
         id = order.id,
         orderMemberId = order.orderMemberId,
         totalPoint = order.totalPoint,
         createDate = order.createDate,
-        orderLines = orderLines.map { OrderLineResponse(it) }
+        orderLines = orderLines.map { OrderLineResponse(it, gifticonMap[it.gifticonId]) }
     )
 }
 
 data class OrderLineResponse(
     val id: Long,
     val gifticonId: Long,
+    val gifticonName: String,
+    val imageUrl: String,
     val quantity: Int,
     val price: Point,
     var status: OrderLine.Status,
 ) {
-    constructor(orderLine: OrderLine) : this(
+    constructor(orderLine: OrderLine, gifticon: Gifticon?) : this(
         id = orderLine.id,
         gifticonId = orderLine.gifticonId,
+        gifticonName = gifticon?.productName ?: "",
+        imageUrl = gifticon?.imageUrl ?: "",
         quantity = orderLine.quantity,
         price = orderLine.price,
         status = orderLine.status
