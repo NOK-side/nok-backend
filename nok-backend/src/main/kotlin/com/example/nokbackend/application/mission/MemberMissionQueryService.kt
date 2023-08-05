@@ -24,33 +24,9 @@ class MemberMissionQueryService(
     private val missionMapper: MissionMapper,
 ) {
 
-    fun findMyMission(member: Member): List<MissionGroupInfoResponse> {
+    fun findMyMission(member: Member, status: MemberMissionGroup.Status): List<MissionGroupInfoResponse> {
         val memberMissionGroups =
-            memberMissionGroupRepository.findByMemberIdAndStatus(member.id, MemberMissionGroup.Status.ONGOING)
-
-        val missionGroups = missionGroupRepository.findAllById(memberMissionGroups.map { it.missionGroupId })
-
-        val gifticons = gifticonRepository.findAllById(missionGroups.map { it.prizeId })
-
-        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
-
-        val missions = missionRepository.findByMissionGroupIn(missionGroups)
-
-        val memberMissions = memberMissionRepository.findByMemberMissionGroupIn(memberMissionGroups)
-
-        return missionMapper.toMissionGroupInfoResponses(
-            missionGroups,
-            gifticons,
-            stores,
-            memberMissionGroups,
-            missions,
-            memberMissions
-        )
-    }
-
-    fun findMyCompletedMission(member: Member): List<MissionGroupInfoResponse> {
-        val memberMissionGroups =
-            memberMissionGroupRepository.findByMemberIdAndStatus(member.id, MemberMissionGroup.Status.FINISHED)
+            memberMissionGroupRepository.findByMemberIdAndStatus(member.id, status)
 
         val missionGroups = missionGroupRepository.findAllById(memberMissionGroups.map { it.missionGroupId })
 

@@ -4,6 +4,7 @@ import com.example.nokbackend.application.*
 import com.example.nokbackend.application.gifticon.*
 import com.example.nokbackend.application.util.CodeService
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.membergifticon.MemberGifticon
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.MediaType
@@ -22,7 +23,7 @@ class MemberGifticonController(
     @Authenticated
     @GetMapping("/me")
     fun findMyGifticon(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MemberGifticonResponse>>> {
-        val myGifticons = memberGifticonQueryService.findMyGifticon(member)
+        val myGifticons = memberGifticonQueryService.findMyGifticon(member, MemberGifticon.Status.ACTIVE)
         return responseEntity {
             body = apiResponse {
                 data = myGifticons
@@ -33,7 +34,7 @@ class MemberGifticonController(
     @Authenticated
     @GetMapping("/me/used")
     fun findMyUsedGifticon(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MemberGifticonResponse>>> {
-        val myGifticons = memberGifticonQueryService.findMyUsedGifticon(member)
+        val myGifticons = memberGifticonQueryService.findMyGifticon(member, MemberGifticon.Status.USED)
         return responseEntity {
             body = apiResponse {
                 data = myGifticons

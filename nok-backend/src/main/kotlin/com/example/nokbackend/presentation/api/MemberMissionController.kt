@@ -2,6 +2,7 @@ package com.example.nokbackend.presentation.api
 
 import com.example.nokbackend.application.mission.*
 import com.example.nokbackend.domain.member.Member
+import com.example.nokbackend.domain.membermission.MemberMissionGroup
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.ResponseEntity
@@ -18,7 +19,7 @@ class MemberMissionController(
     @Authenticated
     @GetMapping("/me/mission-group")
     fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
-        val missionGroupInfos = memberMissionQueryService.findMyMission(member)
+        val missionGroupInfos = memberMissionQueryService.findMyMission(member, MemberMissionGroup.Status.ONGOING)
         return responseEntity {
             body = apiResponse {
                 data = missionGroupInfos
@@ -30,7 +31,7 @@ class MemberMissionController(
     @Authenticated
     @GetMapping("/me/mission-group/completed")
     fun findMyCompletedMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
-        val missionGroupInfos = memberMissionQueryService.findMyCompletedMission(member)
+        val missionGroupInfos = memberMissionQueryService.findMyMission(member, MemberMissionGroup.Status.FINISHED)
         return responseEntity {
             body = apiResponse {
                 data = missionGroupInfos
@@ -66,7 +67,10 @@ class MemberMissionController(
 
     @Authenticated
     @PostMapping("/start/mission-group/{missionGroupId}")
-    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<StartMissionResponse>> {
+    fun startMission(
+        @ApiIgnore @MemberClaim member: Member,
+        @PathVariable missionGroupId: Long
+    ): ResponseEntity<ApiResponse<StartMissionResponse>> {
         val startMissionResponse = memberMissionCommandService.startMission(member, missionGroupId)
         return responseEntity {
             body = apiResponse {
