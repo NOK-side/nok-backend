@@ -3,7 +3,7 @@ package com.example.nokbackend.application
 import com.example.nokbackend.application.authentication.AuthenticationService
 import com.example.nokbackend.application.member.RegisterMemberRequest
 import com.example.nokbackend.application.store.RegisterStoreRequest
-import com.example.nokbackend.application.store.StoreService
+import com.example.nokbackend.application.store.StoreCommandService
 import com.example.nokbackend.application.store.UpdateStoreInformationRequest
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
@@ -26,9 +26,6 @@ class StoreServiceTest {
     private lateinit var storeRepository: StoreRepository
 
     @MockK
-    private lateinit var storeQueryRepository: StoreQueryRepository
-
-    @MockK
     private lateinit var memberRepository: MemberRepository
 
     @MockK
@@ -38,11 +35,12 @@ class StoreServiceTest {
     private lateinit var authenticationService: AuthenticationService
 
     @MockK
-    private lateinit var storeService: StoreService
+    private lateinit var storeCommandService: StoreCommandService
 
     @BeforeEach
     internal fun setUp() {
-        storeService = StoreService(storeRepository, storeQueryRepository, memberRepository, storeImageRepository, authenticationService)
+        storeCommandService =
+            StoreCommandService(storeRepository, memberRepository, storeImageRepository, authenticationService)
     }
 
     @Test
@@ -53,7 +51,7 @@ class StoreServiceTest {
         every { storeImageRepository.save(any()) } returns aStoreImage()
 
         val registerStoreRequest = createRegisterStoreRequest()
-        val storeResponse = storeService.registerStore(registerStoreRequest)
+        val storeResponse = storeCommandService.registerStore(registerStoreRequest)
 
         assertThat(storeResponse.storeId).isEqualTo(aStore().id)
     }
@@ -90,7 +88,7 @@ class StoreServiceTest {
 
         every { storeRepository.findByIdCheck(any()) } returns store
 
-        storeService.updateStoreInformation(member, aStore().id, updateStoreInformationRequest)
+        storeCommandService.updateStoreInformation(member, aStore().id, updateStoreInformationRequest)
 
         assertThat(store.storeInformation).isEqualTo(updateStoreInformationRequest.storeInformation)
     }

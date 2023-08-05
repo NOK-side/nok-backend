@@ -1,9 +1,6 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.gifticon.GifticonDetailResponse
-import com.example.nokbackend.application.gifticon.GifticonResponse
-import com.example.nokbackend.application.gifticon.GifticonService
-import com.example.nokbackend.application.gifticon.RegisterGifticonRequest
+import com.example.nokbackend.application.gifticon.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
@@ -14,13 +11,14 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/gifticon")
 class GifticonController(
-    private val gifticonService: GifticonService
+    private val gifticonQueryService: GifticonQueryService,
+    private val gifticonCommandService: GifticonCommandService
 ) {
 
     @Authenticated
     @PostMapping("/register")
     fun registerGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody registerGifticonRequest: RegisterGifticonRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        gifticonService.registerGifticon(member, registerGifticonRequest)
+        gifticonCommandService.registerGifticon(member, registerGifticonRequest)
 
         return responseEntity {
             body = apiResponse {
@@ -31,7 +29,7 @@ class GifticonController(
 
     @GetMapping("/store/{storeId}")
     fun findStoreGifticon(@PathVariable storeId: Long): ResponseEntity<ApiResponse<List<GifticonResponse>>> {
-        val gifticons = gifticonService.findStoreGifticon(storeId)
+        val gifticons = gifticonQueryService.findStoreGifticon(storeId)
 
         return responseEntity {
             body = apiResponse {
@@ -42,7 +40,7 @@ class GifticonController(
 
     @GetMapping("/info/{gifticonId}")
     fun findGifticonInfo(@PathVariable gifticonId: Long): ResponseEntity<ApiResponse<GifticonDetailResponse>> {
-        val gifticon = gifticonService.findGifticonInfo(gifticonId)
+        val gifticon = gifticonQueryService.findGifticonInfo(gifticonId)
 
         return responseEntity {
             body = apiResponse {

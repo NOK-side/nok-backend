@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class PointService(
+class PointCommandService(
     private val memberPointRepository: MemberPointRepository,
     private val memberPointChargeRepository: MemberPointChargeRepository,
 ) {
@@ -29,17 +29,5 @@ class PointService(
         memberPointChargeRepository.save(memberPointCharge)
 
         memberPoint.point += chargePointRequest.point
-    }
-
-    fun findMyPoint(member: Member): MemberPointResponse {
-        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
-        return MemberPointResponse(memberPoint.point)
-    }
-
-    fun findMyPointCharge(member: Member): List<MemberPointChargeResponse> {
-        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
-        return memberPointChargeRepository.findByMemberPoint(memberPoint)
-            .map { MemberPointChargeResponse(it) }
-
     }
 }

@@ -1,21 +1,20 @@
 package com.example.nokbackend.application
 
 import com.example.nokbackend.application.gifticon.BuyGifticonRequest
-import com.example.nokbackend.application.gifticon.MemberGifticonService
+import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.application.gifticon.SendGifticonRequest
 import com.example.nokbackend.application.gifticon.UseGifticonRequest
 import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.membergifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberInformation
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.domain.membergifticon.MemberGifticon
 import com.example.nokbackend.domain.membergifticon.MemberGifticonRepository
-import com.example.nokbackend.domain.store.StoreRepository
+import com.example.nokbackend.domain.membergifticon.findByIdCheck
 import com.example.nokbackend.fixture.*
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -27,7 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import java.time.LocalDate
 
 @ExtendWith(MockKExtension::class)
-class MemberGifticonServiceTest {
+class MemberGifticonCommandServiceTest {
     @MockK
     private lateinit var memberGifticonRepository: MemberGifticonRepository
 
@@ -38,20 +37,23 @@ class MemberGifticonServiceTest {
     private lateinit var memberRepository: MemberRepository
 
     @MockK
-    private lateinit var memberGifticonService: MemberGifticonService
+    private lateinit var memberGifticonCommandService: MemberGifticonCommandService
 
     @MockK
     private lateinit var cartRepository: CartRepository
-
-    @MockK
-    private lateinit var storeRepository: StoreRepository
 
     @MockK
     private lateinit var uuidGenerator: UUIDGenerator
 
     @BeforeEach
     internal fun setUp() {
-        memberGifticonService = MemberGifticonService(memberGifticonRepository, gifticonRepository, memberRepository, cartRepository, storeRepository, uuidGenerator)
+        memberGifticonCommandService = MemberGifticonCommandService(
+            memberGifticonRepository,
+            gifticonRepository,
+            memberRepository,
+            cartRepository,
+            uuidGenerator
+        )
     }
 
     private val targetMemberId: String = "targetMemberId"
@@ -85,7 +87,7 @@ class MemberGifticonServiceTest {
             }
         }
 
-        memberGifticonService.registerMemberGifticon(member, buyGifticonRequest)
+        memberGifticonCommandService.registerMemberGifticon(member, buyGifticonRequest)
     }
 
     @DisplayName("기프티콘 선물은")
@@ -94,7 +96,7 @@ class MemberGifticonServiceTest {
 
         private fun subject() {
             every { uuidGenerator.generate(8) } returns "abcdefgh"
-            memberGifticonService.sendGifticon(member, sendGifticonRequest)
+            memberGifticonCommandService.sendGifticon(member, sendGifticonRequest)
         }
 
         @Test
@@ -105,7 +107,15 @@ class MemberGifticonServiceTest {
 
             every { memberGifticonRepository.findByIdCheck(any()) } returns aMemberGifticon()
             every { gifticonRepository.findByIdCheck(any()) } returns aGifticon()
-            every { memberRepository.findByMemberIdCheck(any()) } returns aMember(information = MemberInformation(targetMemberId, email, name, phoneNumber, ""))
+            every { memberRepository.findByMemberIdCheck(any()) } returns aMember(
+                information = MemberInformation(
+                    targetMemberId,
+                    email,
+                    name,
+                    phoneNumber,
+                    ""
+                )
+            )
             every { memberGifticonRepository.save(any()) } returns aMemberGifticon()
 
             subject()
@@ -119,7 +129,9 @@ class MemberGifticonServiceTest {
 
             every { memberGifticonRepository.findByIdCheck(any()) } returns aMemberGifticon(ownerId = 2L)
             every { gifticonRepository.findByIdCheck(any()) } returns aGifticon()
-            every { memberRepository.findByMemberIdCheck(any()) } returns aMember().apply { information = MemberInformation(targetMemberId, email, name, phoneNumber, "") }
+            every { memberRepository.findByMemberIdCheck(any()) } returns aMember().apply {
+                information = MemberInformation(targetMemberId, email, name, phoneNumber, "")
+            }
             every { memberGifticonRepository.save(any()) } returns aMemberGifticon()
 
             assertThrows<IllegalArgumentException> {
@@ -152,7 +164,7 @@ class MemberGifticonServiceTest {
         private lateinit var memberGifticon: MemberGifticon
 
         private fun subject() {
-            memberGifticonService.useGifticon(member, useGifticonRequest)
+            memberGifticonCommandService.useGifticon(member, useGifticonRequest)
         }
 
         @Test

@@ -1,9 +1,6 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.cart.CartResponse
-import com.example.nokbackend.application.cart.CartService
-import com.example.nokbackend.application.cart.ChangeQuantityOfCartRequest
-import com.example.nokbackend.application.cart.RegisterItemToCartRequest
+import com.example.nokbackend.application.cart.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
@@ -14,13 +11,14 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/cart")
 class CartController(
-    private val cartService: CartService
+    private val cartQueryService: CartQueryService,
+    private val cartCommandService: CartCommandService
 ) {
 
     @Authenticated
     @GetMapping("/me")
     fun findMyCarts(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<CartResponse>>> {
-        val carts = cartService.findMyCart(member)
+        val carts = cartQueryService.findMyCart(member)
 
         return responseEntity {
             body = apiResponse {
@@ -32,7 +30,7 @@ class CartController(
     @Authenticated
     @PostMapping("/register")
     fun registerItemToCart(@ApiIgnore @MemberClaim member: Member, @RequestBody registerItemToCartRequest: RegisterItemToCartRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        cartService.registerItemToCart(member, registerItemToCartRequest)
+        cartCommandService.registerItemToCart(member, registerItemToCartRequest)
 
         return responseEntity {
             body = apiResponse {
@@ -44,7 +42,7 @@ class CartController(
     @Authenticated
     @PatchMapping("/update/quantity")
     fun updateQuantityOfCart(@ApiIgnore @MemberClaim member: Member, @RequestBody updateQuantityOfCartRequest: ChangeQuantityOfCartRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        cartService.changeQuantityOfCart(member, updateQuantityOfCartRequest)
+        cartCommandService.changeQuantityOfCart(member, updateQuantityOfCartRequest)
 
         return responseEntity {
             body = apiResponse {
@@ -56,7 +54,7 @@ class CartController(
     @Authenticated
     @DeleteMapping("/delete/{cartId}")
     fun deleteItemFromCart(@ApiIgnore @MemberClaim member: Member, @PathVariable cartId: Long): ResponseEntity<ApiResponse<EmptyBody>> {
-        cartService.deleteItemFromCart(member, cartId)
+        cartCommandService.deleteItemFromCart(member, cartId)
 
         return responseEntity {
             body = apiResponse {
@@ -68,7 +66,7 @@ class CartController(
     @Authenticated
     @DeleteMapping("/flush")
     fun flushCart(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<EmptyBody>> {
-        cartService.flushCart(member)
+        cartCommandService.flushCart(member)
 
         return responseEntity {
             body = apiResponse {

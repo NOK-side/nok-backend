@@ -1,8 +1,9 @@
 package com.example.nokbackend.presentation.api
 
+import com.example.nokbackend.application.order.OrderCommandService
+import com.example.nokbackend.application.order.OrderQueryService
 import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.application.order.OrderResponse
-import com.example.nokbackend.application.order.OrderService
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
@@ -13,13 +14,17 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/order")
 class OrderController(
-    private val orderService: OrderService
+    private val orderQueryService: OrderQueryService,
+    private val orderCommandService: OrderCommandService
 ) {
 
     @Authenticated
     @PostMapping
-    fun registerOrder(@ApiIgnore @MemberClaim member: Member, @RequestBody orderRequest: OrderRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        orderService.registerOrder(member, orderRequest)
+    fun registerOrder(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody orderRequest: OrderRequest
+    ): ResponseEntity<ApiResponse<EmptyBody>> {
+        orderCommandService.registerOrder(member, orderRequest)
 
         return responseEntity {
             body = apiResponse {
@@ -32,7 +37,7 @@ class OrderController(
     @Authenticated
     @GetMapping
     fun findMyOrder(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<OrderResponse>>> {
-        val orderResponses = orderService.findMyOrder(member)
+        val orderResponses = orderQueryService.findMyOrder(member)
 
         return responseEntity {
             body = apiResponse {

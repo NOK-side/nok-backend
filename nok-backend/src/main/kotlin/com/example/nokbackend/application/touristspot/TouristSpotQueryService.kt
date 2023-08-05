@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
-class TouristSpotService(
+@Transactional(readOnly = true)
+class TouristSpotQueryService(
     private val touristSpotRepository: TouristSpotRepository,
     private val touristSpotQueryRepository: TouristSpotQueryRepository
 ) {

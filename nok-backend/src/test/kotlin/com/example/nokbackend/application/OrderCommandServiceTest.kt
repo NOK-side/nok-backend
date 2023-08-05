@@ -1,9 +1,9 @@
 package com.example.nokbackend.application
 
-import com.example.nokbackend.application.cart.CartService
-import com.example.nokbackend.application.gifticon.MemberGifticonService
+import com.example.nokbackend.application.cart.CartCommandService
+import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.application.order.OrderRequest
-import com.example.nokbackend.application.order.OrderService
+import com.example.nokbackend.application.order.OrderCommandService
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
@@ -20,9 +20,9 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
-class OrderServiceTest {
+class OrderCommandServiceTest {
     @MockK
-    private lateinit var orderService: OrderService
+    private lateinit var orderCommandService: OrderCommandService
 
     @MockK
     private lateinit var orderRepository: OrderRepository
@@ -37,15 +37,15 @@ class OrderServiceTest {
     private lateinit var memberPointRepository: MemberPointRepository
 
     @MockK
-    private lateinit var memberGifticonService: MemberGifticonService
+    private lateinit var memberGifticonCommandService: MemberGifticonCommandService
 
     @MockK
-    private lateinit var cartService: CartService
+    private lateinit var cartCommandService: CartCommandService
 
 
     @BeforeEach
     internal fun setUp() {
-        orderService = OrderService(orderRepository, orderLineRepository, gifticonRepository, memberPointRepository, memberGifticonService, cartService)
+        orderCommandService = OrderCommandService(orderRepository, orderLineRepository, gifticonRepository, memberPointRepository, memberGifticonCommandService, cartCommandService)
     }
 
     @DisplayName("상품을 구매할 때")
@@ -56,7 +56,7 @@ class OrderServiceTest {
         private lateinit var orderRequest: OrderRequest
 
         private fun subject() {
-            orderService.registerOrder(member, orderRequest)
+            orderCommandService.registerOrder(member, orderRequest)
         }
 
         @Test
@@ -68,8 +68,8 @@ class OrderServiceTest {
             every { memberPointRepository.findByMemberId(member.id) } returns aMemberPoint()
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
-            every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
-            every { cartService.deleteItemFromCart(member, any()) } just Runs
+            every { memberGifticonCommandService.registerMemberGifticon(member, any()) } just Runs
+            every { cartCommandService.deleteItemFromCart(member, any()) } just Runs
 
             subject()
         }
@@ -83,8 +83,8 @@ class OrderServiceTest {
             every { memberPointRepository.findByMemberId(member.id) } returns aMemberPoint()
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
-            every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
-            every { cartService.deleteItemFromCart(member, any()) } just Runs
+            every { memberGifticonCommandService.registerMemberGifticon(member, any()) } just Runs
+            every { cartCommandService.deleteItemFromCart(member, any()) } just Runs
 
             assertThrows<IllegalStateException> {
                 subject()
@@ -101,8 +101,8 @@ class OrderServiceTest {
             every { memberPointRepository.findByMemberId(member.id) } returns aMemberPoint()
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
-            every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
-            every { cartService.deleteItemFromCart(member, any()) } just Runs
+            every { memberGifticonCommandService.registerMemberGifticon(member, any()) } just Runs
+            every { cartCommandService.deleteItemFromCart(member, any()) } just Runs
 
             assertThrows<RuntimeException> {
                 subject()
@@ -119,7 +119,7 @@ class OrderServiceTest {
             every { memberPointRepository.findByMemberId(member.id) } returns aMemberPoint()
             every { orderRepository.save(any()) } returns aOrder()
             every { orderLineRepository.save(any()) } returns aOrderLine()
-            every { memberGifticonService.registerMemberGifticon(member, any()) } just Runs
+            every { memberGifticonCommandService.registerMemberGifticon(member, any()) } just Runs
 
             assertThrows<IllegalStateException> {
                 subject()

@@ -4,15 +4,12 @@ import com.example.nokbackend.application.util.UUIDGenerator
 import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
-import com.example.nokbackend.domain.membergifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByMemberIdCheck
 import com.example.nokbackend.domain.membergifticon.MemberGifticon
 import com.example.nokbackend.domain.membergifticon.MemberGifticonRepository
-import com.example.nokbackend.domain.store.StoreRepository
-import com.example.nokbackend.domain.store.findByIdCheck
-import com.example.nokbackend.domain.toHashmapByIdAsKey
+import com.example.nokbackend.domain.membergifticon.findByIdCheck
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -20,57 +17,14 @@ import java.time.format.DateTimeFormatter
 
 @Service
 @Transactional
-class MemberGifticonService(
+class MemberGifticonCommandService(
     private val memberGifticonRepository: MemberGifticonRepository,
     private val gifticonRepository: GifticonRepository,
     private val memberRepository: MemberRepository,
     private val cartRepository: CartRepository,
-    private val storeRepository: StoreRepository,
-    private val uuidGenerator: UUIDGenerator
+    private val uuidGenerator: UUIDGenerator,
+    private val orderIdLength: Int = 8
 ) {
-
-    fun findMyGifticon(member: Member): List<MemberGifticonResponse> {
-        val memberGifticons = memberGifticonRepository.findByOwnerIdAndStatus(member.id, MemberGifticon.Status.ACTIVE)
-
-        val gifticons = gifticonRepository.findAllById(memberGifticons.map { it.gifticonId })
-        val gifticonMap = toHashmapByIdAsKey(gifticons)
-
-        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
-        val storeMap = toHashmapByIdAsKey(stores)
-
-        return memberGifticons.map {
-            val gifticon = gifticonMap[it.gifticonId]!!
-            val store = storeMap[gifticon.storeId]!!
-            MemberGifticonResponse(gifticon, it, store)
-        }
-    }
-
-    fun findMyUsedGifticon(member: Member): List<MemberGifticonResponse> {
-        val memberGifticons = memberGifticonRepository.findByOwnerIdAndStatus(member.id, MemberGifticon.Status.USED)
-
-        val gifticons = gifticonRepository.findAllById(memberGifticons.map { it.gifticonId })
-        val gifticonMap = toHashmapByIdAsKey(gifticons)
-
-        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
-        val storeMap = toHashmapByIdAsKey(stores)
-
-        return memberGifticons.map {
-            val gifticon = gifticonMap[it.gifticonId]!!
-            val store = storeMap[gifticon.storeId]!!
-            MemberGifticonResponse(gifticon, it, store)
-        }
-    }
-
-    fun findMemberGifticonInfo(member: Member, memberGifticonId: Long): MemberGifticonResponse {
-        val memberGifticon = memberGifticonRepository.findByIdCheck(memberGifticonId)
-
-        check(memberGifticon.ownerId == member.id) { "본인의 기프티콘만 조회할 수 있습니다" }
-
-        val gifticon = gifticonRepository.findByIdCheck(memberGifticon.gifticonId)
-        val store = storeRepository.findByIdCheck(gifticon.storeId)
-
-        return MemberGifticonResponse(gifticon, memberGifticon, store)
-    }
 
     fun registerMemberGifticon(member: Member, buyGifticonRequest: BuyGifticonRequest) {
         val gifticon = gifticonRepository.findByIdCheck(buyGifticonRequest.gifticonId)
@@ -110,7 +64,12 @@ class MemberGifticonService(
         val gifticon = gifticonRepository.findByIdCheck(memberGifticon.gifticonId)
         val target = memberRepository.findByMemberIdCheck(sendGifticonRequest.targetMemberId)
 
-        val transferGifticonRequest = TransferGifticonRequest(target.id, LocalDate.now().plusDays(gifticon.period), generateOrderId(), LocalDate.now().plusDays(gifticon.orderCancellationPeriod))
+        val transferGifticonRequest = TransferGifticonRequest(
+            target.id,
+            LocalDate.now().plusDays(gifticon.period),
+            generateOrderId(),
+            LocalDate.now().plusDays(gifticon.orderCancellationPeriod)
+        )
         val transferredGifticon = memberGifticon.transferGifticonTo(transferGifticonRequest)
 
         memberGifticonRepository.save(transferredGifticon)
@@ -125,10 +84,6 @@ class MemberGifticonService(
         val memberGifticon = memberGifticonRepository.findByIdCheck(useGifticonRequest.memberGifticonId)
         memberGifticon.validate(member)
         memberGifticon.use()
-    }
-
-    companion object {
-        private const val orderIdLength = 8
     }
 }
 

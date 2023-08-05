@@ -1,8 +1,8 @@
 package com.example.nokbackend.application.mission
 
-import com.example.nokbackend.application.util.CodeService
 import com.example.nokbackend.application.geometry.GeometryService
 import com.example.nokbackend.application.geometry.Point
+import com.example.nokbackend.application.util.CodeService
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional
-class MissionService(
+@Transactional(readOnly = true)
+class MissionQueryService(
     private val missionGroupRepository: MissionGroupRepository,
     private val missionGroupQueryRepository: MissionGroupQueryRepository,
     private val missionRepository: MissionRepository,

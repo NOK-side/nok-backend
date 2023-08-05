@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/tourist-spot")
 class TouristSpotController(
-    private val touristSpotService: TouristSpotService
+    private val touristSpotQueryService: TouristSpotQueryService
 ) {
 
     @GetMapping("/by-distance")
     fun findByDistance(@RequestBody findTouristSpotByDistanceRequest: FindTouristSpotByDistanceRequest): ResponseEntity<ApiResponse<List<FindTouristSpotResponse>>> {
-        val touristSpots = touristSpotService.findByDistance(findTouristSpotByDistanceRequest)
+        val touristSpots = touristSpotQueryService.findByDistance(findTouristSpotByDistanceRequest)
         return responseEntity {
             body = apiResponse {
                 data = touristSpots
@@ -23,7 +23,7 @@ class TouristSpotController(
 
     @GetMapping
     fun findByCondition(@RequestBody findTouristSpotCondition: FindTouristSpotCondition): ResponseEntity<ApiResponse<List<FindTouristSpotResponse>>> {
-        val touristSpots = touristSpotService.findByCondition(findTouristSpotCondition)
+        val touristSpots = touristSpotQueryService.findByCondition(findTouristSpotCondition)
         return responseEntity {
             body = apiResponse {
                 data = touristSpots
@@ -33,7 +33,7 @@ class TouristSpotController(
 
     @GetMapping("/info/{touristSpotId}")
     fun findTouristSpotInfo(@PathVariable touristSpotId: Long): ResponseEntity<ApiResponse<TouristSpotDetailResponse>> {
-        val touristSpotDetailResponse = touristSpotService.findTouristSpotInfo(touristSpotId)
+        val touristSpotDetailResponse = touristSpotQueryService.findTouristSpotInfo(touristSpotId)
         return responseEntity {
             body = apiResponse {
                 data = touristSpotDetailResponse

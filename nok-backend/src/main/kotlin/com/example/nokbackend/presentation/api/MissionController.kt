@@ -3,7 +3,6 @@ package com.example.nokbackend.presentation.api
 import com.example.nokbackend.application.*
 import com.example.nokbackend.application.mission.*
 import com.example.nokbackend.domain.member.Member
-import com.example.nokbackend.security.Authenticated
 import com.example.nokbackend.security.MemberClaim
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -13,13 +12,15 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/mission")
 class MissionController(
-    private val memberMissionService: MemberMissionService,
-    private val missionService: MissionService,
+    private val missionQueryService: MissionQueryService
 ) {
 
     @GetMapping("/mission-group/{missionGroupId}")
-    fun findMissionGroupInfo(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<MissionGroupInfoResponse>> {
-        val missionGroupInfo = missionService.findMissionGroupInfo(member, missionGroupId)
+    fun findMissionGroupInfo(
+        @ApiIgnore @MemberClaim member: Member,
+        @PathVariable missionGroupId: Long
+    ): ResponseEntity<ApiResponse<MissionGroupInfoResponse>> {
+        val missionGroupInfo = missionQueryService.findMissionGroupInfo(member, missionGroupId)
         return responseEntity {
             body = apiResponse {
                 data = missionGroupInfo
@@ -28,8 +29,11 @@ class MissionController(
     }
 
     @GetMapping("/mission-group/tourist-spot/{touristSpotId}")
-    fun findMissionGroupOfTouristSpot(@ApiIgnore @MemberClaim member: Member, @PathVariable touristSpotId: Long): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
-        val missionGroupInfos = missionService.findMissionGroupOfTouristSpot(member, touristSpotId)
+    fun findMissionGroupOfTouristSpot(
+        @ApiIgnore @MemberClaim member: Member,
+        @PathVariable touristSpotId: Long
+    ): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
+        val missionGroupInfos = missionQueryService.findMissionGroupOfTouristSpot(member, touristSpotId)
         return responseEntity {
             body = apiResponse {
                 data = missionGroupInfos
@@ -38,30 +42,11 @@ class MissionController(
     }
 
     @GetMapping("/mission-group")
-    fun findMissionGroupByCondition(@ApiIgnore @MemberClaim member: Member, findMissionGroupCondition: FindMissionGroupCondition): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
-        val missionGroupInfos = missionService.findMissionGroupByCondition(member, findMissionGroupCondition)
-        return responseEntity {
-            body = apiResponse {
-                data = missionGroupInfos
-            }
-        }
-    }
-
-    @Authenticated
-    @GetMapping("/me/mission-group")
-    fun findMyMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
-        val missionGroupInfos = memberMissionService.findMyMission(member)
-        return responseEntity {
-            body = apiResponse {
-                data = missionGroupInfos
-            }
-        }
-    }
-
-    @Authenticated
-    @GetMapping("/me/mission-group/completed")
-    fun findMyCompletedMission(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
-        val missionGroupInfos = memberMissionService.findMyCompletedMission(member)
+    fun findMissionGroupByCondition(
+        @ApiIgnore @MemberClaim member: Member,
+        findMissionGroupCondition: FindMissionGroupCondition
+    ): ResponseEntity<ApiResponse<List<MissionGroupInfoResponse>>> {
+        val missionGroupInfos = missionQueryService.findMissionGroupByCondition(member, findMissionGroupCondition)
         return responseEntity {
             body = apiResponse {
                 data = missionGroupInfos
@@ -71,7 +56,7 @@ class MissionController(
 
     @GetMapping("/cities")
     fun findCitiesOfMission(findCitiesRequest: FindCitiesRequest): ResponseEntity<ApiResponse<List<FindCitiesResponse>>> {
-        val locations = missionService.findCitiesOfMission(findCitiesRequest)
+        val locations = missionQueryService.findCitiesOfMission(findCitiesRequest)
         return responseEntity {
             body = apiResponse {
                 data = locations
@@ -79,42 +64,12 @@ class MissionController(
         }
     }
 
-    @Authenticated
-    @PostMapping("/start/mission-group/{missionGroupId}")
-    fun startMission(@ApiIgnore @MemberClaim member: Member, @PathVariable missionGroupId: Long): ResponseEntity<ApiResponse<StartMissionResponse>> {
-        val startMissionResponse = memberMissionService.startMission(member, missionGroupId)
-        return responseEntity {
-            body = apiResponse {
-                data = startMissionResponse
-                message = "미션이 시작되었습니다"
-            }
-        }
-    }
-
-    @Authenticated
-    @PostMapping("/complete/current-user-location/{memberMissionId}")
-    fun completeMissionTypeOfCurrentUserLocation(@ApiIgnore @MemberClaim member: Member, @PathVariable memberMissionId: Long, @RequestBody currentLocation: DistanceFromLocation): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberMissionService.completeMissionTypeOfCurrentUserLocation(member, memberMissionId, currentLocation)
-        return responseEntity {
-            body = apiResponse {
-                data = EmptyBody
-            }
-        }
-    }
-
-    @PostMapping("/submit/answer")
-    fun submitFromResult(@RequestBody formResult: FormResult): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberMissionService.submitFromResult(formResult)
-        return responseEntity {
-            body = apiResponse {
-                data = EmptyBody
-            }
-        }
-    }
-
     @GetMapping("/qr/question-form/{missionId}")
-    fun getQRCodeFromQuestion(@ApiIgnore @MemberClaim member: Member, @PathVariable missionId: Long): ResponseEntity<ByteArray> {
-        val qrCodeByteArray = missionService.getQRCodeFromQuestion(member, missionId)
+    fun getQRCodeFromQuestion(
+        @ApiIgnore @MemberClaim member: Member,
+        @PathVariable missionId: Long
+    ): ResponseEntity<ByteArray> {
+        val qrCodeByteArray = missionQueryService.getQRCodeFromQuestion(member, missionId)
         return responseEntity {
             contentType = MediaType.IMAGE_PNG
             body = qrCodeByteArray

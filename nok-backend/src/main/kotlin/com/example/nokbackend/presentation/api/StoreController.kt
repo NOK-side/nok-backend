@@ -11,12 +11,13 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/store")
 class StoreController(
-    private val storeService: StoreService
+    private val storeQueryService: StoreQueryService,
+    private val storeCommandService: StoreCommandService
 ) {
 
     @PostMapping("/register")
     fun registerStore(@RequestBody registerStoreRequest: RegisterStoreRequest): ResponseEntity<ApiResponse<RegisterStoreResponse>> {
-        val registerStoreResponse = storeService.registerStore(registerStoreRequest)
+        val registerStoreResponse = storeCommandService.registerStore(registerStoreRequest)
         return responseEntity {
             body = apiResponse {
                 data = registerStoreResponse
@@ -26,7 +27,7 @@ class StoreController(
 
     @GetMapping
     fun findStores(findStoreCondition: FindStoreCondition): ResponseEntity<ApiResponse<List<StoreResponse>>> {
-        val stores = storeService.findByCondition(findStoreCondition)
+        val stores = storeQueryService.findByCondition(findStoreCondition)
         return responseEntity {
             body = apiResponse {
                 data = stores
@@ -36,7 +37,7 @@ class StoreController(
 
     @GetMapping("/info/{storeId}")
     fun findStoreInformation(@PathVariable storeId: Long): ResponseEntity<ApiResponse<StoreDetailResponse>> {
-        val store = storeService.findStoreInformation(storeId)
+        val store = storeQueryService.findStoreInformation(storeId)
         return responseEntity {
             body = apiResponse {
                 data = store
@@ -45,8 +46,12 @@ class StoreController(
     }
 
     @PutMapping("/info/{storeId}")
-    fun updateStoreInformation(@ApiIgnore @MemberClaim member: Member, @PathVariable storeId: Long, @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        storeService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
+    fun updateStoreInformation(
+        @ApiIgnore @MemberClaim member: Member,
+        @PathVariable storeId: Long,
+        @RequestBody updateStoreInformationRequest: UpdateStoreInformationRequest
+    ): ResponseEntity<ApiResponse<EmptyBody>> {
+        storeCommandService.updateStoreInformation(member, storeId, updateStoreInformationRequest)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody

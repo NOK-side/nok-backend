@@ -2,14 +2,11 @@ package com.example.nokbackend.application.mission
 
 import com.example.nokbackend.application.geometry.GeometryService
 import com.example.nokbackend.domain.firebase.Firebase
-import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
 import com.example.nokbackend.domain.member.findByEmailCheck
 import com.example.nokbackend.domain.membermission.*
 import com.example.nokbackend.domain.misson.*
-import com.example.nokbackend.domain.store.StoreRepository
-import com.example.nokbackend.mapper.MissionMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -17,7 +14,7 @@ import kotlin.math.abs
 
 @Service
 @Transactional
-class MemberMissionService(
+class MemberMissionCommandService(
     private val missionGroupRepository: MissionGroupRepository,
     private val missionRepository: MissionRepository,
     private val memberMissionGroupRepository: MemberMissionGroupRepository,
@@ -25,43 +22,8 @@ class MemberMissionService(
     private val geometryService: GeometryService,
     private val memberRepository: MemberRepository,
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
-    private val storeRepository: StoreRepository,
-    private val gifticonRepository: GifticonRepository,
-    private val missionMapper: MissionMapper,
     private val firebase: Firebase
 ) {
-
-    fun findMyMission(member: Member): List<MissionGroupInfoResponse> {
-        val memberMissionGroups = memberMissionGroupRepository.findByMemberIdAndStatus(member.id, MemberMissionGroup.Status.ONGOING)
-
-        val missionGroups = missionGroupRepository.findAllById(memberMissionGroups.map { it.missionGroupId })
-
-        val gifticons = gifticonRepository.findAllById(missionGroups.map { it.prizeId })
-
-        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
-
-        val missions = missionRepository.findByMissionGroupIn(missionGroups)
-
-        val memberMissions = memberMissionRepository.findByMemberMissionGroupIn(memberMissionGroups)
-
-        return missionMapper.toMissionGroupInfoResponses(missionGroups, gifticons, stores, memberMissionGroups, missions, memberMissions)
-    }
-
-    fun findMyCompletedMission(member: Member): List<MissionGroupInfoResponse> {
-        val memberMissionGroups = memberMissionGroupRepository.findByMemberIdAndStatus(member.id, MemberMissionGroup.Status.FINISHED)
-
-        val missionGroups = missionGroupRepository.findAllById(memberMissionGroups.map { it.missionGroupId })
-
-        val gifticons = gifticonRepository.findAllById(missionGroups.map { it.prizeId })
-
-        val stores = storeRepository.findAllById(gifticons.map { it.storeId })
-
-        val missions = missionRepository.findByMissionGroupIn(missionGroups)
-
-        val memberMissions = memberMissionRepository.findByMemberMissionGroupIn(memberMissionGroups)
-
-        return missionMapper.toMissionGroupInfoResponses(missionGroups, gifticons, stores, memberMissionGroups, missions, memberMissions)
-    }
 
     fun startMission(member: Member, missionGroupId: Long): StartMissionResponse {
         val missionGroup = missionGroupRepository.findByIdCheck(missionGroupId)
@@ -93,7 +55,11 @@ class MemberMissionService(
         return StartMissionResponse(memberMissionGroup.id)
     }
 
-    fun completeMissionTypeOfCurrentUserLocation(member: Member, memberMissionId: Long, currentLocation: DistanceFromLocation) {
+    fun completeMissionTypeOfCurrentUserLocation(
+        member: Member,
+        memberMissionId: Long,
+        currentLocation: DistanceFromLocation
+    ) {
         val memberMission = memberMissionRepository.findByIdCheck(memberMissionId)
 
         check(memberMission.memberMissionGroup.memberId == member.id) { "본인의 미션만 수행할 수 있습니다" }
@@ -125,7 +91,8 @@ class MemberMissionService(
         println(formResult)
         val member = memberRepository.findByEmailCheck(formResult.email)
         val mission = missionRepository.findByFormIdCheck(formResult.formId)
-        val memberMission = memberMissionRepository.findByMissionIdAndMemberMissionGroup_MemberIdCheck(mission.id, member.id)
+        val memberMission =
+            memberMissionRepository.findByMissionIdAndMemberMissionGroup_MemberIdCheck(mission.id, member.id)
 
         val score = formResult.results
             .map { it.score }

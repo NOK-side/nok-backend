@@ -1,9 +1,8 @@
 package com.example.nokbackend.application.order
 
-import com.example.nokbackend.application.cart.CartService
+import com.example.nokbackend.application.cart.CartCommandService
 import com.example.nokbackend.application.gifticon.BuyGifticonRequest
-import com.example.nokbackend.application.gifticon.MemberGifticonService
-import com.example.nokbackend.domain.gifticon.Gifticon
+import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
@@ -17,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class OrderService(
+class OrderCommandService(
     private val orderRepository: OrderRepository,
     private val orderLineRepository: OrderLineRepository,
     private val gifticonRepository: GifticonRepository,
     private val memberPointRepository: MemberPointRepository,
-    private val memberGifticonService: MemberGifticonService,
-    private val cartService: CartService,
+    private val memberGifticonCommandService: MemberGifticonCommandService,
+    private val cartCommandService: CartCommandService,
 ) {
 
     fun registerOrder(member: Member, orderRequest: OrderRequest) {
@@ -38,9 +37,9 @@ class OrderService(
         }
 
         orderRequest.orderLines.forEach {
-            memberGifticonService.registerMemberGifticon(member, BuyGifticonRequest(it.gifticonId, it.quantity))
+            memberGifticonCommandService.registerMemberGifticon(member, BuyGifticonRequest(it.gifticonId, it.quantity))
             if (it.cartId != 0L) {
-                cartService.deleteItemFromCart(member, it.cartId)
+                cartCommandService.deleteItemFromCart(member, it.cartId)
             }
         }
     }
@@ -64,22 +63,5 @@ class OrderService(
         }
 
         memberPoint.point -= totalPrice
-    }
-
-    private fun List<Gifticon>.getById(id: Long): Gifticon {
-        return find { it.id == id } ?: throw RuntimeException("기프티콘이 존재하지 않습니다.")
-    }
-
-    fun findMyOrder(member: Member): List<OrderResponse> {
-        val orders = orderRepository.findByOrderMemberId(member.id)
-        val orderLines = orderLineRepository.findAllByOrderIn(orders)
-        val orderLinesMap = orderLines.groupBy { it.order.id }
-
-        val gifticonMap = gifticonRepository.findAllById(orderLines.map { it.gifticonId })
-            .associateBy { it.id }
-
-        return orders.map {
-            OrderResponse(it, orderLinesMap[it.id] ?: emptyList(), gifticonMap)
-        }
     }
 }

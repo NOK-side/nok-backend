@@ -14,14 +14,15 @@ import springfox.documentation.annotations.ApiIgnore
 @RestController
 @RequestMapping("/member-gifticon")
 class MemberGifticonController(
-    private val memberGifticonService: MemberGifticonService,
+    private val memberGifticonCommandService: MemberGifticonCommandService,
+    private val memberGifticonQueryService: MemberGifticonQueryService,
     private val codeService: CodeService
 ) {
 
     @Authenticated
     @GetMapping("/me")
     fun findMyGifticon(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MemberGifticonResponse>>> {
-        val myGifticons = memberGifticonService.findMyGifticon(member)
+        val myGifticons = memberGifticonQueryService.findMyGifticon(member)
         return responseEntity {
             body = apiResponse {
                 data = myGifticons
@@ -32,7 +33,7 @@ class MemberGifticonController(
     @Authenticated
     @GetMapping("/me/used")
     fun findMyUsedGifticon(@ApiIgnore @MemberClaim member: Member): ResponseEntity<ApiResponse<List<MemberGifticonResponse>>> {
-        val myGifticons = memberGifticonService.findMyUsedGifticon(member)
+        val myGifticons = memberGifticonQueryService.findMyUsedGifticon(member)
         return responseEntity {
             body = apiResponse {
                 data = myGifticons
@@ -42,8 +43,11 @@ class MemberGifticonController(
 
     @Authenticated
     @PostMapping("/buy")
-    fun buyGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody buyGifticonRequest: BuyGifticonRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberGifticonService.registerMemberGifticon(member, buyGifticonRequest)
+    fun buyGifticon(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody buyGifticonRequest: BuyGifticonRequest
+    ): ResponseEntity<ApiResponse<EmptyBody>> {
+        memberGifticonCommandService.registerMemberGifticon(member, buyGifticonRequest)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
@@ -53,8 +57,11 @@ class MemberGifticonController(
 
     @Authenticated
     @PostMapping("/buy/cart")
-    fun buyGifticonInCart(@ApiIgnore @MemberClaim member: Member, @RequestBody buyGifticonInCartRequest: BuyGifticonInCartRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberGifticonService.buyGifticonInCart(member, buyGifticonInCartRequest)
+    fun buyGifticonInCart(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody buyGifticonInCartRequest: BuyGifticonInCartRequest
+    ): ResponseEntity<ApiResponse<EmptyBody>> {
+        memberGifticonCommandService.buyGifticonInCart(member, buyGifticonInCartRequest)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
@@ -64,8 +71,11 @@ class MemberGifticonController(
 
     @Authenticated
     @PostMapping("/send")
-    fun sendGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody sendGifticonRequest: SendGifticonRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberGifticonService.sendGifticon(member, sendGifticonRequest)
+    fun sendGifticon(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody sendGifticonRequest: SendGifticonRequest
+    ): ResponseEntity<ApiResponse<EmptyBody>> {
+        memberGifticonCommandService.sendGifticon(member, sendGifticonRequest)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
@@ -75,8 +85,11 @@ class MemberGifticonController(
 
     @Authenticated
     @PostMapping("/use")
-    fun useGifticon(@ApiIgnore @MemberClaim member: Member, @RequestBody useGifticonRequest: UseGifticonRequest): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberGifticonService.useGifticon(member, useGifticonRequest)
+    fun useGifticon(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody useGifticonRequest: UseGifticonRequest
+    ): ResponseEntity<ApiResponse<EmptyBody>> {
+        memberGifticonCommandService.useGifticon(member, useGifticonRequest)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
@@ -87,7 +100,7 @@ class MemberGifticonController(
     @Authenticated
     @GetMapping("/info/qr/{memberGifticonId}")
     fun test(@ApiIgnore @MemberClaim member: Member, @PathVariable memberGifticonId: Long): ResponseEntity<ByteArray> {
-        val memberGifticonInfo = memberGifticonService.findMemberGifticonInfo(member, memberGifticonId)
+        val memberGifticonInfo = memberGifticonQueryService.findMemberGifticonInfo(member, memberGifticonId)
         val bytes = codeService.createCodeImage(memberGifticonInfo.orderId, CodeService.CodeType.BARCODE)
 
         return responseEntity {
