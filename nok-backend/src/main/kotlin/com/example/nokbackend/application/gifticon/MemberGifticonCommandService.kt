@@ -1,7 +1,6 @@
 package com.example.nokbackend.application.gifticon
 
 import com.example.nokbackend.application.util.UUIDGenerator
-import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
@@ -21,7 +20,6 @@ class MemberGifticonCommandService(
     private val memberGifticonRepository: MemberGifticonRepository,
     private val gifticonRepository: GifticonRepository,
     private val memberRepository: MemberRepository,
-    private val cartRepository: CartRepository,
     private val uuidGenerator: UUIDGenerator,
     private val orderIdLength: Int = 8
 ) {
@@ -40,19 +38,6 @@ class MemberGifticonCommandService(
         }
 
         memberGifticonRepository.saveAll(memberGifticons)
-    }
-
-    fun buyGifticonInCart(member: Member, buyGifticonInCartRequest: BuyGifticonInCartRequest) {
-        val carts = cartRepository.findAllById(buyGifticonInCartRequest.cartIds)
-
-        carts.forEach {
-            check(it.ownerId == member.id) { "본인 카트의 상품만 구매할 수 있습니다" }
-
-            val buyGifticonRequest = BuyGifticonRequest(it.gifticonId, it.quantity)
-            registerMemberGifticon(member, buyGifticonRequest)
-        }
-
-        cartRepository.deleteAllByIdInBatch(carts.map { it.id })
     }
 
     fun sendGifticon(member: Member, sendGifticonRequest: SendGifticonRequest) {

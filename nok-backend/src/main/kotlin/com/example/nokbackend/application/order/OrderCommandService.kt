@@ -31,17 +31,16 @@ class OrderCommandService(
         val order = Order(member.id, orderRequest.totalPrice)
         orderRepository.save(order)
 
-        orderRequest.orderLines.forEach {
-            val orderLine = OrderLine(order, it.gifticonId, it.quantity, it.price, OrderLine.Status.ORDER)
-            orderLineRepository.save(orderLine)
-        }
-
-        orderRequest.orderLines.forEach {
+        val orderLines = orderRequest.orderLines.map {
             memberGifticonCommandService.registerMemberGifticon(member, BuyGifticonRequest(it.gifticonId, it.quantity))
+
             if (it.cartId != 0L) {
                 cartCommandService.deleteItemFromCart(member, it.cartId)
             }
+
+            OrderLine(order, it.gifticonId, it.quantity, it.price, OrderLine.Status.ORDER)
         }
+        orderLineRepository.saveAll(orderLines)
     }
 
     fun validate(member: Member, orderRequest: OrderRequest) {

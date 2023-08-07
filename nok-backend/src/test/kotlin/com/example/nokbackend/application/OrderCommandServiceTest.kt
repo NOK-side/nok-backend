@@ -2,12 +2,13 @@ package com.example.nokbackend.application
 
 import com.example.nokbackend.application.cart.CartCommandService
 import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
-import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.application.order.OrderCommandService
+import com.example.nokbackend.application.order.OrderRequest
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.memberpoint.MemberPointRepository
+import com.example.nokbackend.domain.order.OrderLine
 import com.example.nokbackend.domain.order.OrderLineRepository
 import com.example.nokbackend.domain.order.OrderRepository
 import com.example.nokbackend.fixture.*
@@ -16,6 +17,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.just
+import io.mockk.slot
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -45,7 +47,14 @@ class OrderCommandServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        orderCommandService = OrderCommandService(orderRepository, orderLineRepository, gifticonRepository, memberPointRepository, memberGifticonCommandService, cartCommandService)
+        orderCommandService = OrderCommandService(
+            orderRepository,
+            orderLineRepository,
+            gifticonRepository,
+            memberPointRepository,
+            memberGifticonCommandService,
+            cartCommandService
+        )
     }
 
     @DisplayName("상품을 구매할 때")
@@ -67,7 +76,22 @@ class OrderCommandServiceTest {
             every { gifticonRepository.findAllById(listOf(aGifticon().id)) } returns listOf(aGifticon())
             every { memberPointRepository.findByMemberId(member.id) } returns aMemberPoint()
             every { orderRepository.save(any()) } returns aOrder()
-            every { orderLineRepository.save(any()) } returns aOrderLine()
+            slot<List<OrderLine>>().also { slot ->
+                every { orderLineRepository.saveAll(capture(slot)) } answers {
+                    slot.captured.run {
+                        map {
+                            OrderLine(
+                                id = it.id,
+                                order = it.order,
+                                gifticonId = it.gifticonId,
+                                quantity = it.quantity,
+                                price = it.price,
+                                status = it.status
+                            )
+                        }
+                    }
+                }
+            }
             every { memberGifticonCommandService.registerMemberGifticon(member, any()) } just Runs
             every { cartCommandService.deleteItemFromCart(member, any()) } just Runs
 

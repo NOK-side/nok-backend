@@ -57,20 +57,6 @@ class MemberGifticonController(
     }
 
     @Authenticated
-    @PostMapping("/buy/cart")
-    fun buyGifticonInCart(
-        @ApiIgnore @MemberClaim member: Member,
-        @RequestBody buyGifticonInCartRequest: BuyGifticonInCartRequest
-    ): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberGifticonCommandService.buyGifticonInCart(member, buyGifticonInCartRequest)
-        return responseEntity {
-            body = apiResponse {
-                data = EmptyBody
-            }
-        }
-    }
-
-    @Authenticated
     @PostMapping("/send")
     fun sendGifticon(
         @ApiIgnore @MemberClaim member: Member,
