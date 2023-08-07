@@ -5,7 +5,6 @@ import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.application.gifticon.SendGifticonRequest
 import com.example.nokbackend.application.gifticon.UseGifticonRequest
 import com.example.nokbackend.application.util.UUIDGenerator
-import com.example.nokbackend.domain.cart.CartRepository
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
@@ -40,9 +39,6 @@ class MemberGifticonCommandServiceTest {
     private lateinit var memberGifticonCommandService: MemberGifticonCommandService
 
     @MockK
-    private lateinit var cartRepository: CartRepository
-
-    @MockK
     private lateinit var uuidGenerator: UUIDGenerator
 
     @BeforeEach
@@ -51,7 +47,6 @@ class MemberGifticonCommandServiceTest {
             memberGifticonRepository,
             gifticonRepository,
             memberRepository,
-            cartRepository,
             uuidGenerator
         )
     }
