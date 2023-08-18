@@ -8,9 +8,7 @@ import java.util.*
 import javax.crypto.SecretKey
 
 const val TWELVE_HOURS_IN_MILLISECONDS: Long = 1000 * 60 * 60 * 12
-//const val TWELVE_HOURS_IN_MILLISECONDS: Long = 1000 * 60
 const val ONE_WEEK_IN_MILLISECONDS: Long = 1000 * 60 * 60 * 24 * 7
-//const val ONE_WEEK_IN_MILLISECONDS: Long = 1000 * 60 * 3
 
 @Component
 class JwtTokenProvider(
