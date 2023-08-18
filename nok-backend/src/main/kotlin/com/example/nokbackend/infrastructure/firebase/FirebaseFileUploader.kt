@@ -4,6 +4,7 @@ import com.example.nokbackend.application.image.DeleteFileRequest
 import com.example.nokbackend.application.image.UploadFileRequest
 import com.example.nokbackend.application.image.UploadFileResponse
 import com.google.cloud.storage.Bucket
+import com.google.firebase.FirebaseApp
 import com.google.firebase.cloud.StorageClient
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -16,15 +17,16 @@ class FirebaseFileUploader {
     private val firebaseBucket: String = ""
 
     fun uploadFiles(uploadFileRequests: List<UploadFileRequest>): List<UploadFileResponse> {
-        val bucket = StorageClient.getInstance().bucket(firebaseBucket)
-        val uploadFileResponse: MutableList<UploadFileResponse> = mutableListOf()
+        val bucket = FirebaseApp.getApps()
+            .findLast { it.name.contains("storage") }
+            .let {
+                StorageClient.getInstance(it).bucket(firebaseBucket)
+            }
 
-        uploadFileRequests.forEachIndexed { index, uploadFileRequest ->
+        return uploadFileRequests.mapIndexed { index, uploadFileRequest ->
             val fileUrl = uploadFile(uploadFileRequest, bucket)
-            uploadFileResponse.add(UploadFileResponse(index, fileUrl))
+            UploadFileResponse(index, fileUrl)
         }
-
-        return uploadFileResponse
     }
 
     fun deleteFiles(deleteFileRequests: List<DeleteFileRequest>) {
