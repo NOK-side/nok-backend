@@ -28,10 +28,11 @@ class GifticonCommandService(
 
     private fun generateGifticonId(storeId: Long): String {
         val pattern = DateTimeFormatter.ofPattern("yyyyMMdd")
-        return "${storeId.toString().padStart(5, '0')} + ${LocalDate.now().format(pattern)} + ${
-            uuidGenerator.generate(
-                gifticonIdLength
-            ).uppercase()
-        }"
+
+        val prefix = storeId.toString().padStart(5, '0')
+        val infix = LocalDate.now().format(pattern)
+        val suffix = uuidGenerator.generate(gifticonIdLength).uppercase()
+
+        return "$prefix + $infix + $suffix"
     }
 }

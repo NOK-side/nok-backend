@@ -1,5 +1,9 @@
 package com.example.nokbackend.exception
 
-class LoginFailedException(message: String = "로그인 정보가 정확하지 않습니다.") : RuntimeException(message)
+fun verify(value: Boolean, exception: () -> Exception = { RuntimeException() }) {
+    if (value) {
+        return
+    }
 
-class UnidentifiedUserException(message: String? = null) : RuntimeException(message)
+    throw exception.invoke()
+}

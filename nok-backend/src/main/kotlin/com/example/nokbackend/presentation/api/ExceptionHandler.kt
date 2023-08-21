@@ -78,7 +78,7 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         return responseEntity {
             status = HttpStatus.OK
             body = apiResponse {
-                status = HttpStatus.UNAUTHORIZED.value()
+                status = exception.status.value()
                 message = exception.message
                 data = EmptyBody
             }
@@ -91,7 +91,7 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
         return responseEntity {
             status = HttpStatus.OK
             body = apiResponse {
-                status = HttpStatus.FORBIDDEN.value()
+                status = exception.status.value()
                 message = exception.message
                 data = EmptyBody
             }

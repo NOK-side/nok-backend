@@ -3,7 +3,9 @@ package com.example.nokbackend.domain.member
 import com.example.nokbackend.application.member.UpdateMemberRequest
 import com.example.nokbackend.application.member.UpdatePasswordRequest
 import com.example.nokbackend.domain.BaseEntity
+import com.example.nokbackend.exception.LoginFailedException
 import com.example.nokbackend.exception.UnidentifiedUserException
+import com.example.nokbackend.exception.verify
 import org.hibernate.annotations.DynamicUpdate
 import javax.persistence.*
 
@@ -75,7 +77,7 @@ class Member(
     }
 
     fun updatePassword(updatePasswordRequest: UpdatePasswordRequest) {
-        identify(password == updatePasswordRequest.oldPassword) { "기존 비밀번호가 일치하지 않습니다" }
+        verify(password == updatePasswordRequest.oldPassword) { LoginFailedException(message = "기존 비밀번호가 일치하지 않습니다") }
         password = updatePasswordRequest.newPassword
     }
 
