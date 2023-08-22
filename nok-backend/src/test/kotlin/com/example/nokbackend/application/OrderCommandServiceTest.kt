@@ -4,6 +4,7 @@ import com.example.nokbackend.application.cart.CartCommandService
 import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.application.order.OrderCommandService
 import com.example.nokbackend.application.order.OrderRequest
+import com.example.nokbackend.application.point.PointCommandService
 import com.example.nokbackend.domain.gifticon.GifticonRepository
 import com.example.nokbackend.domain.infra.Point
 import com.example.nokbackend.domain.member.Member
@@ -44,6 +45,8 @@ class OrderCommandServiceTest {
     @MockK
     private lateinit var cartCommandService: CartCommandService
 
+    @MockK
+    private lateinit var pointCommandService: PointCommandService
 
     @BeforeEach
     internal fun setUp() {
@@ -51,9 +54,9 @@ class OrderCommandServiceTest {
             orderRepository,
             orderLineRepository,
             gifticonRepository,
-            memberPointRepository,
             memberGifticonCommandService,
-            cartCommandService
+            cartCommandService,
+            pointCommandService
         )
     }
 
