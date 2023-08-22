@@ -57,7 +57,7 @@ class MemberMissionController(
 
     @PostMapping("/submit/answer")
     fun submitFromResult(@RequestBody formResult: FormResult): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberMissionCommandService.submitFromResult(formResult)
+        memberMissionCommandService.submitForm(formResult)
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody

@@ -30,4 +30,11 @@ class PointCommandService(
 
         memberPoint.point += chargePointRequest.point
     }
+
+    fun spendPoint(member: Member, spendPointRequest: SpendPointRequest) {
+        val memberPoint = memberPointRepository.findByMemberIdCheck(member.id)
+        check(memberPoint.point >= spendPointRequest.point) { "보유 포인트가 부족합니다" }
+
+        memberPoint.point -= spendPointRequest.point
+    }
 }

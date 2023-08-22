@@ -22,7 +22,8 @@ class HeaderArgumentResolver : HandlerMethodArgumentResolver {
     ): Any? {
         val annotation = parameter.getParameterAnnotation(HeaderClaim::class.java) ?: return ""
         val httpServletRequest = webRequest.getNativeRequest(HttpServletRequest::class.java)
+            ?: throw RuntimeException("서버에 이상 발생")
 
-        return httpServletRequest!!.getHeader(annotation.value) ?: ""
+        return httpServletRequest.getHeader(annotation.value) ?: ""
     }
 }

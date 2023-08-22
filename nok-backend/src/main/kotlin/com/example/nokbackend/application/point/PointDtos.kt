@@ -13,6 +13,10 @@ data class ChargePointRequest(
     val payInfo: String,
 )
 
+data class SpendPointRequest(
+    val point: Point
+)
+
 data class MemberPointResponse(
     val point: Point
 )
