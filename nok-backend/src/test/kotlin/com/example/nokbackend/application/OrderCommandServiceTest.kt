@@ -97,6 +97,7 @@ class OrderCommandServiceTest {
             }
             every { memberGifticonCommandService.registerMemberGifticon(member, any()) } just Runs
             every { cartCommandService.deleteItemFromCart(member, any()) } just Runs
+            every { pointCommandService.spendPoint(member, any()) } just Runs
 
             subject()
         }
