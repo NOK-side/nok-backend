@@ -22,26 +22,25 @@ class MemberMissionCommandService(
     private val geometryService: GeometryService,
     private val memberRepository: MemberRepository,
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
-    private val firebase: Firebase
+    private val firebase: Firebase,
+    private val defaultDueDate: Long = 7L
 ) {
 
     fun startMission(member: Member, missionGroupId: Long): StartMissionResponse {
-        val missionGroup = missionGroupRepository.findByIdCheck(missionGroupId)
-
         val isStartedMission = memberMissionGroupRepository.existsByMissionGroupIdAndMemberId(missionGroupId, member.id)
         check(!isStartedMission) { "이미 시작한 미션입니다" }
 
-        val memberMissionGroup = MemberMissionGroup(
-            memberId = member.id,
-            missionGroupId = missionGroup.id,
-            status = MemberMissionGroup.Status.ONGOING,
-            dueDate = LocalDate.now().plusDays(7)
+        val missionGroup = missionGroupRepository.findByIdCheck(missionGroupId)
+        val memberMissionGroup = memberMissionGroupRepository.save(
+            MemberMissionGroup(
+                memberId = member.id,
+                missionGroupId = missionGroup.id,
+                status = MemberMissionGroup.Status.ONGOING,
+                dueDate = LocalDate.now().plusDays(defaultDueDate)
+            )
         )
 
-        memberMissionGroupRepository.save(memberMissionGroup)
-
         val missions = missionRepository.findByMissionGroup(missionGroup)
-
         val memberMissions = missions.map {
             MemberMission(
                 memberMissionGroup = memberMissionGroup,
@@ -49,7 +48,6 @@ class MemberMissionCommandService(
                 status = MemberMission.Status.ONGOING,
             )
         }
-
         memberMissionRepository.saveAll(memberMissions)
 
         return StartMissionResponse(memberMissionGroup.id)
@@ -61,11 +59,9 @@ class MemberMissionCommandService(
         currentLocation: DistanceFromLocation
     ) {
         val memberMission = memberMissionRepository.findByIdCheck(memberMissionId)
-
         check(memberMission.memberMissionGroup.memberId == member.id) { "본인의 미션만 수행할 수 있습니다" }
 
         val mission = missionRepository.findByIdCheck(memberMission.missionId)
-
         check(mission.type == Mission.Type.CURRENT_USER_LOCATION) { "미션 타입이 다릅니다" }
 
         val distanceBetween = geometryService.getDistanceBetween(
@@ -74,7 +70,6 @@ class MemberMissionCommandService(
             longitude2 = mission.location.longitude.toDouble(),
             latitude2 = mission.location.latitude.toDouble()
         )
-
         check(distanceBetween <= mission.qualification) { "목표한 위치에 도달하지 못하였습니다 : ${abs(distanceBetween - mission.qualification)}미터 차이" }
 
         memberMission.complete()
