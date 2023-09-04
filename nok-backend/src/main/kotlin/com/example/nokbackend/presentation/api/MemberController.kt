@@ -1,6 +1,5 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.*
 import com.example.nokbackend.application.authentication.AuthenticationResponse
 import com.example.nokbackend.application.authentication.AuthenticationService
 import com.example.nokbackend.application.authentication.ConfirmAuthenticationRequest
@@ -24,7 +23,10 @@ class MemberController(
 ) {
 
     @PostMapping("/register")
-    fun register(@ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String, @Valid @RequestBody registerMemberRequest: RegisterMemberRequest): ResponseEntity<ApiResponse<LoginResponse>> {
+    fun register(
+        @ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String,
+        @Valid @RequestBody registerMemberRequest: RegisterMemberRequest
+    ): ResponseEntity<ApiResponse<LoginResponse>> {
         val loginResponse = sessionService.generateTokenWithRegister(userAgent, registerMemberRequest)
         return responseEntity {
             body = apiResponse {
@@ -34,7 +36,10 @@ class MemberController(
     }
 
     @PostMapping("/login")
-    fun login(@ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String, @Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<ApiResponse<LoginResponse>> {
+    fun login(
+        @ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String,
+        @Valid @RequestBody loginRequest: LoginRequest
+    ): ResponseEntity<ApiResponse<LoginResponse>> {
         val loginResponse = sessionService.generateTokenWithLogin(userAgent, loginRequest)
         return responseEntity {
             body = apiResponse {
@@ -44,7 +49,10 @@ class MemberController(
     }
 
     @PostMapping("/refresh")
-    fun refreshToken(@ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String, @RequestBody refreshTokenRequest: RefreshTokenRequest): ResponseEntity<ApiResponse<TokenResponse>> {
+    fun refreshToken(
+        @ApiIgnore @HeaderClaim(value = "User-Agent") userAgent: String,
+        @RequestBody refreshTokenRequest: RefreshTokenRequest
+    ): ResponseEntity<ApiResponse<TokenResponse>> {
         val tokenResponse = sessionService.refreshToken(userAgent, refreshTokenRequest)
         return responseEntity {
             body = apiResponse {
@@ -65,7 +73,10 @@ class MemberController(
 
     @Authenticated
     @PutMapping("/me/info")
-    fun updateMyInfo(@ApiIgnore @MemberClaim member: Member, @RequestBody updateMemberRequest: UpdateMemberRequest): ResponseEntity<ApiResponse<UpdateMemberResponse>> {
+    fun updateMyInfo(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody updateMemberRequest: UpdateMemberRequest
+    ): ResponseEntity<ApiResponse<UpdateMemberResponse>> {
         val updateMemberResponse = memberService.updateMemberInfo(member, updateMemberRequest)
         return responseEntity {
             body = apiResponse {
@@ -77,7 +88,10 @@ class MemberController(
 
     @Authenticated
     @PatchMapping("/me/password")
-    fun updateMyPassword(@ApiIgnore @MemberClaim member: Member, @RequestBody updatePasswordRequest: UpdatePasswordRequest): ResponseEntity<ApiResponse<UpdatePasswordResponse>> {
+    fun updateMyPassword(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody updatePasswordRequest: UpdatePasswordRequest
+    ): ResponseEntity<ApiResponse<UpdatePasswordResponse>> {
         val updatePasswordResponse = memberService.updatePassword(member, updatePasswordRequest)
         return responseEntity {
             body = apiResponse {
@@ -88,7 +102,10 @@ class MemberController(
 
     @Authenticated
     @DeleteMapping("/me")
-    fun withdraw(@ApiIgnore @MemberClaim member: Member, @RequestBody withdrawMemberRequest: WithdrawMemberRequest): ResponseEntity<ApiResponse<WithdrawMemberResponse>> {
+    fun withdraw(
+        @ApiIgnore @MemberClaim member: Member,
+        @RequestBody withdrawMemberRequest: WithdrawMemberRequest
+    ): ResponseEntity<ApiResponse<WithdrawMemberResponse>> {
         val withResponse = memberService.withdraw(member, withdrawMemberRequest)
         return responseEntity {
             body = apiResponse {
@@ -123,7 +140,8 @@ class MemberController(
             memberService.checkEmailDuplication(verifyEmailRequest.email)
         }
 
-        val authenticationResponse = authenticationService.sendAuthenticationToEmail(verifyEmailRequest.email, verifyEmailRequest.type)
+        val authenticationResponse =
+            authenticationService.sendAuthenticationToEmail(verifyEmailRequest.email, verifyEmailRequest.type)
         return responseEntity {
             body = apiResponse {
                 data = authenticationResponse

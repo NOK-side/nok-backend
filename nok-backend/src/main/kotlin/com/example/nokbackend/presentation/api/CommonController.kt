@@ -1,6 +1,5 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.*
 import com.example.nokbackend.application.image.DeleteFileRequest
 import com.example.nokbackend.application.image.ImageService
 import com.example.nokbackend.application.image.UploadFileResponse
