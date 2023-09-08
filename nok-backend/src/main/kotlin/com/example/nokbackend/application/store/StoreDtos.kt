@@ -57,12 +57,14 @@ data class StoreResponse(
 data class StoreDetailResponse(
     val storeInformation: StoreInformation,
     val storeImageUrls: List<String>,
-    val ownerResponse: OwnerResponse
+    val ownerResponse: OwnerResponse,
+    val mainImageUrl: String
 ) {
     constructor(store: Store, storeImages: List<StoreImage>, owner: Member) : this(
         storeInformation = store.storeInformation,
         storeImageUrls = storeImages.map { it.imageUrl },
-        OwnerResponse(owner.id, owner.name, owner.profileImage)
+        OwnerResponse(owner.id, owner.name, owner.profileImage),
+        storeImages.first().imageUrl
     )
 }
 
