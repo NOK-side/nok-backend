@@ -1,13 +1,17 @@
 package com.example.nokbackend.application.mission
 
 import com.example.nokbackend.domain.gifticon.GifticonRepository
+import com.example.nokbackend.domain.gifticon.findByIdCheck
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.membermission.MemberMissionGroup
 import com.example.nokbackend.domain.membermission.MemberMissionGroupRepository
 import com.example.nokbackend.domain.membermission.MemberMissionRepository
+import com.example.nokbackend.domain.membermission.findByIdCheck
 import com.example.nokbackend.domain.misson.MissionGroupRepository
 import com.example.nokbackend.domain.misson.MissionRepository
+import com.example.nokbackend.domain.misson.findByIdCheck
 import com.example.nokbackend.domain.store.StoreRepository
+import com.example.nokbackend.domain.store.findByIdCheck
 import com.example.nokbackend.mapper.MissionMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -45,6 +49,24 @@ class MemberMissionQueryService(
             memberMissionGroups,
             missions,
             memberMissions
+        )
+    }
+
+    fun findMyMissionByMemberMissionGroupId(member: Member, memberMissionGroupId: Long): MissionGroupInfoResponse {
+        val memberMissionGroup = memberMissionGroupRepository.findByIdCheck(memberMissionGroupId)
+
+        val missionGroup = missionGroupRepository.findByIdCheck(memberMissionGroup.missionGroupId)
+
+        val gifticon = gifticonRepository.findByIdCheck(missionGroup.prizeId)
+
+        val store = storeRepository.findByIdCheck(gifticon.storeId)
+
+        val missions = missionRepository.findByMissionGroup(missionGroup)
+
+        val memberMissions = memberMissionRepository.findByMemberMissionGroup(memberMissionGroup)
+
+        return missionMapper.toMissionGroupInfoResponse(
+            missionGroup, gifticon, store, missions, memberMissionGroup, memberMissions
         )
     }
 }

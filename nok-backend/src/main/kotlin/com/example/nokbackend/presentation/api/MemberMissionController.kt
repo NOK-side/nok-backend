@@ -39,6 +39,21 @@ class MemberMissionController(
         }
     }
 
+    @Authenticated
+    @GetMapping("/me/mission-group/{memberMissionGroupId}")
+    fun findMyMissionByMemberMissionGroupId(
+        @ApiIgnore @MemberClaim member: Member,
+        @PathVariable memberMissionGroupId: Long
+    ): ResponseEntity<ApiResponse<MissionGroupInfoResponse>> {
+        val missionGroupInfo =
+            memberMissionQueryService.findMyMissionByMemberMissionGroupId(member, memberMissionGroupId)
+        return responseEntity {
+            body = apiResponse {
+                data = missionGroupInfo
+            }
+        }
+    }
+
 
     @Authenticated
     @PostMapping("/complete/current-user-location/{memberMissionId}")

@@ -1,6 +1,10 @@
 package com.example.nokbackend.domain.membermission
 
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.repository.findByIdOrNull
+import java.lang.RuntimeException
+
+fun MemberMissionGroupRepository.findByIdCheck(id: Long): MemberMissionGroup = findByIdOrNull(id) ?: throw RuntimeException("멤버미션이 존재하지 않습니다")
 
 interface MemberMissionGroupRepository : JpaRepository<MemberMissionGroup, Long> {
 
