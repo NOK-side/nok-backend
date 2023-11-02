@@ -1,6 +1,8 @@
 package com.example.nokbackend.application.mission
 
 import com.example.nokbackend.application.geometry.GeometryService
+import com.example.nokbackend.application.gifticon.BuyGifticonRequest
+import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.domain.firebase.Firebase
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.member.MemberRepository
@@ -22,6 +24,7 @@ class MemberMissionCommandService(
     private val geometryService: GeometryService,
     private val memberRepository: MemberRepository,
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
+    private val memberGifticonCommandService: MemberGifticonCommandService,
     private val firebase: Firebase,
     private val defaultDueDate: Long = 7L
 ) {
@@ -74,13 +77,8 @@ class MemberMissionCommandService(
 
         memberMission.complete()
 
-        val memberMissions = memberMissionRepository.findByMemberMissionGroup(memberMission.memberMissionGroup)
-
-        if (!memberMissions.any { it.status != MemberMission.Status.FINISHED }) {
-            memberMission.memberMissionGroup.complete()
-        }
+        completeMemberMissionGroup(member, memberMission)
     }
-
 
     fun submitForm(formResult: FormResult) {
         val member = memberRepository.findByEmailCheck(formResult.email)
@@ -114,6 +112,26 @@ class MemberMissionCommandService(
             title = "정답 제출 완료",
             body = "결과를 확인하세요",
             targetToken = member.loginInformation.fcmCode
+        )
+
+        completeMemberMissionGroup(member, memberMission)
+    }
+
+
+    private fun completeMemberMissionGroup(member: Member, memberMission: MemberMission) {
+        val memberMissions = memberMissionRepository.findByMemberMissionGroup(memberMission.memberMissionGroup)
+
+        if (memberMissions.any { it.status != MemberMission.Status.FINISHED }) {
+            return
+        }
+
+        memberMission.memberMissionGroup.complete()
+
+        val missionGroup = missionGroupRepository.findByIdCheck(memberMission.memberMissionGroup.missionGroupId)
+
+        memberGifticonCommandService.registerMemberGifticon(
+            member,
+            BuyGifticonRequest(gifticonId = missionGroup.prizeId, quantity = 1)
         )
     }
 }
