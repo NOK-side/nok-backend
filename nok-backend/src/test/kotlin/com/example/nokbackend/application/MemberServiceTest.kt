@@ -40,7 +40,7 @@ class MemberServiceTest {
     @Test
     fun 회원정보를_업데이트한다() {
         val member = aMember()
-        val updateMemberRequest = UpdateMemberRequest(name = "updated name", phoneNumber = phoneNumber)
+        val updateMemberRequest = UpdateMemberRequest(name = "updated name", phoneNumber = phoneNumber, profileImage = "")
 
         memberService.updateMemberInfo(member, updateMemberRequest)
 
