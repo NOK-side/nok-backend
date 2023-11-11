@@ -101,7 +101,7 @@ class MemberController(
     }
 
     @Authenticated
-    @DeleteMapping("/me")
+    @PatchMapping("/me")
     fun withdraw(
         @ApiIgnore @MemberClaim member: Member,
         @RequestBody withdrawMemberRequest: WithdrawMemberRequest

@@ -60,7 +60,7 @@ class MemberMissionCommandService(
         member: Member,
         memberMissionId: Long,
         currentLocation: DistanceFromLocation
-    ) {
+    ): Boolean {
         val memberMission = memberMissionRepository.findByIdCheck(memberMissionId)
         check(memberMission.memberMissionGroup.memberId == member.id) { "본인의 미션만 수행할 수 있습니다" }
 
@@ -77,7 +77,7 @@ class MemberMissionCommandService(
 
         memberMission.complete()
 
-        completeMemberMissionGroup(member, memberMission)
+        return completeMemberMissionGroup(member, memberMission)
     }
 
     fun submitForm(formResult: FormResult) {
@@ -118,11 +118,11 @@ class MemberMissionCommandService(
     }
 
 
-    private fun completeMemberMissionGroup(member: Member, memberMission: MemberMission) {
+    private fun completeMemberMissionGroup(member: Member, memberMission: MemberMission): Boolean {
         val memberMissions = memberMissionRepository.findByMemberMissionGroup(memberMission.memberMissionGroup)
 
         if (memberMissions.any { it.status != MemberMission.Status.FINISHED }) {
-            return
+            return false
         }
 
         memberMission.memberMissionGroup.complete()
@@ -133,5 +133,7 @@ class MemberMissionCommandService(
             member,
             BuyGifticonRequest(gifticonId = missionGroup.prizeId, quantity = 1)
         )
+
+        return true
     }
 }

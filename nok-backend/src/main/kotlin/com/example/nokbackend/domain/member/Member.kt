@@ -68,7 +68,7 @@ class Member(
             email = email,
             name = updateMemberRequest.name ?: information.name,
             phoneNumber = updateMemberRequest.phoneNumber ?: information.phoneNumber,
-            profileImage = information.profileImage
+            profileImage = updateMemberRequest.profileImage ?: information.profileImage
         )
     }
 

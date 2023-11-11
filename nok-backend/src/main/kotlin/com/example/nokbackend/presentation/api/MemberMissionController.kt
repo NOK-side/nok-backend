@@ -62,10 +62,16 @@ class MemberMissionController(
         @PathVariable memberMissionId: Long,
         @RequestBody currentLocation: DistanceFromLocation
     ): ResponseEntity<ApiResponse<EmptyBody>> {
-        memberMissionCommandService.completeMissionTypeOfCurrentUserLocation(member, memberMissionId, currentLocation)
+        val isComplete =
+            memberMissionCommandService.completeMissionTypeOfCurrentUserLocation(
+                member,
+                memberMissionId,
+                currentLocation
+            )
         return responseEntity {
             body = apiResponse {
                 data = EmptyBody
+                message = if (isComplete) "모든 미션을 완료하였습니다." else "미션을 완료하였습니다"
             }
         }
     }

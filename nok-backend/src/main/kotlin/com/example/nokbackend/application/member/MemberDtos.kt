@@ -39,6 +39,7 @@ data class RegisterMemberRequest(
 data class UpdateMemberRequest(
     val name: String?,
     val phoneNumber: String?,
+    val profileImage: String?
 )
 
 data class UpdateMemberResponse(
