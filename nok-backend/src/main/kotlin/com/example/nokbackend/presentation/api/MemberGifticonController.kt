@@ -1,6 +1,5 @@
 package com.example.nokbackend.presentation.api
 
-import com.example.nokbackend.application.*
 import com.example.nokbackend.application.gifticon.*
 import com.example.nokbackend.application.util.CodeService
 import com.example.nokbackend.domain.member.Member
