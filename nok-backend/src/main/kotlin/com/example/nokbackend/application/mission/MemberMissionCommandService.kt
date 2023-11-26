@@ -2,6 +2,8 @@ package com.example.nokbackend.application.mission
 
 import com.example.nokbackend.application.geometry.GeometryService
 import com.example.nokbackend.application.gifticon.BuyGifticonRequest
+import com.example.nokbackend.application.gifticon.GifticonDetailResponse
+import com.example.nokbackend.application.gifticon.GifticonQueryService
 import com.example.nokbackend.application.gifticon.MemberGifticonCommandService
 import com.example.nokbackend.domain.firebase.Firebase
 import com.example.nokbackend.domain.member.Member
@@ -25,6 +27,7 @@ class MemberMissionCommandService(
     private val memberRepository: MemberRepository,
     private val resultOfMemberMissionQuestionRepository: ResultOfMemberMissionQuestionRepository,
     private val memberGifticonCommandService: MemberGifticonCommandService,
+    private val gifticonQueryService: GifticonQueryService,
     private val firebase: Firebase,
     private val defaultDueDate: Long = 7L
 ) {
@@ -60,7 +63,7 @@ class MemberMissionCommandService(
         member: Member,
         memberMissionId: Long,
         currentLocation: DistanceFromLocation
-    ): Boolean {
+    ): Pair<GifticonDetailResponse, Boolean> {
         val memberMission = memberMissionRepository.findByIdCheck(memberMissionId)
         check(memberMission.memberMissionGroup.memberId == member.id) { "본인의 미션만 수행할 수 있습니다" }
 
@@ -118,11 +121,11 @@ class MemberMissionCommandService(
     }
 
 
-    private fun completeMemberMissionGroup(member: Member, memberMission: MemberMission): Boolean {
+    private fun completeMemberMissionGroup(member: Member, memberMission: MemberMission): Pair<GifticonDetailResponse, Boolean> {
         val memberMissions = memberMissionRepository.findByMemberMissionGroup(memberMission.memberMissionGroup)
 
         if (memberMissions.any { it.status != MemberMission.Status.FINISHED }) {
-            return false
+            return Pair(GifticonDetailResponse.empty(), false)
         }
 
         memberMission.memberMissionGroup.complete()
@@ -134,6 +137,6 @@ class MemberMissionCommandService(
             BuyGifticonRequest(gifticonId = missionGroup.prizeId, quantity = 1)
         )
 
-        return true
+        return Pair(gifticonQueryService.findGifticonInfo(missionGroup.prizeId), true)
     }
 }

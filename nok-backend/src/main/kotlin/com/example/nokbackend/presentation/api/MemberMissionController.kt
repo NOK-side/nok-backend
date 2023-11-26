@@ -1,5 +1,6 @@
 package com.example.nokbackend.presentation.api
 
+import com.example.nokbackend.application.gifticon.GifticonDetailResponse
 import com.example.nokbackend.application.mission.*
 import com.example.nokbackend.domain.member.Member
 import com.example.nokbackend.domain.membermission.MemberMissionGroup
@@ -61,8 +62,8 @@ class MemberMissionController(
         @ApiIgnore @MemberClaim member: Member,
         @PathVariable memberMissionId: Long,
         @RequestBody currentLocation: DistanceFromLocation
-    ): ResponseEntity<ApiResponse<EmptyBody>> {
-        val isComplete =
+    ): ResponseEntity<ApiResponse<GifticonDetailResponse>> {
+        val (gifticonDetailResponse, isComplete) =
             memberMissionCommandService.completeMissionTypeOfCurrentUserLocation(
                 member,
                 memberMissionId,
@@ -70,7 +71,7 @@ class MemberMissionController(
             )
         return responseEntity {
             body = apiResponse {
-                data = EmptyBody
+                data = gifticonDetailResponse
                 message = if (isComplete) "모든 미션을 완료하였습니다." else "미션을 완료하였습니다"
             }
         }

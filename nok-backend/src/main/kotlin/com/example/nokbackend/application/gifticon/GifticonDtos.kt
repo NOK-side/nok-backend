@@ -79,4 +79,20 @@ data class GifticonDetailResponse(
         storeName = store.name,
         recommend = gifticon.recommend
     )
+
+    companion object {
+        fun empty() = GifticonDetailResponse(
+            id = 0L,
+            productName = "",
+            period = 0L,
+            notice = "",
+            refundAndExchangeInstruction = "",
+            price = Point(0),
+            imageUrl = "",
+            orderCancellationPeriod = 0L,
+            storeId = 0L,
+            storeName = "",
+            recommend = false
+        )
+    }
 }
