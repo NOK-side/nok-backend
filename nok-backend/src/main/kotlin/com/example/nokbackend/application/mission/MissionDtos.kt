@@ -59,6 +59,7 @@ data class MissionInfoResponse(
     val subTitle: String,
     val description: String,
     val imageUrl: String,
+    val location: Location,
     val type: Mission.Type,
     val memberMissionId: Long,
     val status: MemberMission.Status
@@ -69,6 +70,7 @@ data class MissionInfoResponse(
         subTitle = mission.subTitle,
         description = mission.description,
         imageUrl = mission.imageUrl,
+        mission.location,
         type = mission.type,
         memberMissionId = memberMission?.id ?: 0L,
         status = memberMission?.status ?: MemberMission.Status.NOTHING
